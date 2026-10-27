@@ -4,6 +4,8 @@ import { IoMdStats } from 'react-icons/io'
 // Hero
 import heroMain from '@assets/hero/ramiro_hero.webp'
 import heroBg from '@assets/hero/ramiro_bg.webp'
+// Perfil
+import profileImg from '@assets/perfil/ramiro_perfil.webp'
 
 // ─────────────────────────────────────────────────────────────
 // Fuente única de los datos de Ramiro Gonzalez Sales.
@@ -28,6 +30,22 @@ export const coachData = {
     exPlayer: 'Ex Futbolista profesional.',
     // "+160 partidos y 13 titulos" — se arma con los números destacados
     impact: { matches: '+160', titles: '13' },
+  },
+
+  // Perfil profesional — textos EXACTOS de la placa.
+  // `text` va en gris y `highlight` (la parte en negrita) en blanco.
+  profile: {
+    title: 'PERFIL PROFESIONAL',
+    image: profileImg,
+    items: [
+      { text: 'Entrenador ', highlight: 'con experiencia internacional en proyectos de alto rendimiento y contextos competitivos de máxima exigencia.' },
+      { text: 'Perfil orientado a la construcción de equipos ', highlight: 'intensos, organizados y competitivos, con liderazgo centrado en las personas.' },
+      { text: 'Experiencia en ', highlight: 'planificación táctica, diseño de entrenamientos, análisis competitivo y desarrollo individual de futbolistas.' },
+      { text: 'Entrenador Asistente en ', highlight: 'Johor Darul Ta’zim FC durante cuatro temporadas, participando en la obtención de 13 títulos y competencias AFC Champions League.' },
+      { text: 'Actual Director ', highlight: 'Técnico de la División Reserva de Atlético Tucumán, enfocado en el desarrollo competitivo y la transición al fútbol profesional.' },
+      { text: 'Experiencia en ', highlight: 'contextos multiculturales de alta exigencia, trabajando con futbolistas de distintas nacionalidades y trayectorias.' },
+      { text: 'Formación internacional complementada con ', highlight: 'Licencias UEFA, CONMEBOL Y AFC, estudios de posgrado en dirección y metodología del entrenamiento, y experiencia profesional en Europa, Asia y Sudamérica.' },
+    ],
   },
 
   // Navbar — ids de las secciones (provisorio: Perfil, Trayectoria,
