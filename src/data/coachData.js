@@ -30,6 +30,17 @@ export const coachData = {
     impact: { matches: '+160', titles: '13' },
   },
 
+  // Navbar — ids de las secciones (provisorio: Perfil, Trayectoria,
+  // Títulos y Formación se confirman al ver las placas restantes)
+  nav: [
+    { label: 'Perfil',      id: 'perfil' },
+    { label: 'Trayectoria', id: 'trayectoria' },
+    { label: 'Títulos',     id: 'titulos' },
+    { label: 'Formación',   id: 'formacion' },
+    { label: 'Prensa',      id: 'prensa' },
+  ],
+  contactId: 'contacto',
+
   // Contacto / redes — textos de botón exactos del sitio original
   contacts: [
     { id: 'whatsapp',     label: 'ENVIAR MENSAJE', network: 'WhatsApp',      href: 'https://wa.link/iaiccu',                                              icon: FaWhatsapp },

@@ -195,7 +195,7 @@ export function ContactSection() {
   return (
     <Box
       as="section"
-      id="contact"
+      id="contacto"
       ref={sectionRef}
       position="relative"
       bg="brand.dark"

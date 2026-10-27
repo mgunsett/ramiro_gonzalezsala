@@ -4,270 +4,197 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 
 const MotionBox = motion(Box)
 
+// ─────────────────────────────────────────────────────────────
+// MatchBox · último resultado + próximo partido
+// Pestaña lateral del Hero en el lenguaje "Pizarra":
+// borde celeste, texto vertical, nodo activo. Los datos vienen
+// de Firestore (useMatches) y se cargan desde /admin.
+// ─────────────────────────────────────────────────────────────
+
 function Shield({ src, name, size = '36px' }) {
   if (src) return <Image src={src} alt={name} boxSize={size} objectFit="contain" />
   return (
-    <Box
+    <Flex
       boxSize={size}
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
+      align="center"
+      justify="center"
+      border="1px solid"
+      borderColor="brand.linea"
+      borderRadius="full"
     >
-      <Text fontFamily="heading" fontSize="10px" color="brand.brownLight">
+      <Text fontFamily="heading" fontSize="11px" color="brand.celesteLight" lineHeight={1} pt="2px">
         {name?.slice(0, 3).toUpperCase()}
       </Text>
-    </Box>
+    </Flex>
   )
 }
 
-function MatchSlot({ data, label, labelColor }) {
+function MatchSlot({ data, label, accent }) {
   const { home, away, homeScore, awayScore, date, stadium, competition } = data
+  const played = homeScore !== null && awayScore !== null
 
   return (
     <Box>
-      <Text fontFamily="mono" fontSize="9px" fontWeight="700" letterSpacing="widest"
-            textTransform="uppercase" color={labelColor} mb={2}>
-        {label}
-      </Text>
+      <Flex align="center" gap={2} mb={3}>
+        <Box boxSize="7px" borderRadius="full" bg={accent ? 'brand.celeste' : 'transparent'}
+          border="1px solid" borderColor="brand.celeste"
+          boxShadow={accent ? '0 0 10px rgba(76,184,242,0.7)' : 'none'} />
+        <Text fontFamily="mono" fontSize="12px" fontWeight="700" letterSpacing="0.12em"
+          textTransform="uppercase" color={accent ? 'brand.celeste' : 'brand.gray'}>
+          {label}
+        </Text>
+      </Flex>
 
-      {/* Teams row */}
       <Flex align="center" justify="space-between" gap={2}>
-        <VStack spacing={1} align="center" flex={1}>
+        <VStack spacing={1.5} align="center" flex={1} minW={0}>
           <Shield src={home.shield} name={home.name} />
-          <Text fontFamily="mono" fontSize="9px" color="brand.bone" textTransform="uppercase"
-                letterSpacing="wider" textAlign="center" noOfLines={1}>
+          <Text fontFamily="mono" fontSize="11px" fontWeight="600" color="brand.bone" textTransform="uppercase"
+            letterSpacing="0.08em" textAlign="center" noOfLines={1}>
             {home.name}
           </Text>
         </VStack>
 
-        {/* Score */}
-        <Box textAlign="center" px={2}>
-          {homeScore !== null && awayScore !== null ? (
-            <HStack spacing={1} justify="center">
-              <Text fontFamily="heading" fontSize="2xl" color="white" lineHeight={1}>
-                {homeScore}
-              </Text>
-              <Text fontFamily="heading" fontSize="lg" color="brand.brown" lineHeight={1}>
-                —
-              </Text>
-              <Text fontFamily="heading" fontSize="2xl" color="white" lineHeight={1}>
-                {awayScore}
-              </Text>
+        <Box textAlign="center" px={1}>
+          {played ? (
+            <HStack spacing={1.5} justify="center">
+              <Text fontFamily="heading" fontSize="34px" color="brand.bone" lineHeight={1}>{homeScore}</Text>
+              <Text fontFamily="heading" fontSize="18px" color="brand.celeste" lineHeight={1}>–</Text>
+              <Text fontFamily="heading" fontSize="34px" color="brand.bone" lineHeight={1}>{awayScore}</Text>
             </HStack>
           ) : (
-            <Text fontFamily="heading" fontSize="xl" color="brand.amber" letterSpacing="wider">
+            <Text fontFamily="heading" fontSize="26px" color="brand.celeste" letterSpacing="0.06em" lineHeight={1}>
               VS
             </Text>
           )}
           {competition && (
-            <Text fontFamily="mono" fontSize="8px" color="brand.gray" letterSpacing="wider"
-                  textTransform="uppercase" mt={0.5} textAlign="center">
+            <Text fontFamily="mono" fontSize="10px" color="brand.gray" letterSpacing="0.08em"
+              textTransform="uppercase" mt={1}>
               {competition}
             </Text>
           )}
         </Box>
 
-        <VStack spacing={1} align="center" flex={1}>
+        <VStack spacing={1.5} align="center" flex={1} minW={0}>
           <Shield src={away.shield} name={away.name} />
-          <Text fontFamily="mono" fontSize="9px" color="brand.bone" textTransform="uppercase"
-                letterSpacing="wider" textAlign="center" noOfLines={1}>
+          <Text fontFamily="mono" fontSize="11px" fontWeight="600" color="brand.bone" textTransform="uppercase"
+            letterSpacing="0.08em" textAlign="center" noOfLines={1}>
             {away.name}
           </Text>
         </VStack>
       </Flex>
 
-      <Flex mt={{base: 2 ,md: 4}} justify="space-between" align="flex-end">
-        <Text fontFamily="mono" fontSize="8px" color="brand.gray" letterSpacing="wider">
-          {date}
-        </Text>
-        {stadium && (
-          <Text fontFamily="mono" fontSize="8px" color="brand.gray" letterSpacing="wider"
-                textAlign="right" noOfLines={1} maxW="100px">
-            {stadium}
-          </Text>
-        )}
+      <Flex mt={3} justify="space-between" gap={3} fontFamily="mono" fontSize="11px" color="brand.gray" letterSpacing="0.06em">
+        <Text sx={{ fontVariantNumeric: 'tabular-nums' }}>{date}</Text>
+        {stadium && <Text textAlign="right" noOfLines={1}>{stadium}</Text>}
       </Flex>
     </Box>
   )
 }
 
-function CollapsedTab({ last, onClick }) {
-  const hasScore = last?.homeScore !== null && last?.awayScore !== null
-  const reduceMotion = useReducedMotion()
+/* Pestaña cerrada: texto vertical + mini marcador del último partido */
+function Handle({ last, open, onClick }) {
+  const reduce = useReducedMotion()
+  const played = last && last.homeScore !== null && last.awayScore !== null
 
   return (
-    <MotionBox
+    <Box
       as="button"
       type="button"
       onClick={onClick}
-      aria-label="Ver partidos"
-      key="tab"
-      initial={{ opacity: 0, x: 16 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 16 }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      bg="whiteAlpha.100"
-      backdropFilter="blur(12px)"
-      border="1px solid"
-      borderColor="brand.amber"
-      borderRightWidth={0}
-      borderTopLeftRadius="10px"
-      borderBottomLeftRadius="10px"
-      minH="250px"
-      py={6}
-      px={3}
-      cursor="pointer"
+      aria-expanded={open}
+      aria-controls="hero-matches-card"
+      aria-label={open ? 'Cerrar partidos' : 'Ver último y próximo partido'}
+      position="relative"
+      minH={{ base: '170px', lg: '34vh' }}
+      py={{ base: 4, lg: '2vh' }}
+      px={{ base: 2, lg: 3 }}
       display="flex"
       flexDir="column"
       alignItems="center"
       justifyContent="center"
       gap={4}
-      transitionProperty="background, border-color"
-      transitionDuration="0.3s"
-      _hover={{ bg: 'whiteAlpha.200', borderColor: 'brand.gray2' }}
+      bg="whiteAlpha.100"
+      backdropFilter="blur(12px)"
+      border="1px solid"
+      borderColor="brand.celeste"
+      borderRightWidth={0}
+      borderLeftRadius="10px"
+      color="brand.celeste"
+      cursor="pointer"
+      transition="background-color 0.2s ease, transform 0.14s ease-out"
+      _active={{ transform: 'scale(0.97)' }}
+      _focusVisible={{ outline: '2px solid', outlineColor: 'brand.bone', outlineOffset: '2px' }}
+      sx={{ '@media (hover: hover) and (pointer: fine)': { '&:hover': { bg: 'whiteAlpha.200' } } }}
       _before={{
-        content: '""',
-        position: 'absolute',
-        top: 3, right: 0,
-        w: '2px', h: '28px',
-        bg: 'brand.brown',
+        content: '""', position: 'absolute', top: '10px', right: 0,
+        w: '2px', h: '28px', bg: 'brand.celeste',
       }}
-      position="relative"
     >
       <Text
         fontFamily="heading"
-        fontSize="md"
-        letterSpacing="widest"
-        color="brand.amber"
-        sx={{ writingMode: 'vertical-rl' }}
+        fontSize={{ base: '15px', lg: 'clamp(15px, 1.4vw, 22px)' }}
+        letterSpacing="0.2em"
         lineHeight={1}
+        sx={{ writingMode: 'vertical-rl' }}
       >
-        Partidos
+        PARTIDOS
       </Text>
 
-      {hasScore && (
-        <VStack spacing={1.5} align="center">
-          <Shield src={last.home.shield} name={last.home.name} size="18px" />
-          <Flex spacing={0.5} justify="center" direction="column" align="center">
-            <Text fontFamily="heading" fontSize="md" color="white" lineHeight={1}>
-              {last.homeScore}
-            </Text>
-            <Text fontFamily="heading" fontSize="xs" color="brand.amberLight" lineHeight={1}>
-              —
-            </Text>
-            <Text fontFamily="heading" fontSize="md" color="white" lineHeight={1}>
-              {last.awayScore}
-            </Text>
-          </Flex>
-          <Shield src={last.away.shield} name={last.away.name} size="18px" />
+      {played && !open && (
+        <VStack spacing={1} align="center">
+          <Text fontFamily="heading" fontSize="18px" color="brand.bone" lineHeight={1}>{last.homeScore}</Text>
+          <Box w="10px" h="1px" bg="brand.celeste" />
+          <Text fontFamily="heading" fontSize="18px" color="brand.bone" lineHeight={1}>{last.awayScore}</Text>
         </VStack>
       )}
 
       <MotionBox
         as="span"
+        aria-hidden="true"
         display="block"
-        color="brand.amber"
-        fontSize="16px"
-        fontFamily="heading"
+        fontSize="18px"
         lineHeight={1}
-        animate={reduceMotion ? { opacity: 1 } : { x: [0, -5, 0], opacity: [0.5, 1, 0.5] }}
-        transition={reduceMotion ? undefined : { duration: 1.6, ease: 'easeInOut', repeat: Infinity }}
-        _hover={{ color: 'brand.rec' }}
+        animate={open ? { rotate: 180 } : reduce ? { rotate: 0 } : { rotate: 0, x: [0, -4, 0] }}
+        transition={open || reduce ? { duration: 0.3 } : { duration: 1.6, ease: 'easeInOut', repeat: Infinity }}
       >
-        ⟪
+        ‹
       </MotionBox>
-    </MotionBox>
+    </Box>
   )
 }
 
-export function MatchBox({ last, next, variant = 'card' }) {
-  const isCard = variant === 'card'
-  const [isOpen, setIsOpen] = useState(false)
-
-  if (isCard) {
-    return (
-      <Flex justify="flex-end" align="flex-start">
-        <AnimatePresence mode="wait" initial={false}>
-          {isOpen ? (
-            <MotionBox
-              key="card"
-              initial={{ opacity: 0, scaleX: 0.9, x: 20 }}
-              animate={{ opacity: 1, scaleX: 1, x: 0 }}
-              exit={{ opacity: 0, scaleX: 0.9, x: 20 }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              transformOrigin="right center"
-              w="280px"
-              bg="whiteAlpha.100"
-              backdropFilter="blur(12px)"
-              border="1px solid"
-              borderColor="brand.amber"
-              borderRightWidth={0}
-              borderTopLeftRadius="10px"
-              borderBottomLeftRadius="10px"
-              p={4}
-              position="relative"
-              _before={{
-                content: '""',
-                position: 'absolute',
-                top: 0, left: 2,
-                w: '28px', h: '2px',
-                bg: 'brand.brown',
-              }}
-            >
-              <Box
-                as="button"
-                type="button"
-                onClick={() => setIsOpen(false)}
-                aria-label="Cerrar partidos"
-                position="absolute"
-                top={'130px'}
-                right={3}
-                zIndex={2}
-                color="brand.rec"
-                fontFamily="mono"
-                fontSize="lg"
-                lineHeight={1}
-                cursor="pointer"
-                transition="all 0.2s"
-                _hover={{ color: 'brand.rec' }}
-              >
-                ⟫
-              </Box>
-
-              <VStack spacing={{ base: 4, md: 6 }} align="stretch">
-                <MatchSlot data={last} label="Último Resultado" labelColor="brand.amber" />
-                <Box h="1px" bg="brand.amberLight" w="80%" alignSelf="center" />
-                <MatchSlot data={next} label="Próximo Partido" labelColor="brand.gray2" />
-              </VStack>
-            </MotionBox>
-          ) : (
-            <CollapsedTab last={last} onClick={() => setIsOpen(true)} />
-          )}
-        </AnimatePresence>
-      </Flex>
-    )
-  }
+export function MatchBox({ last, next }) {
+  const [open, setOpen] = useState(false)
+  if (!last && !next) return null
 
   return (
-    <Box
-      bg="  "
-      backdropFilter="blur(10px)"
-      borderTop="1px solid"
-      borderColor='brand.brown'
-      px={4}
-      py={2}
-      mb={-4}
-    >
-      <Flex gap={0} >
-        <Box flex={1} pr={3}>
-          <MatchSlot data={last} label="Último Resultado" labelColor="brand.amber" />
-        </Box>
-        <Box w="1px" bg="brand.amber" mx={2} />
-        <Box flex={1} pl={3}>
-          <MatchSlot data={next} label="Próximo Partido" labelColor="brand.gray2" />
-        </Box>
-      </Flex>
-    </Box>
+    <Flex className="hero-matches" align="stretch">
+      <Handle last={last} open={open} onClick={() => setOpen((o) => !o)} />
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <MotionBox
+            id="hero-matches-card"
+            key="card"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: 'auto', opacity: 1 }}
+            exit={{ width: 0, opacity: 0, transition: { duration: 0.25, ease: [0.23, 1, 0.32, 1] } }}
+            transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
+            overflow="hidden"
+            bg="rgba(5,8,12,0.86)"
+            backdropFilter="blur(12px)"
+            borderY="1px solid"
+            borderColor="brand.linea"
+          >
+            <VStack w={{ base: '270px', lg: '300px' }} spacing={5} align="stretch" px={5} py={5}>
+              {last && <MatchSlot data={last} label="Último resultado" accent />}
+              {last && next && <Box h="1px" bg="brand.linea" />}
+              {next && <MatchSlot data={next} label="Próximo partido" />}
+            </VStack>
+          </MotionBox>
+        )}
+      </AnimatePresence>
+    </Flex>
   )
 }
 

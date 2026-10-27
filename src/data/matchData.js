@@ -10,23 +10,10 @@ export function docToMatch(data) {
   }
 }
 
+// Sin datos por defecto: los partidos se cargan desde /admin (Firestore,
+// players/ramiro_gonzalezsala/matches/{last|next}). Si no hay datos,
+// la pestaña de partidos del Hero no se muestra (nunca datos inventados).
 export const defaultMatches = {
-  last: {
-    home:      { name: 'Talleres', shield: null },
-    away:      { name: 'Boca Juniors', shield: null },
-    homeScore: 2,
-    awayScore: 1,
-    date:      '08 Jun 2025',
-    stadium:   'Mario Kempes',
-    competition: 'Liga Profesional',
-  },
-  next: {
-    home:      { name: 'River Plate', shield: null },
-    away:      { name: 'Talleres', shield: null },
-    homeScore: null,
-    awayScore: null,
-    date:      '22 Jun 2025',
-    stadium:   'Monumental',
-    competition: 'Liga Profesional',
-  },
+  last: null,
+  next: null,
 }

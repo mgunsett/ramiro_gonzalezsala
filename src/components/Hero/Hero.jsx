@@ -1,14 +1,13 @@
-import { useRef, useLayoutEffect, useState } from 'react'
-import { Box, Text, Flex, Image, Link, Icon, useToken } from '@chakra-ui/react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useRef, useLayoutEffect } from 'react'
+import { Box, Text, Flex, Image, useToken } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { coachData } from '../../data/coachData'
+import MatchBox from './MatchBox'
+import useMatches from '../../hooks/useMatches'
 import '../../styles/globals.css'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const MotionBox = motion(Box)
 
 // ─────────────────────────────────────────────────────────────
 // HERO · Opción D "Coach Panel" (línea Rondelli)
@@ -16,7 +15,7 @@ const MotionBox = motion(Box)
 //  · Foto principal revelada desde abajo (clip-path)
 //  · Foto secundaria en grises con máscara radial de fondo
 //  · Panel RG + datos exactos de la placa
-//  · Pestaña lateral de Contacto (reemplaza al MatchBox)
+//  · Pestaña lateral de Partidos: último resultado + próximo (MatchBox)
 //  · Sticky 200vh + viñeta que se cierra con el scroll
 // ─────────────────────────────────────────────────────────────
 
@@ -94,129 +93,12 @@ function CoachPanel() {
   )
 }
 
-function ContactTab() {
-  const [open, setOpen] = useState(false)
-
-  return (
-    <Flex className="hero-contact" align="stretch">
-      <Box
-        as="button"
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        aria-expanded={open}
-        aria-controls="hero-contact-card"
-        aria-label={open ? 'Cerrar contacto' : 'Abrir contacto'}
-        position="relative"
-        minH={{ base: '150px', lg: '34vh' }}
-        py={{ base: 4, lg: '2vh' }}
-        px={{ base: 2, lg: 3 }}
-        display="flex"
-        flexDir="column"
-        alignItems="center"
-        justifyContent="center"
-        gap={4}
-        bg="whiteAlpha.100"
-        backdropFilter="blur(12px)"
-        border="1px solid"
-        borderColor="brand.celeste"
-        borderRightWidth={0}
-        borderLeftRadius="10px"
-        color="brand.celeste"
-        cursor="pointer"
-        transition="background 0.3s"
-        _hover={{ bg: 'whiteAlpha.200' }}
-        _focusVisible={{ outline: '2px solid', outlineColor: 'brand.bone', outlineOffset: '2px' }}
-        _before={{
-          content: '""', position: 'absolute', top: '10px', right: 0,
-          w: '2px', h: '28px', bg: 'brand.celeste',
-        }}
-      >
-        <Text
-          fontFamily="heading"
-          fontSize={{ base: '15px', lg: 'clamp(15px, 1.5vw, 22px)' }}
-          letterSpacing="0.2em"
-          lineHeight={1}
-          sx={{ writingMode: 'vertical-rl' }}
-        >
-          CONTACTO
-        </Text>
-        <Box
-          as="span"
-          aria-hidden="true"
-          fontSize="18px"
-          lineHeight={1}
-          transform={open ? 'rotate(180deg)' : 'none'}
-          transition="transform 0.4s"
-        >
-          ‹
-        </Box>
-      </Box>
-
-      <AnimatePresence initial={false}>
-        {open && (
-          <MotionBox
-            id="hero-contact-card"
-            key="card"
-            initial={{ width: 0, opacity: 0 }}
-            animate={{ width: 'auto', opacity: 1 }}
-            exit={{ width: 0, opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            overflow="hidden"
-            bg="rgba(5,8,12,0.82)"
-            backdropFilter="blur(12px)"
-            borderY="1px solid"
-            borderColor="brand.linea"
-          >
-            <Flex as="ul" listStyleType="none" direction="column" gap={2} px={5} py={5} minW="230px">
-              {coachData.contacts.map(({ id, label, network, href, icon }) => (
-                <Box as="li" key={id}>
-                  <Link
-                    href={href}
-                    isExternal
-                    display="flex"
-                    alignItems="center"
-                    gap={3}
-                    py={2}
-                    borderBottom="1px solid"
-                    borderColor="brand.linea"
-                    fontFamily="mono"
-                    letterSpacing="0.12em"
-                    color="brand.bone"
-                    _hover={{ color: 'brand.celeste', textDecoration: 'none' }}
-                  >
-                    <Flex
-                      boxSize="30px"
-                      flex="0 0 auto"
-                      align="center"
-                      justify="center"
-                      border="1px solid"
-                      borderColor="brand.celeste"
-                      color="brand.celeste"
-                    >
-                      <Icon as={icon} boxSize="14px" />
-                    </Flex>
-                    <Box>
-                      <Text fontSize="13px" lineHeight={1.2}>{label}</Text>
-                      <Text fontSize="10px" color="brand.gray" letterSpacing="0.18em" textTransform="uppercase">
-                        {network}
-                      </Text>
-                    </Box>
-                  </Link>
-                </Box>
-              ))}
-            </Flex>
-          </MotionBox>
-        )}
-      </AnimatePresence>
-    </Flex>
-  )
-}
-
 export default function Hero() {
   const outerRef     = useRef(null)
   const containerRef = useRef(null)
   const [celeste] = useToken('colors', ['brand.celeste'])
   const [l1, l2, l3] = coachData.nameLines
+  const { matches } = useMatches()
 
   const outline = { color: 'transparent', WebkitTextStroke: `2px ${celeste}` }
 
@@ -238,7 +120,7 @@ export default function Hero() {
         .fromTo('.hero-panel-item',
           { y: 16, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'power3.out' }, 1.2)
-        .fromTo('.hero-contact',
+        .fromTo('.hero-matches-wrap',
           { x: 40, opacity: 0 },
           { x: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 1.5)
     }, containerRef)
@@ -397,15 +279,16 @@ export default function Hero() {
           <CoachPanel />
         </Box>
 
-        {/* Pestaña de contacto */}
+        {/* Pestaña de partidos */}
         <Box
+          className="hero-matches-wrap"
           position="absolute"
           right={0}
           top={{ base: '34vh', lg: '50%' }}
           transform={{ base: 'none', lg: 'translateY(-50%)' }}
           zIndex={16}
         >
-          <ContactTab />
+          <MatchBox last={matches.last} next={matches.next} />
         </Box>
 
         {/* Indicador de scroll */}
