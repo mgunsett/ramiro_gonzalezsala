@@ -24,6 +24,18 @@ lenis.on('scroll', ScrollTrigger.update)
 gsap.ticker.add((time) => lenis.raf(time * 1000))
 gsap.ticker.lagSmoothing(0)
 
+// Recalcular posiciones de ScrollTrigger cuando cambia la altura de la página
+// (imágenes que terminan de cargar, fuentes, etc.). Sin esto, las animaciones
+// de las secciones de abajo pueden dispararse tarde o no dispararse.
+let stRefresh
+const scheduleRefresh = () => {
+  clearTimeout(stRefresh)
+  stRefresh = setTimeout(() => ScrollTrigger.refresh(), 200)
+}
+window.addEventListener('load', scheduleRefresh)
+document.fonts?.ready?.then(scheduleRefresh)
+if ('ResizeObserver' in window) new ResizeObserver(scheduleRefresh).observe(document.body)
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>

@@ -4,6 +4,7 @@ import Navbar from './components/UI/Navbar'
 import Hero from './components/Hero/Hero'
 import ProfileSection from './components/Profile/ProfileSection'
 import CareerSection from './components/Career/CareerSection'
+import DiversitySection from './components/Stats/DiversitySection'
 import StatsSection from './components/Stats/StatsSection'
 import VideosSection from './components/Videos/VideosSection'
 import GallerySection from './components/Gallery/GallerySection'
@@ -20,6 +21,7 @@ function Landing() {
       <Box mt="-100vh" position="relative" zIndex={21}>
         <ProfileSection />
         <CareerSection />
+        <DiversitySection />
         <StatsSection />
         <VideosSection />
         <GallerySection />
