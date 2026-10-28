@@ -2,6 +2,7 @@ import { useRef, useLayoutEffect } from 'react'
 import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import TacticsBoards from './TacticsBoards'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -11,6 +12,8 @@ gsap.registerPlugin(ScrollTrigger)
 //  · Título del club (contorno + sólido), escudo y totales con contador.
 //  · Funciones | Logros (trofeos + logros centrados debajo).
 //  · Rendimiento del equipo + Rachas destacadas.
+//  · Lema, párrafos con foto fija, responsabilidades y sistemas tácticos.
+// Cada bloque es opcional: se muestra solo si el club tiene esos datos.
 // Reutilizable: cada club es un objeto de careerData.js.
 // ─────────────────────────────────────────────────────────────
 
@@ -61,8 +64,9 @@ function Star({ color }) {
 export default function CareerChapter({ club }) {
   const ref = useRef(null)
   const {
-    accent, titleOutline, titleSolid, role, from, to, crest, crestAlt, totals,
+    accent, titleOutline, titleSolid, role, from, to, between = 'hasta', crest, crestAlt, totals, tagline,
     functions, trophies, achievements, performance, streaks,
+    paragraphs, paragraphsPhoto, responsibilities, tactics,
   } = club
 
   useLayoutEffect(() => {
@@ -97,19 +101,34 @@ export default function CareerChapter({ club }) {
         yPercent: -12, ease: 'none',
         scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: true },
       })
-      const stagger = (sel, from, trigger, start = 'top 85%') =>
-        gsap.fromTo(sel, from, {
+      const q = gsap.utils.selector(ref)
+      const stagger = (sel, from, trigger, start = 'top 85%') => {
+        if (!q(sel).length || !q(trigger).length) return
+        gsap.fromTo(q(sel), from, {
           x: 0, y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.07, ease: 'power3.out',
-          scrollTrigger: { trigger, start },
+          scrollTrigger: { trigger: q(trigger)[0], start },
         })
+      }
       stagger('.cc-fn', { x: -14, opacity: 0 }, '.cc-fn-list')
       stagger('.cc-trophy', { y: 30, opacity: 0 }, '.cc-trophies')
       stagger('.cc-ach', { y: 14, opacity: 0 }, '.cc-achs', 'top 90%')
       stagger('.cc-perf', { x: -14, opacity: 0 }, '.cc-perf-list')
       stagger('.cc-streak', { y: 24, opacity: 0 }, '.cc-streaks', 'top 90%')
-      gsap.fromTo('.cc-photo', { clipPath: 'inset(100% 0 0 0)' }, {
-        clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power3.out',
-        scrollTrigger: { trigger: '.cc-photo', start: 'top 80%' },
+      stagger('.cc-par', { x: -14, opacity: 0 }, '.cc-par-list')
+      stagger('.cc-resp', { y: 16, opacity: 0 }, '.cc-resp-list', 'top 90%')
+      // Fotos: aparecen desde abajo
+      q('.cc-reveal').forEach((img) => {
+        gsap.fromTo(img, { clipPath: 'inset(100% 0 0 0)' }, {
+          clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power3.out',
+          scrollTrigger: { trigger: img, start: 'top 85%' },
+        })
+      })
+      // Pizarras: los jugadores salen del arco y se acomodan en su posición
+      q('.tb-pitch').forEach((pitch) => {
+        gsap.from(pitch.querySelectorAll('.tb-player'), {
+          left: '50%', top: '92%', duration: 0.9, stagger: 0.03, ease: 'power3.inOut',
+          scrollTrigger: { trigger: q('.tb-track')[0], start: 'top 85%' },
+        })
       })
     }, ref)
     return () => ctx.revert()
@@ -159,7 +178,7 @@ export default function CareerChapter({ club }) {
           mb={{ base: 5, lg: 0 }}
         >
           <Text fontFamily="heading" fontSize={{ base: '24px', lg: 'clamp(22px, 2vw, 34px)' }} lineHeight={1}>{from}</Text>
-          <Text fontFamily="mono" fontSize="14px" color="brand.gray" letterSpacing="0.1em">hasta</Text>
+          <Text fontFamily="mono" fontSize="14px" color="brand.gray" letterSpacing="0.1em">{between}</Text>
           <Box position="relative" w={{ base: '40px', lg: '1px' }} h={{ base: '1px', lg: '26vh' }} bg="brand.linea">
             <Box className="cc-rail-fill" position="absolute" inset={0} bg={accent}
               transformOrigin={{ base: 'left', lg: 'top' }} transform="scale(0)" />
@@ -195,7 +214,8 @@ export default function CareerChapter({ club }) {
 
         {/* Escudo + totales */}
         <Flex
-          align="center"
+          align={{ base: tagline ? 'flex-start' : 'center', md: 'center' }}
+          direction={{ base: tagline ? 'column' : 'row', md: 'row' }}
           gap={{ base: 5, lg: '3vw' }}
           my={{ base: 8, lg: '5vh' }}
           py={{ base: 6, lg: '4vh' }}
@@ -204,15 +224,34 @@ export default function CareerChapter({ club }) {
         >
           <Image src={crest} alt={crestAlt} h={{ base: '80px', lg: 'clamp(90px, 13vh, 140px)' }} w="auto"
             filter="drop-shadow(0 0 22px rgba(76,184,242,0.3))" />
-          <Text fontFamily="heading" fontSize={{ base: '32px', md: '44px', lg: 'clamp(36px, 3.6vw, 60px)' }}
-            lineHeight={0.95} color="brand.bone" sx={{ fontVariantNumeric: 'tabular-nums' }}>
-            <Box as="span" color={accent} data-to={totals.matches}>{totals.matches}</Box> PARTIDOS{' '}
-            <Box as="span" color="brand.gray">|</Box>{' '}
-            <Box as="span" color={accent} data-to={totals.titles}>{totals.titles}</Box> TITULOS
-          </Text>
+          {totals && (
+            <Text fontFamily="heading" fontSize={{ base: '32px', md: '44px', lg: 'clamp(36px, 3.6vw, 60px)' }}
+              lineHeight={0.95} color="brand.bone" sx={{ fontVariantNumeric: 'tabular-nums' }}>
+              <Box as="span" color={accent} data-to={totals.matches}>{totals.matches}</Box> PARTIDOS{' '}
+              <Box as="span" color="brand.gray">|</Box>{' '}
+              <Box as="span" color={accent} data-to={totals.titles}>{totals.titles}</Box> TITULOS
+            </Text>
+          )}
+          {tagline && (
+            <Text
+              bg={accent}
+              color="brand.ink"
+              fontFamily="mono"
+              fontWeight="700"
+              fontSize={{ base: '16px', lg: 'clamp(16px, 1.4vw, 22px)' }}
+              letterSpacing="0.04em"
+              lineHeight={1.2}
+              px={{ base: 4, lg: 5 }}
+              py={3}
+              maxW="58ch"
+            >
+              {tagline}
+            </Text>
+          )}
         </Flex>
 
         {/* Funciones | Logros */}
+        {functions && (
         <Grid templateColumns={{ base: '1fr', xl: 'minmax(0, 7fr) minmax(0, 5fr)' }} gap={{ base: 14, xl: '5vw' }}>
           <Box>
             <SubTitle>FUNCIONES</SubTitle>
@@ -291,6 +330,85 @@ export default function CareerChapter({ club }) {
             </Grid>
           </Box>
         </Grid>
+        )}
+
+        {/* Párrafos + foto fija */}
+        {paragraphs && (
+          <Grid
+            templateColumns={{ base: '1fr', lg: 'minmax(0, 7fr) minmax(0, 4fr)' }}
+            gap={{ base: 10, lg: '5vw' }}
+            alignItems="start"
+          >
+            <Box as="ul" className="cc-par-list" listStyleType="none" m={0} p={0}>
+              {paragraphs.map((segs, i) => (
+                <Grid
+                  as="li"
+                  key={i}
+                  className="cc-par"
+                  templateColumns="20px minmax(0,1fr)"
+                  gap="10px"
+                  py={{ base: 4, lg: '2vh' }}
+                  borderBottom="1px solid"
+                  borderColor="brand.linea"
+                >
+                  <Box boxSize="9px" mt="0.6em" border="1px solid" borderColor={accent} transform="rotate(45deg)" />
+                  <Text fontSize={{ base: '16px', lg: 'clamp(15px, 1.2vw, 19px)' }} lineHeight={1.55} color="brand.gray" sx={{ textWrap: 'pretty' }}>
+                    <Segs segs={segs} accent={accent} />
+                  </Text>
+                </Grid>
+              ))}
+            </Box>
+            {paragraphsPhoto && (
+              <Box
+                position={{ base: 'relative', lg: 'sticky' }}
+                top={{ lg: '14vh' }}
+                maxW={{ base: '320px', lg: 'none' }}
+                borderTopRightRadius="46px"
+                overflow="hidden"
+              >
+                <Image className="cc-reveal" src={paragraphsPhoto.src} alt={paragraphsPhoto.alt} w="100%" h="auto" display="block" />
+              </Box>
+            )}
+          </Grid>
+        )}
+
+        {/* Responsabilidades */}
+        {responsibilities && (
+          <Box mt={{ base: 16, lg: '10vh' }}>
+            <SubTitle>{responsibilities.title}</SubTitle>
+            <Grid as="ul" className="cc-resp-list" listStyleType="none" m={0} p={0}
+              templateColumns={{ base: '1fr', md: 'repeat(2, minmax(0,1fr))' }} gap="10px">
+              {responsibilities.items.map((item, i, arr) => (
+                <Flex
+                  as="li"
+                  key={i}
+                  className="cc-resp"
+                  align="stretch"
+                  gap={4}
+                  gridColumn={{ md: i === arr.length - 1 && arr.length % 2 ? '1 / -1' : 'auto' }}
+                  border="1px solid"
+                  borderColor="brand.linea"
+                  bg="rgba(11,17,24,0.7)"
+                  pr={5}
+                >
+                  <Box w="4px" flex="0 0 auto" bg={accent} />
+                  <Text py={3.5} fontFamily="mono" fontWeight="600" fontSize={{ base: '17px', lg: 'clamp(16px, 1.25vw, 20px)' }}
+                    letterSpacing="0.02em" color="brand.bone" lineHeight={1.25}>
+                    {item}
+                  </Text>
+                </Flex>
+              ))}
+            </Grid>
+          </Box>
+        )}
+
+        {/* Sistemas tácticos */}
+        {tactics && (
+          <Box mt={{ base: 16, lg: '10vh' }}>
+            <SubTitle>{tactics.title}</SubTitle>
+            <TacticsBoards tactics={tactics} />
+          </Box>
+        )}
 
         {/* Rendimiento del equipo + Rachas */}
         {performance && (
@@ -305,7 +423,7 @@ export default function CareerChapter({ club }) {
               <Box position="absolute" top="-3.5px" right="12%" mr="-4px" boxSize="8px" borderRadius="full"
                 bg="brand.celeste" boxShadow="0 0 10px rgba(76,184,242,0.7)" zIndex={1} />
               <Image
-                className="cc-photo"
+                className="cc-reveal"
                 src={performance.photo}
                 alt={performance.photoAlt}
                 w="100%"

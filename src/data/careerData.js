@@ -18,6 +18,19 @@ import trFa from '@assets/jdt/fa.webp'
 import trMc from '@assets/jdt/mc.webp'
 import trCs from '@assets/jdt/cs.webp'
 
+// Club Atlético Tucumán
+import catCrest from '@assets/cat/crest.webp'
+import catPhoto1 from '@assets/cat/ramiro_cat_1.webp'
+import catPhoto2 from '@assets/cat/ramiro_cat_2.webp'
+
+// Posiciones de las pizarras (x %, y %; ataque hacia arriba, arquero abajo)
+const FORMATIONS = {
+  '4-3-3':   [[50, 92], [14, 74], [37, 78], [63, 78], [86, 74], [28, 52], [50, 55], [72, 52], [22, 25], [50, 20], [78, 25]],
+  '3-4-3':   [[50, 92], [26, 77], [50, 79], [74, 77], [12, 52], [38, 54], [62, 54], [88, 52], [24, 25], [50, 20], [76, 25]],
+  '3-5-2':   [[50, 92], [26, 77], [50, 79], [74, 77], [10, 50], [32, 54], [50, 62], [68, 54], [90, 50], [38, 26], [62, 26]],
+  '4-2-3-1': [[50, 92], [14, 74], [37, 78], [63, 78], [86, 74], [36, 62], [64, 62], [18, 40], [50, 42], [82, 40], [50, 20]],
+}
+
 export const careerData = [
   {
     id: 'jdt',
@@ -74,6 +87,49 @@ export const careerData = [
         { text: [{ t: 'MAYOR RACHA INVICTA', hl: true }, { t: ' EN LA SUPERLIGA DE MALASIA' }], value: 82, unit: 'PARTIDOS' },
         { text: [{ t: 'MAYOR RACHA INVICTA COMO VISITANTE', hl: true }, { t: ' EN SUPERLIGA' }], value: 72, unit: 'PARTIDOS' },
       ],
+    },
+  },
+  {
+    id: 'cat',
+    accent: '#4CB8F2', // celeste Atlético Tucumán
+    titleOutline: 'CLUB ATLÉTICO',
+    titleSolid: 'TUCUMÁN',
+    role: 'DIRECTOR TÉCNICO – DIVISIÓN RESERVA',
+    from: 'DICIEMBRE 2025',
+    between: '–',
+    to: 'ACTUALIDAD',
+    crest: catCrest,
+    crestAlt: 'Escudo de Club Atlético Tucumán',
+    tagline: 'DESARROLLO COMPETITIVO, PROFESIONALIZACIÓN E IDENTIDAD DE JUEGO EN CONTEXTOS DE ALTA EXIGENCIA.',
+
+    paragraphs: [
+      [{ t: 'Conducción integral del ' }, { t: 'proyecto de Reserva', b: true }, { t: ', promoviendo estándares profesionales de ' }, { t: 'trabajo, competitividad y desarrollo individual', b: true }, { t: ' dentro de una estructura de formación orientada al ' }, { t: 'alto rendimiento.', b: true }],
+      [{ t: 'Construcción de una ' }, { t: 'identidad de juego', b: true }, { t: ' basada en ' }, { t: 'presión alta, intensidad competitiva, salida limpia desde campo propio y juego combinativo agresivo,', b: true }, { t: ' buscando protagonismo en todas las canchas.' }],
+      [{ t: 'Equipo ' }, { t: 'competitivo', b: true }, { t: ' durante todo el campeonato, ' }, { t: 'alcanzando posiciones de liderazgo y manteniéndose en la lucha por la clasificación en un campeonato de máxima exigencia y paridad.', b: true }],
+      [{ t: 'Coordinación ' }, { t: 'metodológica y operativa', b: true }, { t: ' con ' }, { t: 'Primera División e Inferiores', b: true }, { t: ', fortaleciendo procesos de ' }, { t: 'transición y desarrollo de futbolistas dentro de la estructura institucional.', b: true }],
+      [{ t: 'Experiencia en ' }, { t: 'gestión de grupos juveniles de alta complejidad,', b: true }, { t: ' integrando futbolistas de distintos contextos ' }, { t: 'sociales, culturales y competitivos.', b: true }],
+      [{ t: 'Conducción interina del plantel profesional de ' }, { t: 'Primera División', b: true }, { t: ' durante proceso de transición institucional.' }],
+    ],
+    paragraphsPhoto: { src: catPhoto1, alt: 'Ramiro Gonzalez Sales con la indumentaria de Atlético Tucumán' },
+
+    responsibilities: {
+      title: 'Responsabilidades principales:',
+      items: [
+        'Planificación semanal y diseño de microciclos.',
+        'Diseño y conducción de entrenamientos.',
+        'Análisis de rivales y análisis propio.',
+        'Gestión de cargas y monitoreo GPS.',
+        'Estrategias de balón parado.',
+        'Desarrollo individual de futbolistas.',
+        'Liderazgo integral de grupo y cuerpo técnico.',
+      ],
+    },
+
+    tactics: {
+      title: 'SISTEMAS TÁCTICOS IMPLEMENTADOS',
+      photo: catPhoto2,
+      photoAlt: 'Ramiro Gonzalez Sales dando indicaciones desde el borde del campo',
+      systems: ['4-3-3', '3-4-3', '3-5-2', '4-2-3-1'].map((name) => ({ label: 'Sistema', name, positions: FORMATIONS[name] })),
     },
   },
 ]
