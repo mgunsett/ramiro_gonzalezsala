@@ -47,14 +47,14 @@ export const coachData = {
     ],
   },
 
-  // Navbar — ids de las secciones (provisorio: Perfil, Trayectoria,
-  // Títulos y Formación se confirman al ver las placas restantes)
+  // Navbar y footer — en el mismo orden que las secciones de la landing.
+  // (Contacto va aparte: botón "Contactar" en el navbar y último link en el footer.)
   nav: [
-    { label: 'Perfil',      id: 'perfil' },
-    { label: 'Trayectoria', id: 'trayectoria' },
-    { label: 'Títulos',     id: 'titulos' },
-    { label: 'Formación',   id: 'formacion' },
-    { label: 'Media',       id: 'media' },
+    { label: 'Perfil',      id: 'perfil' },      // Perfil profesional
+    { label: 'Trayectoria', id: 'trayectoria' }, // JDT + Atlético Tucumán
+    { label: 'Datos',       id: 'datos' },       // Diversidad de jugadores + Trayectoria como jugador
+    { label: 'Formación',   id: 'formacion' },   // Formación académica, idiomas, competencias, cursos
+    { label: 'Media',       id: 'media' },       // Notas, videos, publicaciones e Instagram
   ],
   contactId: 'contacto',
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- ⚠️ Reemplazar TU-DOMINIO por el dominio final del sitio -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ronaldomartinez.com/</loc>
-    <lastmod>2026-06-20</lastmod>
+    <loc>https://TU-DOMINIO/</loc>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2000" zoomAndPan="magnify" viewBox="0 0 1500 1499.999933" height="2000" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><g/><clipPath id="83a77aa887"><rect x="0" width="1028" y="0" height="1500"/></clipPath><clipPath id="003cd395b0"><rect x="0" width="382" y="0" height="587"/></clipPath></defs><g transform="matrix(1, 0, 0, 1, 0, 0.000000000000112861)"><g clip-path="url(#83a77aa887)"><g fill="#bda78e" fill-opacity="1"><g transform="translate(-26.1219, 1267.455966)"><g><path d="M 61.921875 -1137.796875 L 61.921875 0 L 450.46875 0 L 450.46875 -154.796875 L 229.109375 -154.796875 L 229.109375 -1137.796875 Z M 61.921875 -1137.796875 "/></g></g></g><g fill="#bda78e" fill-opacity="1"><g transform="translate(446.022268, 1267.455966)"><g><path d="M 15.484375 0 L 178.015625 0 L 208.984375 -232.203125 L 369.96875 -232.203125 L 400.9375 0 L 563.484375 0 L 391.640625 -1137.796875 L 187.3125 -1137.796875 Z M 298.765625 -767.8125 L 346.75 -408.671875 L 232.203125 -408.671875 L 280.1875 -767.8125 L 284.828125 -797.234375 L 294.125 -797.234375 Z M 298.765625 -767.8125 "/></g></g></g></g></g><g transform="matrix(1, 0, 0, 1, 1081, 687)"><g clip-path="url(#003cd395b0)"><g fill="#884545" fill-opacity="1"><g transform="translate(30.214946, 442.895138)"><g><path d="M 341.140625 19.390625 L 341.140625 136.9375 L -26.046875 136.9375 L -26.046875 19.390625 Z M 341.140625 19.390625 "/></g></g></g></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#05080C"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="10.5" fill="none" stroke="#4CB8F2" stroke-opacity=".35" stroke-width="1.5"/>
+  <!-- RG en trazos (no depende de fuentes instaladas) -->
+  <g fill="none" stroke="#4CB8F2" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M12 50V14h10a8 8 0 0 1 0 16H12M21 30l9 20"/>
+    <path d="M52 22v-2a6 6 0 0 0-6-6h-2a6 6 0 0 0-6 6v24a6 6 0 0 0 6 6h2a6 6 0 0 0 6-6v-10h-8"/>
+  </g>
+</svg>
