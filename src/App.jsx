@@ -7,14 +7,13 @@ import CareerSection from './components/Career/CareerSection'
 import DiversitySection from './components/Stats/DiversitySection'
 import FormationSection from './components/Formation/FormationSection'
 import MediaSection from './components/Media/MediaSection'
-import StatsSection from './components/Stats/StatsSection'
 import ContactSection from './components/Contact/ContactSection'
 import Footer from './components/UI/Footer'
 import AdminPage from './pages/AdminPage'
 
 function Landing() {
   return (
-    <Box as="main" bg="brand.dark" overflowX="hidden">
+    <Box as="main" bg="brand.ink" overflowX="hidden">
       <Navbar />
       <Hero />
       <Box mt="-100vh" position="relative" zIndex={21}>
@@ -23,7 +22,6 @@ function Landing() {
         <DiversitySection />
         <FormationSection />
         <MediaSection />
-        <StatsSection />
         <ContactSection />
         <Footer />
       </Box>

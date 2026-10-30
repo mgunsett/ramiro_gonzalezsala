@@ -1,294 +1,170 @@
-import { useRef } from 'react'
-import { Box, Flex, Text, SimpleGrid, Grid, Image } from '@chakra-ui/react'
-import { playerData } from '../../data/playerData'
-import { useScrubReveal } from '../../hooks/useScrubReveal'
+import { useRef, useLayoutEffect } from 'react'
+import { Box, Flex, Grid, Text, Icon } from '@chakra-ui/react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { coachData } from '../../data/coachData'
 
-function SocialCard({ item }) {
-  const Icon = item.iconBg
-  const gradientFill = item.hoverGradient
-    ? { '[role=group]:hover & path': { fill: `url(#${item.hoverGradient})` } }
-    : undefined
+gsap.registerPlugin(ScrollTrigger)
+
+// ─────────────────────────────────────────────────────────────
+// CONTACTO
+//  · Título + texto exacto de la placa.
+//  · Los 5 accesos en UNA sola fila (también en móvil), cada uno en su
+//    panel con las líneas de la placa. Al pasar el mouse el panel se
+//    enciende en celeste.
+// ─────────────────────────────────────────────────────────────
+
+const HOVER = '@media (hover: hover) and (pointer: fine)'
+
+/* Logo "tm" de Transfermarkt (no está en react-icons) */
+function TmIcon(props) {
   return (
-    <Box
-      as="a"
-      href={item.url}
-      target={item.url?.startsWith('http') ? '_blank' : undefined}
-      rel="noopener noreferrer"
-      position="relative"
-      overflow="hidden"
-      bg="brand.dark"
-      border="1px solid"
-      borderColor="brand.amber"
-      borderRadius={'10px'}
-      p={{ base: 6, md: 8 }}
-      transition="all 0.3s ease"
-      role="group"
-      _hover={{
-        transform: 'translateY(-3px)',
-          borderColor: 'brand.amber',
-          bg: 'brand.bgRef',
-      }}
-    >
-      {/* watermark gigante */}
-      <Box
-        position="absolute"
-        right="-10px"
-        bottom="-40px"
-        opacity={0.2}
-        transition="all 0.4s ease"
-        _groupHover={{ opacity: 0.18, color: (item.hoverColor) }}
-        color="white"
-        pointerEvents="none"
-        sx={gradientFill}
-      >
-        <Box as={Icon} fontSize="180px" />
-      </Box>
-      <Box position="relative">
-        {item.icon && (
-        <Box
-          as={Icon}
-          fontSize="28px"
-          mb={6}
-          color="whiteAlpha.700"
-          transition="color 0.3s ease"
-          _groupHover={{ color: item.hoverColor }}
-          sx={gradientFill}
-        />
-        )}
-        {item.image && (
-          <Image
-          src={item.image}
-          alt={`Logo de ${item.label}`}
-          w={'30px'}
-          h={'30px'}
-          mb={6}
-          loading="lazy"
-          filter="brightness(0.3)"
-          color="whiteAlpha.700"
-          transition="all 0.3s ease"
-          _groupHover={{ color: item.hoverColor, filter:"brightness(0.9)"}}
-        />
-        )}
-        <Text
-          fontFamily="mono"
-          fontSize="10px"
-          letterSpacing="0.24em"
-          textTransform="uppercase"
-          color="brand.gray"
-          mb={1}
-          _groupHover={{ color: 'brand.bone' }}
-        >
-          {item.label}
-        </Text>
-        <Text fontFamily="heading" color={'brand.bone'} fontSize={{base:'xl',md:"2xl"}} _groupHover={{ color: 'brand.gray2' }}>
-
-          {item.handle}
-        </Text>
-      </Box>
+    <Box as="svg" viewBox="0 0 48 48" aria-hidden="true" {...props}>
+      <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" strokeWidth="3" />
+      <text x="24" y="30" textAnchor="middle" fill="currentColor"
+        style={{ fontFamily: 'Barlow, sans-serif', fontWeight: 800, fontStyle: 'italic', fontSize: 17 }}>tm</text>
     </Box>
   )
 }
 
-function ContactRow({ item, gold }) {
-  const Icon = item.icon
+function ContactCard({ c }) {
+  const disabled = c.id === 'email' && !coachData.email
+  const href = c.id === 'email' ? `mailto:${coachData.email}` : c.href
+  const external = !href.startsWith('mailto:')
+
   return (
-    <Box
-      as="a"
-      href={item.url}
-      target={item.url?.startsWith('http') ? '_blank' : undefined}
-      rel="noopener noreferrer"
-      display="block"
-      bg="rgba(255,255,255,0.02)"
-      border="1px solid"
-      borderColor={gold ? 'brand.orangeLight' : 'brand.amber'}
-      borderRadius='10px'
-      borderLeftColor= {gold ? 'brand.orangeLight' : 'brand.amber'}
-      borderLeftWidth= '4px'
-      borderLeftStyle= 'solid'
-      p={{ base: 5, md: 8 }}
-      transition="all 0.3s ease"
+    <Flex
+      as={disabled ? 'div' : 'a'}
+      href={disabled ? undefined : href}
+      target={!disabled && external ? '_blank' : undefined}
+      rel={!disabled && external ? 'noopener noreferrer' : undefined}
+      aria-label={`${c.label} · ${c.network}`}
+      aria-disabled={disabled || undefined}
+      className="ct-card"
+      direction="column"
+      align="center"
+      gap={{ base: 2.5, lg: 4 }}
+      minW={0}
+      opacity={disabled ? 0.45 : 1}
+      cursor={disabled ? 'not-allowed' : 'pointer'}
       role="group"
-      _hover={{
-        transform: 'translateY(-3px)',
-        borderColor: gold ? 'brand.orangeLight' : 'brand.amber',
-        bg: gold ? 'rgba(163,107,44,0.04)' : 'brand.bgRef',
-      }}
+      _focusVisible={{ outline: '2px solid', outlineColor: 'brand.celesteLight', outlineOffset: '4px' }}
     >
-      <Flex align="center" gap={4}>
-        {item.icon && (
-          <Box
-            ml={3}
-            as={Icon}
-            fontSize="40px"
-            color='whiteAlpha.400'
-            opacity={0.4}
-            transition='all 0.8 ease'
-            _groupHover={{ opacity: 1, color: 'brand.brown' }}
-          />
-        )}
-        {item.image && (
-          <Box boxSize="60px" overflow="hidden" transition="all 0.5s ease" >
-            <Image
-            src={item.image}
-            alt={`Logo de ${item.label}`}
-            w="100%"
-            loading="lazy"
-            filter="brightness(0.3)"
-            transition="all 0.3s ease"
-            _groupHover={{ 
-              filter: 'brightness(0.98)',
-             }}
-             />
-          </Box>
-        )}
-        <Box ml={gold ? '8px' : '16px'}>
-          <Text
-            fontFamily="mono"
-            fontSize="10px"
-            letterSpacing="0.24em"
-            textTransform="uppercase"
-            color="brand.gray"
-            _groupHover={{ color: 'brand.bone' }}
-          >
-            {item.label}
-          </Text>
-          <Text 
-          fontFamily="heading" 
-          fontSize="2xl" 
-          color="brand.bone" 
-          fontWeight={500} 
-          _groupHover={{ color: gold ? 'brand.orangeLight' : 'brand.gray2' }}
-          >
-            {item.handle}
-          </Text>
+      {/* Panel con las líneas de la placa */}
+      <Flex
+        position="relative"
+        w="100%"
+        align="center"
+        justify="center"
+        overflow="hidden"
+        border="1px solid"
+        borderColor="brand.linea"
+        bg="linear-gradient(110deg, rgba(76,184,242,0.22) 0%, transparent 35%), linear-gradient(290deg, rgba(76,184,242,0.16) 0%, transparent 30%), #0B1118"
+        transition="border-color 220ms ease, box-shadow 220ms ease"
+        sx={{
+          aspectRatio: '1',
+          [HOVER]: disabled ? {} : {
+            '[role=group]:hover &': { borderColor: 'brand.celeste', boxShadow: '0 0 0 1px #4CB8F2, 0 18px 40px rgba(76,184,242,0.18)' },
+          },
+        }}
+      >
+        <Box position="absolute" left={0} bottom="22%" w="22%" h="22%" borderTop="1px solid" borderRight="1px solid"
+          borderColor="rgba(140,200,240,0.55)" aria-hidden="true" />
+        <Box position="absolute" right="9%" bottom={0} h="30%" w="1px" bg="rgba(140,200,240,0.55)" aria-hidden="true"
+          _before={{ content: '""', position: 'absolute', top: '-3px', left: '-3px', boxSize: '7px', borderRadius: 'full', bg: 'brand.celeste' }} />
+        <Box
+          color="brand.bone"
+          transition="transform 300ms cubic-bezier(0.23,1,0.32,1), color 200ms ease"
+          sx={{ [HOVER]: disabled ? {} : { '[role=group]:hover &': { transform: 'translateY(-4px) scale(1.04)', color: 'brand.celeste' } } }}
+        >
+          {c.icon === 'tm'
+            ? <TmIcon boxSize={{ base: '30px', sm: '42px', lg: 'clamp(56px, 5vw, 92px)' }} />
+            : <Icon as={c.icon} boxSize={{ base: '28px', sm: '40px', lg: 'clamp(52px, 4.6vw, 86px)' }} />}
         </Box>
       </Flex>
-    </Box>
+
+      <Flex direction="column" align="center" gap={1} textAlign="center">
+        <Text
+          fontFamily="heading"
+          fontSize={{ base: '13px', sm: '17px', lg: 'clamp(20px, 1.7vw, 28px)' }}
+          letterSpacing="0.04em"
+          lineHeight={1.05}
+          textDecoration="underline"
+          textUnderlineOffset="4px"
+          textDecorationThickness="2px"
+          textDecorationColor="brand.celeste"
+          transition="color 160ms ease"
+          sx={{ [HOVER]: disabled ? {} : { '[role=group]:hover &': { color: 'brand.celeste' } } }}
+        >
+          {c.label}
+        </Text>
+        <Text fontFamily="mono" fontWeight="600" fontSize={{ base: '10px', sm: '12px', lg: '13px' }} letterSpacing="0.1em"
+          color="brand.gray" textTransform="uppercase">
+          {c.network}
+        </Text>
+      </Flex>
+    </Flex>
   )
 }
 
-export function ContactSection() {
-  const professional = playerData.contact.filter(
-    (c) => c.title === 'Representante Deportivo'
-  )
-  const representative = playerData.contact.filter(
-    (c) => c.title === 'Contacto Marketing'
-  )
+export default function ContactSection() {
+  const ref = useRef(null)
+  const { title, paragraphs } = coachData.contact
 
-  const sectionRef = useRef(null)
-  const headerRef  = useRef(null)
-  const socialRef  = useRef(null)
-  const proRef     = useRef(null)
-  const repRef     = useRef(null)
-
-  useScrubReveal(sectionRef, {
-    elements: [
-      { ref: headerRef, fromVars: { y: 50, opacity: 0 }, vars: { y: 0, opacity: 1 } },
-      { ref: socialRef, fromVars: { y: 40, opacity: 0 }, vars: { y: 0, opacity: 1 } },
-      { ref: proRef,    fromVars: { y: 40, opacity: 0 }, vars: { y: 0, opacity: 1 } },
-      { ref: repRef,    fromVars: { y: 40, opacity: 0 }, vars: { y: 0, opacity: 1 } },
-    ],
-    start: 'top 80%',
-    end:   'top 35%',
-  })
+  useLayoutEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const ctx = gsap.context(() => {
+      const q = gsap.utils.selector(ref)
+      const tl = gsap.timeline({ scrollTrigger: { trigger: ref.current, start: 'top 75%' } })
+      tl.from(q('.ct-title'), { yPercent: 30, opacity: 0, duration: 1, ease: 'expo.out' })
+        .from(q('.ct-p'), { y: 16, opacity: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out' }, '-=0.6')
+      gsap.from(q('.ct-card'), {
+        y: 28, opacity: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out',
+        scrollTrigger: { trigger: q('.ct-row')[0], start: 'top 90%' },
+      })
+    }, ref)
+    return () => ctx.revert()
+  }, [])
 
   return (
     <Box
       as="section"
-      id="contacto"
-      ref={sectionRef}
+      id={coachData.contactId}
+      ref={ref}
+      aria-labelledby="ct-title"
       position="relative"
-      bg="brand.dark"
-      px={{ base: 6, md: 12, lg: 20 }}
-      py={{ base: 20, md: 28 }}
       overflow="hidden"
+      bg="brand.ink"
+      borderTop="1px solid"
+      borderColor="brand.linea"
+      px={{ base: 4, md: 10, lg: '6vw' }}
+      py={{ base: 20, lg: '14vh' }}
     >
-      <Box className="deco-grid" />
+      {/* halos de la placa */}
+      <Box position="absolute" left="-10%" top="-20%" w="40%" h="70%" borderRadius="50%" bg="rgba(76,184,242,0.16)" filter="blur(90px)" pointerEvents="none" />
+      <Box position="absolute" right="-10%" bottom="-25%" w="40%" h="70%" borderRadius="50%" bg="rgba(76,184,242,0.14)" filter="blur(90px)" pointerEvents="none" />
 
-      <Box position="relative" zIndex={1} maxW="1400px" mx="auto">
-        {/* Header */}
-        <Box ref={headerRef} mb={{ base: 8, md: 10 }}>
-          <Text fontFamily="mono" fontSize="10px" color="brand.bone" letterSpacing="0.28em"
-                  textTransform="uppercase" letterSpacing="widest">
-            #Redes
-          </Text>
-          <Text as="h2" fontFamily="heading" fontSize={{ base: '5xl', lg: '6xl' }}
-                  color="brand.amber" lineHeight={1}>
-            Contacto
-          </Text>
-        </Box>
+      <Box position="relative" maxW="1300px" mx="auto">
+        <Text as="h2" id="ct-title" className="ct-title" fontFamily="heading" fontWeight="400" textAlign="center"
+          letterSpacing="0.03em" lineHeight={0.85} fontSize={{ base: '72px', md: '110px', lg: 'clamp(100px, 9vw, 160px)' }}>
+          {title}
+        </Text>
 
-        {/* Social media */}
-        <Box ref={socialRef} mb={4}>
-          <Text
-            fontFamily="mono"
-            fontSize="11px"
-            letterSpacing="0.28em"
-            textTransform="uppercase"
-            color="brand.amber"
-            mb={5}
-          >
-            Redes sociales
-          </Text>
-          {/* Definición del degradado oficial de Instagram (referenciado por fill: url(#insta-gradient)) */}
-          <Box as="svg" w={0} h={0} position="absolute" aria-hidden>
-            <defs>
-              <linearGradient id="insta-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%"   stopColor="#f09433" />
-                <stop offset="25%"  stopColor="#e6683c" />
-                <stop offset="50%"  stopColor="#dc2743" />
-                <stop offset="75%"  stopColor="#cc2366" />
-                <stop offset="100%" stopColor="#bc1888" />
-              </linearGradient>
-            </defs>
-          </Box>
-          <SimpleGrid columns={{ base: 1, sm: 2, lg: 2 }} spacing={4}>
-            {playerData.socialMedia.map((s, i) => (
-              <SocialCard key={i} item={s} />
-            ))}
-          </SimpleGrid>
-        </Box>
+        <Flex direction="column" gap={5} maxW="62ch" mx="auto" mt={{ base: 8, lg: '5vh' }} textAlign="center">
+          {paragraphs.map((p) => (
+            <Text key={p} className="ct-p" fontSize={{ base: '17px', lg: 'clamp(18px, 1.45vw, 23px)' }} lineHeight={1.55}
+              color="brand.bone" sx={{ textWrap: 'pretty' }}>
+              {p}
+            </Text>
+          ))}
+        </Flex>
 
-        {/* Contacto profesional */}
-        <Box ref={proRef} mb={4}>
-          <Text
-            fontFamily="mono"
-                fontSize="11px"
-                letterSpacing="0.28em"
-                textTransform="uppercase"
-                color="brand.amber"
-                mb={5}
-          >
-            Representante Deportivo
-          </Text>
-          <Grid templateColumns={{ base: '1fr', md: '1fr' }} gap={4}>
-            {professional.map((c, i) => (
-              <ContactRow key={i} item={c} />
-            ))}
-          </Grid>
-        </Box>
-
-        {/* Representante */}
-        <Box ref={repRef}>
-          <Text
-            fontFamily="mono"
-                fontSize="11px"
-                letterSpacing="0.28em"
-                textTransform="uppercase"
-                color="brand.orangeLight"
-                mb={5}
-          >
-            Representante de marketing
-          </Text>
-          <Grid templateColumns={{ base: '1fr', md: '1fr' }} gap={4}>
-            {representative.map((c, i) => (
-              <ContactRow key={i} item={c} gold />
-            ))}
-          </Grid>
-        </Box>
+        {/* Los 5 accesos en una sola fila */}
+        <Grid className="ct-row" templateColumns="repeat(5, minmax(0, 1fr))" gap={{ base: 2, sm: 4, lg: '2vw' }}
+          mt={{ base: 12, lg: '9vh' }}>
+          {coachData.contacts.map((c) => <ContactCard key={c.id} c={c} />)}
+        </Grid>
       </Box>
     </Box>
   )
 }
-
-export default ContactSection

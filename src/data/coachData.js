@@ -1,5 +1,4 @@
-import { FaWhatsapp, FaLinkedinIn, FaInstagram } from 'react-icons/fa'
-import { IoMdStats } from 'react-icons/io'
+import { FaWhatsapp, FaLinkedinIn, FaInstagram, FaEnvelope } from 'react-icons/fa'
 
 // Hero
 import heroMain from '@assets/hero/ramiro_hero.webp'
@@ -59,12 +58,25 @@ export const coachData = {
   ],
   contactId: 'contacto',
 
-  // Contacto / redes — textos de botón exactos del sitio original
+  // Contacto — texto EXACTO de la placa
+  contact: {
+    title: 'CONTACTO',
+    paragraphs: [
+      'Considero que el verdadero valor del trabajo en el fútbol se aprecia al explorarlo en profundidad y en acción. Cada uno de los puntos compartidos en este documento pueden desarrollarse con mayor detalle.',
+      'Creo en la conexiones a largo plazo, en el intercambio genuino de ideas, y en la búsqueda constante de ser mejores cada día. Si compartimos esa visión: hablemos!',
+    ],
+  },
+
+  // ⚠️ PENDIENTE: dirección de e-mail (no figura en el sitio original).
+  //    Mientras esté vacía, "ENVIAR E-MAIL" se muestra deshabilitado.
+  email: '',
+
+  // Contacto / redes — textos de botón exactos del sitio original, en el mismo orden
   contacts: [
-    { id: 'whatsapp',     label: 'ENVIAR MENSAJE', network: 'WhatsApp',      href: 'https://wa.link/iaiccu',                                              icon: FaWhatsapp },
-    { id: 'transfermarkt', label: 'VER PERFIL',    network: 'Transfermarkt', href: 'https://www.transfermarkt.com/ramiro-gonzalez/profil/trainer/114109', icon: IoMdStats },
-    { id: 'linkedin',     label: 'VER PERFIL',     network: 'LinkedIn',      href: 'https://www.linkedin.com/in/ramagonzalez5/',                           icon: FaLinkedinIn },
-    { id: 'instagram',    label: 'VER PERFIL',     network: 'Instagram',     href: 'https://www.instagram.com/ramirogonzalez.dt',                          icon: FaInstagram },
-    // ⚠️ PENDIENTE: "ENVIAR E-MAIL" no tiene dirección en el sitio original
+    { id: 'whatsapp',      label: 'ENVIAR MENSAJE', network: 'WhatsApp',      href: 'https://wa.link/iaiccu',                                              icon: FaWhatsapp },
+    { id: 'transfermarkt', label: 'VER PERFIL',     network: 'Transfermarkt', href: 'https://www.transfermarkt.com/ramiro-gonzalez/profil/trainer/114109', icon: 'tm' },
+    { id: 'email',         label: 'ENVIAR E-MAIL',  network: 'E-mail',        href: 'mailto:',                                                             icon: FaEnvelope },
+    { id: 'linkedin',      label: 'VER PERFIL',     network: 'LinkedIn',      href: 'https://www.linkedin.com/in/ramagonzalez5/',                           icon: FaLinkedinIn },
+    { id: 'instagram',     label: 'VER PERFIL',     network: 'Instagram',     href: 'https://www.instagram.com/ramirogonzalez.dt',                          icon: FaInstagram },
   ],
 }
