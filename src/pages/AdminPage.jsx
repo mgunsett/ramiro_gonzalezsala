@@ -6,7 +6,8 @@ import {
   TabPanels, TabPanel, Tab, useToken,
 } from '@chakra-ui/react'
 import { FiEdit2, FiTrash2, FiUpload, FiLogOut, FiSave } from 'react-icons/fi'
-import { playerData } from '../data/playerData'
+import { coachData } from '../data/coachData'
+import InstagramAdmin from '../components/Admin/InstagramAdmin'
 import {
   signInWithEmailAndPassword, signOut, onAuthStateChanged,
 } from 'firebase/auth'
@@ -506,7 +507,7 @@ export default function AdminPage() {
           backdropFilter="blur(10px)"
         >
           <VStack spacing={1} mb={6}>
-            <Text fontFamily="heading" fontSize="3xl" color="white">{playerData.name} <Text as="span" color="brand.brown">{playerData.fullName}</Text> _</Text>
+            <Text fontFamily="heading" fontSize="3xl" color="white">{coachData.nameLines[0]} <Text as="span" color="brand.brown">{coachData.nameLines.slice(1).join(' ')}</Text></Text>
             <Text fontFamily="mono" fontSize="10px" color="brand.gray"
                   letterSpacing="widest" textTransform="uppercase">
               Panel de administración
@@ -548,7 +549,7 @@ export default function AdminPage() {
         <Flex align="center" justify="space-between" mb={{ base: 6, md: 8 }}>
           <Box>
             <Text fontFamily="heading" fontSize={{ base: '2xl', md: '3xl' }} color="white" lineHeight={1}>
-              {playerData.initials}_ Admin
+              {coachData.initials} Admin
             </Text>
             <HStack spacing={2} mt={2}>
               <Badge
@@ -636,6 +637,9 @@ export default function AdminPage() {
             </TabPanels>
           </Tabs>
         </Box>
+
+        {/* Instagram (carga manual) */}
+        <InstagramAdmin />
 
         {/* Preview section */}
         <Box mb={6}>

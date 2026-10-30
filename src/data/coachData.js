@@ -55,7 +55,7 @@ export const coachData = {
     { label: 'Trayectoria', id: 'trayectoria' },
     { label: 'Títulos',     id: 'titulos' },
     { label: 'Formación',   id: 'formacion' },
-    { label: 'Prensa',      id: 'prensa' },
+    { label: 'Media',       id: 'media' },
   ],
   contactId: 'contacto',
 

@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore, doc } from 'firebase/firestore'
+import { getFirestore, doc, collection } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 import { getStorage } from 'firebase/storage'
 
@@ -29,3 +29,10 @@ export const storage = app ? getStorage(app) : null
 export function playerMatchDoc(slot) {
   return doc(db, 'players', PLAYER_SLUG, 'matches', slot)
 }
+
+// Publicaciones de Instagram cargadas a mano desde /admin
+// Firestore: players/{slug}/instagram/{id} · Storage: players/{slug}/instagram/{archivo}
+export function playerInstagramCol() {
+  return collection(db, 'players', PLAYER_SLUG, 'instagram')
+}
+export const INSTAGRAM_STORAGE_DIR = () => `players/${PLAYER_SLUG}/instagram`
