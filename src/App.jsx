@@ -5,6 +5,7 @@ import Hero from './components/Hero/Hero'
 import ProfileSection from './components/Profile/ProfileSection'
 import CareerSection from './components/Career/CareerSection'
 import DiversitySection from './components/Stats/DiversitySection'
+import FormationSection from './components/Formation/FormationSection'
 import StatsSection from './components/Stats/StatsSection'
 import VideosSection from './components/Videos/VideosSection'
 import GallerySection from './components/Gallery/GallerySection'
@@ -22,6 +23,7 @@ function Landing() {
         <ProfileSection />
         <CareerSection />
         <DiversitySection />
+        <FormationSection />
         <StatsSection />
         <VideosSection />
         <GallerySection />
