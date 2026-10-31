@@ -8,14 +8,6 @@ import { media } from '../../data/mediaData'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// ─────────────────────────────────────────────────────────────
-// MEDIA · opción B "Destacado"
-//  · Una nota grande (pantalla según el tipo) + la lista de las 9 al
-//    costado; al tocar una fila pasa a destacada.
-//  · Instagram: mosaico (1 grande + 4 chicas) con las publicaciones
-//    cargadas a mano desde /admin; todas llevan al perfil o al post.
-// ─────────────────────────────────────────────────────────────
-
 const HOVER = '@media (hover: hover) and (pointer: fine)'
 
 function IgIcon(props) {
@@ -98,8 +90,9 @@ export default function MediaSection() {
     <Box as="section" id="media" ref={ref} aria-labelledby="md-title" bg="brand.ink" borderTop="1px solid" borderColor="brand.linea">
       {/* ── Notas ── */}
       <Box px={{ base: 5, md: 10, lg: '6vw' }} py={{ base: 20, lg: '12vh' }}>
+       <Box maxW="1400px" mx="auto">
         <Text as="h2" id="md-title" className="md-title" fontFamily="heading" fontWeight="400" lineHeight={0.85} letterSpacing="0.03em"
-          fontSize={{ base: '84px', md: '120px', lg: 'clamp(110px, 11vw, 190px)' }}>
+          fontSize={{ base: '56px', md: '80px', lg: 'clamp(72px, 7vw, 124px)' }}>
           {media.title}
         </Text>
 
@@ -151,10 +144,12 @@ export default function MediaSection() {
             })}
           </Box>
         </Grid>
+       </Box>
       </Box>
 
       {/* ── Instagram ── */}
       <Box px={{ base: 5, md: 10, lg: '6vw' }} pb={{ base: 20, lg: '12vh' }}>
+       <Box maxW="1400px" mx="auto">
         <Flex wrap="wrap" justify="space-between" align="flex-end" gap={4} mb={{ base: 6, lg: '4vh' }}
           pt={{ base: 12, lg: '8vh' }} borderTop="1px solid" borderColor="brand.linea">
           <Flex align="center" gap={3.5}>
@@ -175,6 +170,7 @@ export default function MediaSection() {
             {posts.slice(0, 5).map((p, i) => <IgTile key={p.id} post={p} big={i === 0} />)}
           </Grid>
         )}
+       </Box>
       </Box>
     </Box>
   )

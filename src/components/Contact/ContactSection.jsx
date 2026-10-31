@@ -6,13 +6,6 @@ import { coachData } from '../../data/coachData'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// ─────────────────────────────────────────────────────────────
-// CONTACTO · opción B "Banda" (rediseñada)
-//  · 50 % izquierda: título "CONTACTO" + texto exacto de la placa.
-//  · 50 % derecha: banda con los 5 accesos (solo ícono + nombre) en una
-//    sola fila; al pasar el mouse cada celda se llena de celeste.
-//  · Móvil: el texto arriba y la banda debajo, también en una fila.
-// ─────────────────────────────────────────────────────────────
 
 const HOVER = '@media (hover: hover) and (pointer: fine)'
 const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)'
@@ -128,7 +121,7 @@ export default function ContactSection() {
           <Flex direction="column" gap={4} mt={{ base: 6, lg: '4vh' }} pl={{ base: 4, lg: 6 }}
             borderLeft="2px solid" borderColor="brand.celeste" maxW="60ch">
             {paragraphs.map((p) => (
-              <Text key={p} className="ct-p" fontSize={{ base: '17px', lg: 'clamp(16px, 1.3vw, 21px)' }} lineHeight={1.55}
+              <Text key={p} className="ct-p" fontSize={{ base: '17px', lg: 'clamp(16px, 1.3vw, 21px)' }} fontStyle={'italic'} lineHeight={1.55}
                 color="brand.bone" sx={{ textWrap: 'pretty' }}>
                 {p}
               </Text>

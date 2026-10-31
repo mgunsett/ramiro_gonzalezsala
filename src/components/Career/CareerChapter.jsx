@@ -6,17 +6,6 @@ import TacticsBoards from './TacticsBoards'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// ─────────────────────────────────────────────────────────────
-// TRAYECTORIA · Capítulo de club (opción C "Capítulo")
-//  · Riel lateral con las fechas: la línea se llena con el scroll.
-//  · Título del club (contorno + sólido), escudo y totales con contador.
-//  · Funciones | Logros (trofeos + logros centrados debajo).
-//  · Rendimiento del equipo + Rachas destacadas.
-//  · Lema, párrafos con foto fija, responsabilidades y sistemas tácticos.
-// Cada bloque es opcional: se muestra solo si el club tiene esos datos.
-// Reutilizable: cada club es un objeto de careerData.js.
-// ─────────────────────────────────────────────────────────────
-
 /* Texto por segmentos (resaltado / negrita / cifra / chico) */
 function Segs({ segs, accent }) {
   return segs.map((s, i) => {
@@ -156,9 +145,9 @@ export default function CareerChapter({ club }) {
         right={{ base: '-30%', lg: '-6vw' }}
         top={{ base: 'auto', lg: '6vh' }}
         bottom={{ base: '30%', lg: 'auto' }}
-        h={{ base: '60vh', lg: '80vh' }}
+        h={{ base: '60vh', lg: '90vh' }}
         w="auto"
-        opacity={0.05}
+        opacity={0.07}
         filter="grayscale(1)"
         pointerEvents="none"
       />
@@ -292,44 +281,48 @@ export default function CareerChapter({ club }) {
                 </Flex>
               ))}
             </Grid>
-
-            {/* Logros centrados debajo de las copas */}
-            <Grid
-              as="ul"
-              className="cc-achs"
-              listStyleType="none"
-              m={0}
-              mt={{ base: 8, lg: '4vh' }}
-              p={0}
-              templateColumns="repeat(2, minmax(0,1fr))"
-              gap="1px"
-              bg="brand.linea"
-              border="1px solid"
-              borderColor="brand.linea"
-            >
-              {achievements.map((segs, i) => (
-                <Flex
-                  as="li"
-                  key={i}
-                  className="cc-ach"
-                  direction="column"
-                  align="center"
-                  justify="center"
-                  gap={2}
-                  textAlign="center"
-                  bg="brand.ink"
-                  px={{ base: 3, lg: 4 }}
-                  py={{ base: 5, lg: '2.6vh' }}
-                >
-                  <Box boxSize="8px" borderRadius="full" bg={accent} boxShadow={`0 0 0 3px ${accent}26`} />
-                  <Text fontSize={{ base: '15px', lg: 'clamp(14px, 1.05vw, 17px)' }} lineHeight={1.35} color="brand.bone" sx={{ textWrap: 'balance' }}>
-                    <Segs segs={segs} accent={accent} />
-                  </Text>
-                </Flex>
-              ))}
-            </Grid>
           </Box>
         </Grid>
+        )}
+
+        {/* Logros a lo ancho, al pie de Funciones | Logros */}
+        {achievements && (
+          <Grid
+            as="ul"
+            className="cc-achs"
+            listStyleType="none"
+            m={0}
+            mt={{ base: 10, lg: '6vh' }}
+            p={0}
+            templateColumns={{ base: 'repeat(2, minmax(0,1fr))', lg: `repeat(${achievements.length}, minmax(0,1fr))` }}
+            borderTop="1px solid"
+            borderLeft="1px solid"
+            borderColor="brand.linea"
+          >
+            {achievements.map((segs, i) => (
+              <Flex
+                as="li"
+                key={i}
+                className="cc-ach"
+                direction="column"
+                align="center"
+                justify="center"
+                gap={2}
+                textAlign="center"
+                bg="brand.ink"
+                borderRight="1px solid"
+                borderBottom="1px solid"
+                borderColor="brand.linea"
+                px={{ base: 3, lg: 4 }}
+                py={{ base: 5, lg: '3vh' }}
+              >
+                <Box boxSize="8px" borderRadius="full" bg={accent} boxShadow={`0 0 0 3px ${accent}26`} />
+                <Text fontSize={{ base: '15px', lg: 'clamp(14px, 1.05vw, 17px)' }} lineHeight={1.35} color="brand.bone" sx={{ textWrap: 'balance' }}>
+                  <Segs segs={segs} accent={accent} />
+                </Text>
+              </Flex>
+            ))}
+          </Grid>
         )}
 
         {/* Párrafos + foto fija */}

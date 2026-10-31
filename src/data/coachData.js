@@ -62,8 +62,8 @@ export const coachData = {
   contact: {
     title: 'CONTACTO',
     paragraphs: [
-      'Considero que el verdadero valor del trabajo en el fútbol se aprecia al explorarlo en profundidad y en acción. Cada uno de los puntos compartidos en este documento pueden desarrollarse con mayor detalle.',
-      'Creo en la conexiones a largo plazo, en el intercambio genuino de ideas, y en la búsqueda constante de ser mejores cada día. Si compartimos esa visión: hablemos!',
+      '" Considero que el verdadero valor del trabajo en el fútbol se aprecia al explorarlo en profundidad y en acción. Cada uno de los puntos compartidos en este documento pueden desarrollarse con mayor detalle.',
+      'Creo en la conexiones a largo plazo, en el intercambio genuino de ideas, y en la búsqueda constante de ser mejores cada día. Si compartimos esa visión: hablemos! "',
     ],
   },
 

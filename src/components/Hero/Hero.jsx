@@ -9,15 +9,6 @@ import '../../styles/globals.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// ─────────────────────────────────────────────────────────────
-// HERO · Opción D "Coach Panel" (línea Rondelli)
-//  · Nombre gigante en 3 líneas detrás de la foto (outline / sólido / outline)
-//  · Foto principal revelada desde abajo (clip-path)
-//  · Foto secundaria en grises con máscara radial de fondo
-//  · Panel RG + datos exactos de la placa
-//  · Pestaña lateral de Partidos: último resultado + próximo (MatchBox)
-//  · Sticky 200vh + viñeta que se cierra con el scroll
-// ─────────────────────────────────────────────────────────────
 
 /* Número destacado dentro de "+160 partidos y 13 titulos" */
 function Num({ children }) {
@@ -26,7 +17,7 @@ function Num({ children }) {
       as="span"
       fontFamily="heading"
       color="brand.celeste"
-      fontSize="1.9em"
+      fontSize="1.5em"
       lineHeight={0.8}
       verticalAlign="-0.12em"
       letterSpacing="0.02em"
@@ -53,7 +44,7 @@ function CoachPanel() {
           sx={{ WebkitTextStroke: `2px ${celeste}` }}
           aria-hidden="true"
         >
-          {initials}
+          DT
         </Text>
         <Box className="hero-panel-item" w="1px" alignSelf="stretch" bg="brand.celeste" opacity={0.8} />
         <Flex
@@ -64,13 +55,13 @@ function CoachPanel() {
           letterSpacing="0.14em"
           textTransform="uppercase"
         >
-          <Text color="brand.celeste" fontWeight="700" fontSize="clamp(13px, 1.35vw, 24px)">
+          <Text color="brand.celeste" fontWeight="700" fontSize="clamp(13px, 1.35vw, 18px)">
             {hero.role}
           </Text>
-          <Text color="brand.bone" fontWeight="500" fontSize="clamp(12px, 1.25vw, 22px)">
+          <Text color="brand.bone" fontWeight="500" fontSize="clamp(12px, 1.25vw, 16px)">
             {hero.license}
           </Text>
-          <Text color="brand.bone" fontWeight="500" fontSize="clamp(12px, 1.25vw, 22px)">
+          <Text color="brand.bone" fontWeight="500" fontSize="clamp(12px, 1.25vw, 16px)">
             {hero.exPlayer}
           </Text>
         </Flex>
@@ -180,8 +171,8 @@ export default function Hero() {
           display="flex"
           justifyContent="center"
           alignItems="flex-start"
-          pt={{ base: '8vh', lg: '4vh' }}
-          pl={{ base: 0, lg: '6vw' }}
+          pt={{ base: '2vh', lg: '4vh' }}
+          pl={{ base: '50vw', lg: '56vw' }}
           sx={{
             maskImage: 'radial-gradient(120% 90% at 50% 30%, black 35%, transparent 78%)',
             WebkitMaskImage: 'radial-gradient(120% 90% at 50% 30%, black 35%, transparent 78%)',
@@ -214,25 +205,25 @@ export default function Hero() {
           justify="center"
           pl={{ base: 4, lg: '16vw' }}
           pr={{ base: 4, lg: 0 }}
-          pt={{ base: '14vh', lg: 0 }}
+          pt={{ base: '20vh', lg: 0 }}
           mt={{ base: 0, lg: '-12vh' }}
         >
           <Flex as="h1" direction="column" fontFamily="heading" lineHeight={0.9} letterSpacing="0.01em" m={0}>
             <Box as="span" display="block" overflow="hidden">
               <Box as="span" className="hero-name-line" display="block"
-                fontSize={{ base: '15vw', md: '11vw', lg: '9vw' }} sx={outline}>
+                fontSize={{ base: '22vw', md: '11vw', lg: '9vw' }} sx={outline}>
                 {l1}
               </Box>
             </Box>
             <Box as="span" display="block" overflow="hidden" mt={{ base: '-1vw', lg: '-1.2vw' }}>
               <Box as="span" className="hero-name-line" display="block"
-                fontSize={{ base: '22vw', md: '16vw', lg: '13vw' }} color="brand.bone">
+                fontSize={{ base: '29vw', md: '16vw', lg: '13vw' }} color="brand.bone">
                 {l2}
               </Box>
             </Box>
             <Box as="span" display="block" overflow="hidden" alignSelf="flex-end" mt={{ base: '-1vw', lg: '-1vw' }}>
               <Box as="span" className="hero-name-line" display="block"
-                fontSize={{ base: '15vw', md: '11vw', lg: '9vw' }} sx={outline}>
+                fontSize={{ base: '22vw', md: '11vw', lg: '9vw' }} sx={outline}>
                 {l3}
               </Box>
             </Box>
@@ -242,10 +233,10 @@ export default function Hero() {
         {/* Foto principal */}
         <Box
           position="absolute"
-          left={{ base: '50%', lg: '9vw' }}
+          left={{ base: '30%', lg: '15vw' }}
           transform={{ base: 'translateX(-35%)', lg: 'none' }}
           bottom={0}
-          h={{ base: '62vh', md: '68vh', lg: '93vh' }}
+          h={{ base: '64vh', md: '68vh', lg: '90vh' }}
           zIndex={9}
           pointerEvents="none"
         >
@@ -258,7 +249,7 @@ export default function Hero() {
               w="auto"
               maxW="none"
               draggable={false}
-              filter="drop-shadow(0 20px 40px rgba(0,0,0,0.55))"
+              
             />
           </Box>
         </Box>
@@ -291,19 +282,7 @@ export default function Hero() {
           <MatchBox last={matches.last} next={matches.next} />
         </Box>
 
-        {/* Indicador de scroll */}
-        <Box
-          className="hero-scroll-cue"
-          position="absolute"
-          left="50%"
-          bottom="2vh"
-          zIndex={18}
-          w="1px"
-          h="36px"
-          bgGradient={`linear(to-b, ${celeste}, transparent)`}
-          display={{ base: 'none', lg: 'block' }}
-          aria-hidden="true"
-        />
+       
 
         {/* Viñeta */}
         <Box
