@@ -1,15 +1,3 @@
-// ─────────────────────────────────────────────────────────────
-// MEDIA · las 9 notas del portfolio original.
-// ⚠️ Títulos y textos de botón EXACTOS (incluido "Quiém").
-//
-// kind:   'video' | 'article' | 'post'  → define la "pantalla" del destacado
-// cta:    texto del botón tal como figura en el sitio original
-// youtube: id del video → la miniatura en alta se carga desde YouTube y el
-//          destacado se reproduce en el mismo lugar.
-// thumb:  imagen local (respaldo / fondo). Se puede reemplazar por una en
-//         alta sin tocar el componente.
-// ─────────────────────────────────────────────────────────────
-
 import n1 from '@assets/media/nota_1.webp'
 import n2 from '@assets/media/nota_2.webp'
 import n3 from '@assets/media/nota_3.webp'
@@ -34,11 +22,6 @@ export const media = {
       kind: 'article', cta: 'VER ARTICULO', thumb: n2, source: 'makanbola.com',
       title: 'Ramiro Gonzalez announces departure from JDT',
       href: 'https://makanbola.com/ramiro-gonzalez-umum-tinggalkan-jdt/',
-    },
-    {
-      kind: 'video', cta: 'VER VIDEO', youtube: 'Y_be7-K08lk', thumb: n3, source: 'YouTube',
-      title: 'JDT loses the services of Real Madrid graduate, Assistant Coach Ramiro Gonzalez',
-      href: 'https://www.youtube.com/watch?v=Y_be7-K08lk',
     },
     {
       kind: 'video', cta: 'VER VIDEO', youtube: 'Oknnb4LZ5iw', thumb: n4, source: 'YouTube',

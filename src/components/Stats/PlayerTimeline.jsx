@@ -75,7 +75,7 @@ export default function PlayerTimeline({ clubs }) {
       <Box display={{ base: 'none', lg: 'block' }} position="relative" maxW="1200px" mx="auto" h={`${TOTAL}px`}>
         <Box as="svg" className="pt-path-svg" position="absolute" inset={0} w="100%" h="100%"
           viewBox={`0 0 100 ${TOTAL}`} preserveAspectRatio="none" aria-hidden="true" overflow="visible">
-          <path className="pt-path" d={`M0 ${MID1} H99.6 V${RET} H0.4 V${MID2} H100`} pathLength="1"
+          <path d={`M0 ${MID1} H99.6 V${RET} H0.4 V${MID2} H100`}
             fill="none" stroke="#4CB8F2" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
         </Box>
         <Grid as="ol" m={0} p={0} templateColumns="repeat(6, 1fr)" h={`${ROW_H}px`} position="relative">

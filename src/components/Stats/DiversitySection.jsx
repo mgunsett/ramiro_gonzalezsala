@@ -45,14 +45,6 @@ export default function DiversitySection() {
         })
       })
 
-      // Línea en "S" de la trayectoria: se dibuja con el scroll
-      if (q('.pt-path').length) {
-        gsap.fromTo(q('.pt-path'), { strokeDasharray: 1, strokeDashoffset: 1 }, {
-          strokeDashoffset: 0, ease: 'none',
-          scrollTrigger: { trigger: q('.pt-path-svg')[0], start: 'top 75%', end: 'bottom 60%', scrub: 0.6 },
-        })
-      }
-
       if (reduce) return
 
       const map = q('.wm-svg')[0]
