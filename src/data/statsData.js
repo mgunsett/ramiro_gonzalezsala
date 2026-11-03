@@ -18,14 +18,14 @@ import pdha from '@assets/clubes/pdha.webp'
 import matino from '@assets/clubes/matino.webp'
 
 export const diversity = {
-  title: 'DIVERSIDAD DE JUGADORES DIRIGIDOS',
+  title: { es: 'DIVERSIDAD DE JUGADORES DIRIGIDOS', en: 'DIVERSITY OF PLAYERS COACHED', it: 'DIVERSITÀ DEI GIOCATORI ALLENATI' },
   // "18 Nacionalidades | +30 ligas del mundo | 57 Jugadores de selección
   //  nacional de 14 países | 17 Jugadores jóvenes promovidos al 1er equipo"
   stats: [
-    { value: 18, prefix: '', label: 'Nacionalidades' },
-    { value: 30, prefix: '+', label: 'ligas del mundo' },
-    { value: 57, prefix: '', label: 'Jugadores de selección nacional de 14 países' },
-    { value: 17, prefix: '', label: 'Jugadores jóvenes promovidos al 1er equipo' },
+    { value: 18, prefix: '', label: { es: 'Nacionalidades', en: 'Nationalities', it: 'Nazionalità' } },
+    { value: 30, prefix: '+', label: { es: 'ligas del mundo', en: 'leagues worldwide', it: 'campionati nel mondo' } },
+    { value: 57, prefix: '', label: { es: 'Jugadores de selección nacional de 14 países', en: 'National team players from 14 countries', it: 'Nazionali di 14 paesi' } },
+    { value: 17, prefix: '', label: { es: 'Jugadores jóvenes promovidos al 1er equipo', en: 'Young players promoted to the first team', it: 'Giovani promossi in prima squadra' } },
   ],
   // Ligas del mapa (código del país en worldMap.json). Nombres deducidos de los logos de la placa.
   // side/slot: ubicación de la insignia alrededor del mapa (como en la placa).
@@ -49,11 +49,17 @@ export const diversity = {
   ],
 }
 
-const AR = 'Argentina'
-const IT = 'Italia'
+// Código de país (bandera); el nombre visible sale de COUNTRY_NAME
+const AR = 'AR'
+const IT = 'IT'
+
+export const COUNTRY_NAME = {
+  AR: 'Argentina',
+  IT: { es: 'Italia', en: 'Italy', it: 'Italia' },
+}
 
 export const playerCareer = {
-  title: 'TRAYECTORIA COMO JUGADOR',
+  title: { es: 'TRAYECTORIA COMO JUGADOR', en: 'PLAYING CAREER', it: 'CARRIERA DA CALCIATORE' },
   clubs: [
     { year: 2007, club: 'TIRO FEDERAL',       country: AR, crest: tiroFederal },
     { year: 2010, club: 'CASTELLANA CALCIO',  country: IT, crest: castellana },

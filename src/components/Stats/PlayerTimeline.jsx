@@ -1,4 +1,6 @@
 import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react'
+import { COUNTRY_NAME } from '../../data/statsData'
+import { useT } from '../../i18n/LanguageContext'
 
 // ─────────────────────────────────────────────────────────────
 // Trayectoria como jugador
@@ -14,21 +16,26 @@ const RET = ROW_H + GAP / 2
 const MID2 = ROW_H + GAP + ROW_H / 2
 const TOTAL = ROW_H * 2 + GAP
 
+const CREST = { es: 'Escudo de', en: 'Crest of', it: 'Stemma del' }
+
+/* country: código 'AR' | 'IT' (ver statsData) */
 export function Flag({ country, size = 'md' }) {
-  const bg = country === 'Italia'
+  const t = useT()
+  const bg = country === 'IT'
     ? 'linear-gradient(90deg,#009246 33.3%,#fff 33.3% 66.6%,#CE2B37 66.6%)'
     : 'linear-gradient(#74ACDF 33.3%,#fff 33.3% 66.6%,#74ACDF 66.6%)'
   return (
-    <Box as="span" role="img" aria-label={country} display="inline-block" flex="0 0 auto"
+    <Box as="span" role="img" aria-label={t(COUNTRY_NAME[country])} display="inline-block" flex="0 0 auto"
       w={size === 'sm' ? '18px' : '22px'} h={size === 'sm' ? '12px' : '14px'} borderRadius="2px"
       bg={bg} boxShadow="0 0 0 1px rgba(255,255,255,0.15)" />
   )
 }
 
 function ClubBlock({ c }) {
+  const t = useT()
   return (
     <Flex direction="column" align="center" gap={2}>
-      <Image src={c.crest} alt={`Escudo de ${c.club}`} h="44px" w="auto" maxW="56px" objectFit="contain"
+      <Image src={c.crest} alt={`${t(CREST)} ${c.club}`} h="44px" w="auto" maxW="56px" objectFit="contain"
         filter="drop-shadow(0 4px 10px rgba(0,0,0,0.5))" />
       <Text fontFamily="heading" fontSize="clamp(16px, 1.35vw, 22px)" letterSpacing="0.03em" lineHeight={0.95} textAlign="center">
         {c.club}
@@ -66,6 +73,7 @@ function Stop({ c, i }) {
 }
 
 export default function PlayerTimeline({ clubs }) {
+  const t = useT()
   const row1 = clubs.slice(0, 6)
   const row2 = clubs.slice(6)
 
@@ -94,7 +102,7 @@ export default function PlayerTimeline({ clubs }) {
               content: '""', position: 'absolute', left: '-35px', top: '50%', mt: '-6.5px', boxSize: '13px', borderRadius: 'full',
               bg: 'brand.celeste', boxShadow: '0 0 0 4px rgba(76,184,242,0.18)',
             }}>
-            <Image src={c.crest} alt={`Escudo de ${c.club}`} h="40px" w="44px" objectFit="contain" flex="0 0 auto" />
+            <Image src={c.crest} alt={`${t(CREST)} ${c.club}`} h="40px" w="44px" objectFit="contain" flex="0 0 auto" />
             <Box>
               <Flex align="center" gap={2}>
                 <Text fontFamily="heading" fontSize="24px" color="brand.celeste" lineHeight={1}>{c.year}</Text>

@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Box, Flex, Text, Image } from '@chakra-ui/react'
 import { KIND_LABEL } from '../../data/mediaData'
+import { useT } from '../../i18n/LanguageContext'
+
+const PLAY = { es: 'REPRODUCIR', en: 'PLAY', it: 'RIPRODUCI' }
+const PLAY_LABEL = { es: 'Reproducir', en: 'Play', it: 'Riproduci' }
 
 // ─────────────────────────────────────────────────────────────
 // "Pantalla" del destacado, según el tipo de nota:
@@ -50,7 +54,9 @@ function YtThumb({ id, fallback, alt }) {
 
 function VideoScreen({ item }) {
   const [playing, setPlaying] = useState(false)
-  useEffect(() => setPlaying(false), [item])
+  const t = useT()
+  // por id: cambiar de idioma no corta el video
+  useEffect(() => setPlaying(false), [item.id])
 
   return (
     <Box position="relative" sx={RATIO} bg="black" overflow="hidden" border="1px solid" borderColor="brand.linea">
@@ -63,7 +69,7 @@ function VideoScreen({ item }) {
           position="absolute" inset={0} w="100%" h="100%" border={0}
         />
       ) : (
-        <Box as="button" type="button" onClick={() => setPlaying(true)} aria-label={`Reproducir: ${item.title}`}
+        <Box as="button" type="button" onClick={() => setPlaying(true)} aria-label={`${t(PLAY_LABEL)}: ${item.title}`}
           position="absolute" inset={0} w="100%" cursor="pointer" role="group">
           <YtThumb id={item.youtube} fallback={item.thumb} alt="" />
           <Box position="absolute" inset={0} bgGradient="linear(to-t, rgba(5,8,12,0.85) 0%, transparent 22%)" />
@@ -81,7 +87,7 @@ function VideoScreen({ item }) {
               <Box position="absolute" left={0} top={0} bottom={0} w="18%" bg="brand.celeste" />
             </Box>
             <Flex mt={2} justify="space-between" fontFamily="mono" fontSize="12px" letterSpacing="0.1em" color="brand.gray">
-              <span>{item.source.toUpperCase()}</span><span>▶ REPRODUCIR</span>
+              <span>{item.source.toUpperCase()}</span><span>▶ {t(PLAY)}</span>
             </Flex>
           </Box>
         </Box>
@@ -132,11 +138,9 @@ function PostScreen({ item }) {
       bg="radial-gradient(120% 120% at 0% 100%, rgba(221,42,123,0.28), transparent 50%), radial-gradient(120% 120% at 100% 0%, rgba(81,91,212,0.3), transparent 55%), #0B1118">
       <Flex position="absolute" inset={0} align="center" gap={{ base: 4, lg: '3vw' }} px={{ base: 4, lg: '3vw' }}>
         {/* celular */}
-        <Box flex="0 0 auto" h="88%" sx={{ aspectRatio: '9 / 17.5' }} bg="#0A0A0A" border="2px solid #555" borderRadius="22px"
-          p="5px" boxShadow="0 24px 50px rgba(0,0,0,0.55)" transform="rotate(-3deg)"
-          transition="transform 400ms cubic-bezier(0.23,1,0.32,1)"
+        <Box flex="0 0 auto" h="86%" transform="rotate(-3deg)" transition="transform 400ms cubic-bezier(0.23,1,0.32,1)"
           sx={{ '@media (hover:hover) and (pointer:fine)': { '[role=group]:hover &': { transform: 'rotate(0deg) translateY(-6px)' } } }}>
-          <Image src={item.screen || item.thumb} alt="" w="100%" h="100%" objectFit="cover" objectPosition="50% 0" borderRadius="16px" />
+          <Image src={item.screen || item.thumb} alt="" w="100%" h="100%" objectFit="cover" objectPosition="50% 0"  />
         </Box>
         <Flex direction="column" gap={3} minW={0}>
           <Flex align="center" gap={2} fontFamily="mono" fontWeight="700" fontSize="12px" letterSpacing="0.16em" color="brand.celeste">
@@ -160,6 +164,7 @@ export default function MediaScreen({ item }) {
 }
 
 export function KindTag({ kind }) {
+  const t = useT()
   const icon = {
     video: <path d="M7 5l12 7-12 7z" fill="currentColor" />,
     article: <path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5" fill="none" stroke="currentColor" strokeWidth="2" />,
@@ -168,7 +173,7 @@ export function KindTag({ kind }) {
   return (
     <Flex as="span" align="center" gap={1.5} fontFamily="mono" fontWeight="700" fontSize="12px" letterSpacing="0.14em" color="brand.celeste">
       <Box as="svg" viewBox="0 0 24 24" boxSize="14px" aria-hidden="true">{icon}</Box>
-      {KIND_LABEL[kind]}
+      {t(KIND_LABEL[kind])}
     </Flex>
   )
 }

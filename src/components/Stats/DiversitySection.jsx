@@ -4,7 +4,10 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import WorldLeaguesMap from './WorldLeaguesMap'
 import PlayerTimeline from './PlayerTimeline'
-import { diversity, playerCareer } from '../../data/statsData'
+import { diversity as diversityData, playerCareer as playerCareerData } from '../../data/statsData'
+import { useT, useLocalized } from '../../i18n/LanguageContext'
+
+const LABEL = { es: 'Datos', en: 'Stats', it: 'Dati' }
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -26,6 +29,9 @@ function Title({ children }) {
 
 export default function DiversitySection() {
   const ref = useRef(null)
+  const t = useT()
+  const diversity = useLocalized(diversityData)
+  const playerCareer = useLocalized(playerCareerData)
 
   useLayoutEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -67,7 +73,7 @@ export default function DiversitySection() {
   }, [])
 
   return (
-    <Box as="section" id="datos" ref={ref} aria-label="Datos" bg="brand.ink" borderTop="1px solid" borderColor="brand.linea">
+    <Box as="section" id="datos" ref={ref} aria-label={t(LABEL)} bg="brand.ink" borderTop="1px solid" borderColor="brand.linea">
       {/* ── Diversidad de jugadores dirigidos ── */}
       <Box px={{ base: 5, md: 10, lg: '3vw' }} py={{ base: 20, lg: '12vh' }}>
         <Title>{diversity.title}</Title>
@@ -83,7 +89,7 @@ export default function DiversitySection() {
         >
           {diversity.stats.map((s, i) => (
             <Box
-              key={s.label}
+              key={s.value}
               px={{ base: 4, lg: 6 }}
               py={{ base: 5, lg: '3vh' }}
               borderRight={{ base: i % 2 === 0 ? '1px solid' : 0, lg: i < 3 ? '1px solid' : 0 }}

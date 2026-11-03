@@ -3,8 +3,17 @@ import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import TacticsBoards from './TacticsBoards'
+import { useT } from '../../i18n/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
+
+const TXT = {
+  matches: { es: 'PARTIDOS', en: 'MATCHES', it: 'PARTITE' },
+  titles: { es: 'TITULOS', en: 'TITLES', it: 'TITOLI' },
+  functions: { es: 'FUNCIONES', en: 'ROLE', it: 'FUNZIONI' },
+  trophies: { es: 'LOGROS', en: 'HONOURS', it: 'TROFEI' },
+  trophy: { es: 'Trofeo', en: 'Trophy', it: 'Trofeo' },
+}
 
 /* Texto por segmentos (resaltado / negrita / cifra / chico) */
 function Segs({ segs, accent }) {
@@ -52,8 +61,9 @@ function Star({ color }) {
 
 export default function CareerChapter({ club }) {
   const ref = useRef(null)
+  const t = useT()
   const {
-    accent, titleOutline, titleSolid, role, from, to, between = 'hasta', crest, crestAlt, totals, tagline,
+    accent, titleOutline, titleSolid, role, from, to, between, crest, crestAlt, totals, tagline,
     functions, trophies, achievements, performance, streaks,
     paragraphs, paragraphsPhoto, responsibilities, tactics,
   } = club
@@ -216,9 +226,9 @@ export default function CareerChapter({ club }) {
           {totals && (
             <Text fontFamily="heading" fontSize={{ base: '32px', md: '44px', lg: 'clamp(36px, 3.6vw, 60px)' }}
               lineHeight={0.95} color="brand.bone" sx={{ fontVariantNumeric: 'tabular-nums' }}>
-              <Box as="span" color={accent} data-to={totals.matches}>{totals.matches}</Box> PARTIDOS{' '}
+              <Box as="span" color={accent} data-to={totals.matches}>{totals.matches}</Box> {t(TXT.matches)}{' '}
               <Box as="span" color="brand.gray">|</Box>{' '}
-              <Box as="span" color={accent} data-to={totals.titles}>{totals.titles}</Box> TITULOS
+              <Box as="span" color={accent} data-to={totals.titles}>{totals.titles}</Box> {t(TXT.titles)}
             </Text>
           )}
           {tagline && (
@@ -243,7 +253,7 @@ export default function CareerChapter({ club }) {
         {functions && (
         <Grid templateColumns={{ base: '1fr', xl: 'minmax(0, 7fr) minmax(0, 5fr)' }} gap={{ base: 14, xl: '5vw' }}>
           <Box>
-            <SubTitle>FUNCIONES</SubTitle>
+            <SubTitle>{t(TXT.functions)}</SubTitle>
             <Box as="ul" className="cc-fn-list" listStyleType="none" m={0} p={0}>
               {functions.map((segs, i) => (
                 <Grid
@@ -266,17 +276,17 @@ export default function CareerChapter({ club }) {
           </Box>
 
           <Box>
-            <SubTitle>LOGROS</SubTitle>
+            <SubTitle>{t(TXT.trophies)}</SubTitle>
             <Grid className="cc-trophies" templateColumns="repeat(2, minmax(0,1fr))" gap={{ base: 6, lg: '3vh 1vw' }}>
-              {trophies.map((t) => (
-                <Flex key={t.name} className="cc-trophy" direction="column" align="center" gap={1.5}>
-                  <Image src={t.img} alt={`Trofeo ${t.name}`} h={{ base: '110px', lg: 'clamp(90px, 13vh, 130px)' }} w="auto"
+              {trophies.map((tr) => (
+                <Flex key={tr.name} className="cc-trophy" direction="column" align="center" gap={1.5}>
+                  <Image src={tr.img} alt={`${t(TXT.trophy)} ${tr.name}`} h={{ base: '110px', lg: 'clamp(90px, 13vh, 130px)' }} w="auto"
                     filter="drop-shadow(0 12px 18px rgba(0,0,0,0.5))" />
                   <Text fontFamily="heading" fontSize="38px" lineHeight={0.85} color={accent}>
-                    <Box as="span" fontFamily="mono" fontWeight="700" fontSize="0.72em">x</Box>{t.count}
+                    <Box as="span" fontFamily="mono" fontWeight="700" fontSize="0.72em">x</Box>{tr.count}
                   </Text>
                   <Text fontFamily="mono" fontWeight="600" fontSize="13px" letterSpacing="0.04em" color="brand.gray" textAlign="center">
-                    {t.name}
+                    {tr.name}
                   </Text>
                 </Flex>
               ))}

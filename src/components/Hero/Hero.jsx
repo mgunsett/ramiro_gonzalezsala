@@ -3,12 +3,19 @@ import { Box, Text, Flex, Image, useToken } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { coachData } from '../../data/coachData'
+import { useT, useLocalized } from '../../i18n/LanguageContext'
 import MatchBox from './MatchBox'
 import useMatches from '../../hooks/useMatches'
 import '../../styles/globals.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const TXT = {
+  // "+160 partidos y 13 titulos"
+  matches: { es: 'partidos y', en: 'matches and', it: 'partite e' },
+  titles: { es: 'titulos', en: 'titles', it: 'titoli' },
+  photoAlt: { es: 'entrenador de fútbol', en: 'football coach', it: 'allenatore di calcio' },
+}
 
 /* Número destacado dentro de "+160 partidos y 13 titulos" */
 function Num({ children }) {
@@ -29,7 +36,8 @@ function Num({ children }) {
 
 function CoachPanel() {
   const [celeste] = useToken('colors', ['brand.celeste'])
-  const { hero, initials } = coachData
+  const t = useT()
+  const hero = useLocalized(coachData.hero)
 
   return (
     <Flex direction="column" gap={{ base: 3, lg: '1.6vh' }}>
@@ -78,7 +86,7 @@ function CoachPanel() {
         borderTop="1px solid"
         borderColor="brand.linea"
       >
-        <Num>{hero.impact.matches}</Num> partidos y <Num>{hero.impact.titles}</Num> titulos
+        <Num>{hero.impact.matches}</Num> {t(TXT.matches)} <Num>{hero.impact.titles}</Num> {t(TXT.titles)}
       </Text>
     </Flex>
   )
@@ -90,6 +98,7 @@ export default function Hero() {
   const [celeste] = useToken('colors', ['brand.celeste'])
   const [l1, l2, l3] = coachData.nameLines
   const { matches } = useMatches()
+  const t = useT()
 
   const outline = { color: 'transparent', WebkitTextStroke: `2px ${celeste}` }
 
@@ -244,7 +253,7 @@ export default function Hero() {
             <Image
               className="coach-photo"
               src={coachData.image}
-              alt={`${coachData.displayName}, entrenador de fútbol`}
+              alt={`${coachData.displayName}, ${t(TXT.photoAlt)}`}
               h="100%"
               w="auto"
               maxW="none"

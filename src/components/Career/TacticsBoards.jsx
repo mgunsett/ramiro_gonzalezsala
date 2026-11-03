@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react'
+import { useT } from '../../i18n/LanguageContext'
 
 // ─────────────────────────────────────────────────────────────
 // Sistemas tácticos: pizarras dibujadas en código (nítidas y animables).
@@ -9,6 +10,12 @@ import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react'
 // ─────────────────────────────────────────────────────────────
 
 const PITCH_BG = 'repeating-linear-gradient(180deg, #0A1A16 0 10%, #0C1F1A 10% 20%)'
+
+const TXT = {
+  carousel: { es: 'carrusel', en: 'carousel', it: 'carosello' },
+  systems: { es: 'Sistemas tácticos', en: 'Tactical systems', it: 'Sistemi tattici' },
+  see: { es: 'Ver', en: 'View', it: 'Vedi' },
+}
 
 export function Pitch({ positions, label, accent = 'var(--chakra-colors-brand-celeste)' }) {
   return (
@@ -75,6 +82,7 @@ function Board({ system }) {
 export default function TacticsBoards({ tactics }) {
   const trackRef = useRef(null)
   const [active, setActive] = useState(0)
+  const t = useT()
   const { photo, photoAlt, systems } = tactics
 
   // Slider móvil: punto activo según la tarjeta centrada
@@ -115,8 +123,8 @@ export default function TacticsBoards({ tactics }) {
           ref={trackRef}
           className="tb-track"
           role="group"
-          aria-roledescription="carrusel"
-          aria-label="Sistemas tácticos"
+          aria-roledescription={t(TXT.carousel)}
+          aria-label={t(TXT.systems)}
           // móvil: slider · escritorio: grilla 2×2
           display={{ base: 'flex', lg: 'grid' }}
           gridTemplateColumns={{ lg: 'repeat(2, minmax(0,1fr))' }}
@@ -147,7 +155,7 @@ export default function TacticsBoards({ tactics }) {
               type="button"
               key={s.name}
               onClick={() => goTo(i)}
-              aria-label={`Ver ${s.label} ${s.name}`}
+              aria-label={`${t(TXT.see)} ${s.label} ${s.name}`}
               aria-current={active === i ? 'true' : undefined}
               h="8px"
               w={active === i ? '26px' : '8px'}

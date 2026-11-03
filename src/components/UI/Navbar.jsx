@@ -2,23 +2,24 @@ import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { coachData } from '../../data/coachData'
-
-// ─────────────────────────────────────────────────────────────
-// NAVBAR · Opción A "Pizarra"
-//  · La barra es una línea táctica: cada sección es un nodo y un
-//    punto celeste ("puck") se desliza al nodo de la sección activa.
-//  · Fondo transparente sobre el Hero; tinta + blur al scrollear.
-//  · Móvil: pantalla completa que se despliega desde arriba, con las
-//    secciones unidas por la misma línea.
-// ─────────────────────────────────────────────────────────────
+import { useLang, useT, useLocalized } from '../../i18n/LanguageContext'
+import LangSwitch from './LangSwitch'
 
 const EASE_OUT = 'cubic-bezier(0.23, 1, 0.32, 1)'
 const EASE_IO = 'cubic-bezier(0.77, 0, 0.175, 1)'
 const EASE_DRAWER = 'cubic-bezier(0.32, 0.72, 0, 1)'
 const HOVER = '@media (hover: hover) and (pointer: fine)'
 
-const { nav: NAV, contactId: CONTACT_ID, displayName, initials } = coachData
+const { contactId: CONTACT_ID, displayName, initials } = coachData
 const [firstName, ...rest] = displayName.split(' ')
+
+const TXT = {
+  contact: { es: 'Contactar', en: 'Contact', it: 'Contattami' },
+  menu: { es: 'Menú', en: 'Menu', it: 'Menu' },
+  close: { es: 'Cerrar', en: 'Close', it: 'Chiudi' },
+  home: { es: 'ir al inicio', en: 'back to top', it: 'torna all’inizio' },
+  main: { es: 'Principal', en: 'Main', it: 'Principale' },
+}
 
 function scrollToId(id) {
   const target = document.getElementById(id)
@@ -57,10 +58,11 @@ function useActiveSection(ids) {
   return active
 }
 
-const SECTION_IDS = [...NAV.map((l) => l.id), CONTACT_ID]
+const SECTION_IDS = [...coachData.nav.map((l) => l.id), CONTACT_ID]
 
 /* Botón "Contactar": relleno que barre de izquierda a derecha */
 function CtaContact({ onClick, full = false }) {
+  const t = useT()
   return (
     <Box
       as="a"
@@ -88,7 +90,7 @@ function CtaContact({ onClick, full = false }) {
       }}
       sx={{ [HOVER]: { '&:hover': { color: 'brand.ink' }, '&:hover::before': { clipPath: 'inset(0 0 0 0)' } } }}
     >
-      <Box as="span" position="relative">Contactar</Box>
+      <Box as="span" position="relative">{t(TXT.contact)}</Box>
     </Box>
   )
 }
@@ -103,6 +105,9 @@ export default function Navbar() {
   const menuBtnRef = useRef(null)
   const firstOverlayLink = useRef(null)
   const active = useActiveSection(SECTION_IDS)
+  const { lang } = useLang()
+  const t = useT()
+  const NAV = useLocalized(coachData.nav)
 
   // Entrada
   useEffect(() => {
@@ -132,7 +137,7 @@ export default function Navbar() {
     const b = bar.getBoundingClientRect()
     const r = link.getBoundingClientRect()
     setPuck({ x: r.left - b.left + r.width / 2 - 4.5, visible: true })
-  }, [active])
+  }, [active, lang]) // el ancho de los links cambia con el idioma
 
   useLayoutEffect(() => { placePuck() }, [placePuck])
   useEffect(() => {
@@ -170,7 +175,7 @@ export default function Navbar() {
   }
 
   return (
-    <Box ref={navRef} as="nav" aria-label="Principal" position="fixed" top={0} left={0} right={0} zIndex={1000}>
+    <Box ref={navRef} as="nav" aria-label={t(TXT.main)} position="fixed" top={0} left={0} right={0} zIndex={1000}>
       {/* ── Barra ── */}
       <Flex
         ref={barRef}
@@ -195,7 +200,7 @@ export default function Navbar() {
           as="a"
           href="#hero"
           onClick={(e) => go(e, 'hero')}
-          aria-label={`${displayName}, ir al inicio`}
+          aria-label={`${displayName}, ${t(TXT.home)}`}
           align="center"
           gap={3}
           _focusVisible={{ outline: '2px solid', outlineColor: 'brand.celesteLight', outlineOffset: '4px' }}
@@ -265,36 +270,39 @@ export default function Navbar() {
           })}
         </Flex>
 
-        {/* CTA desktop */}
-        <Box display={{ base: 'none', lg: 'block' }}>
+        {/* CTA + idioma (desktop) */}
+        <Flex display={{ base: 'none', lg: 'flex' }} align="center" gap={3}>
           <CtaContact onClick={(e) => go(e, CONTACT_ID)} />
-        </Box>
+          <LangSwitch />
+        </Flex>
 
-        {/* Botón menú móvil */}
-        <Flex
-          as="button"
-          type="button"
-          ref={menuBtnRef}
-          onClick={() => (open ? closeMenu() : setOpen(true))}
-          aria-expanded={open}
-          aria-controls="nav-overlay"
-          display={{ base: 'flex', lg: 'none' }}
-          align="center"
-          gap="10px"
-          py={2}
-          fontFamily="mono"
-          fontWeight="600"
-          fontSize="16px"
-          letterSpacing="0.06em"
-          color="brand.bone"
-          _focusVisible={{ outline: '2px solid', outlineColor: 'brand.celesteLight', outlineOffset: '4px' }}
-        >
-          <span>{open ? 'Cerrar' : 'Menú'}</span>
-          <Flex direction="column" gap="5px" w="22px" aria-hidden="true">
-            <Box h="1.5px" bg="brand.bone" transition={`transform 220ms ${EASE_OUT}`}
-              transform={open ? 'translateY(3.25px) rotate(45deg)' : 'none'} />
-            <Box h="1.5px" bg="brand.bone" transition={`transform 220ms ${EASE_OUT}`}
-              transform={open ? 'translateY(-3.25px) rotate(-45deg)' : 'none'} />
+        {/* Idioma + botón menú (móvil) */}
+        <Flex display={{ base: 'flex', lg: 'none' }} align="center" gap={4}>
+          <LangSwitch />
+          <Flex
+            as="button"
+            type="button"
+            ref={menuBtnRef}
+            onClick={() => (open ? closeMenu() : setOpen(true))}
+            aria-expanded={open}
+            aria-controls="nav-overlay"
+            align="center"
+            gap="10px"
+            py={2}
+            fontFamily="mono"
+            fontWeight="600"
+            fontSize="16px"
+            letterSpacing="0.06em"
+            color="brand.bone"
+            _focusVisible={{ outline: '2px solid', outlineColor: 'brand.celesteLight', outlineOffset: '4px' }}
+          >
+            <span>{t(open ? TXT.close : TXT.menu)}</span>
+            <Flex direction="column" gap="5px" w="22px" aria-hidden="true">
+              <Box h="1.5px" bg="brand.bone" transition={`transform 220ms ${EASE_OUT}`}
+                transform={open ? 'translateY(3.25px) rotate(45deg)' : 'none'} />
+              <Box h="1.5px" bg="brand.bone" transition={`transform 220ms ${EASE_OUT}`}
+                transform={open ? 'translateY(-3.25px) rotate(-45deg)' : 'none'} />
+            </Flex>
           </Flex>
         </Flex>
 

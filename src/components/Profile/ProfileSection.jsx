@@ -3,8 +3,15 @@ import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { coachData } from '../../data/coachData'
+import { useT, useLocalized } from '../../i18n/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
+
+const PHOTO_ALT = {
+  es: 'Ramiro Gonzalez Sales en un entrenamiento de Atlético Tucumán',
+  en: 'Ramiro Gonzalez Sales at an Atlético Tucumán training session',
+  it: 'Ramiro Gonzalez Sales durante un allenamento dell’Atlético Tucumán',
+}
 
 // ─────────────────────────────────────────────────────────────
 // PERFIL PROFESIONAL · Opción A "Pizarra"
@@ -23,7 +30,8 @@ const NODE_OFF = {
 
 export default function ProfileSection() {
   const sectionRef = useRef(null)
-  const { title, image, items } = coachData.profile
+  const t = useT()
+  const { title, image, items } = useLocalized(coachData.profile)
 
   useLayoutEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -121,7 +129,7 @@ export default function ProfileSection() {
           <Image
             className="pf-photo-img"
             src={image}
-            alt="Ramiro Gonzalez Sales en un entrenamiento de Atlético Tucumán"
+            alt={t(PHOTO_ALT)}
             w="100%"
             h="100%"
             objectFit="cover"

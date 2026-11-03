@@ -1,5 +1,12 @@
 import { Box, Flex, Text, useBreakpointValue } from '@chakra-ui/react'
 import worldMap from '../../data/worldMap.json'
+import { useT } from '../../i18n/LanguageContext'
+
+const MAP_LABEL = {
+  es: 'Mapa con las ligas de los jugadores dirigidos',
+  en: 'Map of the leagues of the players coached',
+  it: 'Mappa dei campionati dei giocatori allenati',
+}
 
 // ─────────────────────────────────────────────────────────────
 // Mapa vectorial (Natural Earth, 1000×500) con los países de las ligas
@@ -20,6 +27,7 @@ function badgeGeom(l) {
 
 export default function WorldLeaguesMap({ leagues }) {
   const desktop = useBreakpointValue({ base: false, lg: true }, { ssr: false })
+  const t = useT()
   // escritorio: viewBox ajustado a las insignias (mapa más grande)
   const viewBox = desktop ? '-182 -4 1364 590' : '0 0 1000 500'
   const { base, hl, pins } = worldMap
@@ -35,7 +43,7 @@ export default function WorldLeaguesMap({ leagues }) {
         display="block"
         overflow="visible"
         role="img"
-        aria-label={`Mapa con las ligas de los jugadores dirigidos: ${leagues.map((l) => l.name).join(', ')}`}
+        aria-label={`${t(MAP_LABEL)}: ${leagues.map((l) => l.name).join(', ')}`}
       >
         <path d={base} fill="#1A2633" stroke="#05080C" strokeWidth="0.5" />
 

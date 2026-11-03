@@ -1,8 +1,17 @@
 import { useState } from 'react'
 import { Box, Flex, Text, Image, HStack, VStack } from '@chakra-ui/react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { useT } from '../../i18n/LanguageContext'
 
 const MotionBox = motion(Box)
+
+const TXT = {
+  tab: { es: 'PARTIDOS', en: 'MATCHES', it: 'PARTITE' },
+  open: { es: 'Ver último y próximo partido', en: 'See last and next match', it: 'Vedi ultima e prossima partita' },
+  close: { es: 'Cerrar partidos', en: 'Close matches', it: 'Chiudi partite' },
+  last: { es: 'Último resultado', en: 'Last result', it: 'Ultimo risultato' },
+  next: { es: 'Próximo partido', en: 'Next match', it: 'Prossima partita' },
+}
 
 // ─────────────────────────────────────────────────────────────
 // MatchBox · último resultado + próximo partido
@@ -94,6 +103,7 @@ function MatchSlot({ data, label, accent }) {
 /* Pestaña cerrada: texto vertical + mini marcador del último partido */
 function Handle({ last, open, onClick }) {
   const reduce = useReducedMotion()
+  const t = useT()
   const played = last && last.homeScore !== null && last.awayScore !== null
 
   return (
@@ -103,7 +113,7 @@ function Handle({ last, open, onClick }) {
       onClick={onClick}
       aria-expanded={open}
       aria-controls="hero-matches-card"
-      aria-label={open ? 'Cerrar partidos' : 'Ver último y próximo partido'}
+      aria-label={t(open ? TXT.close : TXT.open)}
       position="relative"
       minH={{ base: '170px', lg: '34vh' }}
       py={{ base: 4, lg: '2vh' }}
@@ -137,7 +147,7 @@ function Handle({ last, open, onClick }) {
         lineHeight={1}
         sx={{ writingMode: 'vertical-rl' }}
       >
-        PARTIDOS
+        {t(TXT.tab)}
       </Text>
 
       {played && !open && (
@@ -165,6 +175,7 @@ function Handle({ last, open, onClick }) {
 
 export function MatchBox({ last, next }) {
   const [open, setOpen] = useState(false)
+  const t = useT()
   if (!last && !next) return null
 
   return (
@@ -187,9 +198,9 @@ export function MatchBox({ last, next }) {
             borderColor="brand.linea"
           >
             <VStack w={{ base: '270px', lg: '300px' }} spacing={5} align="stretch" px={5} py={5}>
-              {last && <MatchSlot data={last} label="Último resultado" accent />}
+              {last && <MatchSlot data={last} label={t(TXT.last)} accent />}
               {last && next && <Box h="1px" bg="brand.linea" />}
-              {next && <MatchSlot data={next} label="Próximo partido" />}
+              {next && <MatchSlot data={next} label={t(TXT.next)} />}
             </VStack>
           </MotionBox>
         )}

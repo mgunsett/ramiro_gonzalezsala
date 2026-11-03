@@ -1,15 +1,29 @@
 import { Box, Flex, Grid, Text, Link, Icon, useToken } from '@chakra-ui/react'
 import { LiaLaptopCodeSolid } from 'react-icons/lia'
 import { coachData } from '../../data/coachData'
+import { useT, useLocalized } from '../../i18n/LanguageContext'
+import LangSwitch from './LangSwitch'
 
 // ─────────────────────────────────────────────────────────────
 // FOOTER
-//  · Marca RG + nombre + rol.
+//  · Marca RG + nombre + rol + selector de idioma.
 //  · Navegación (mismas secciones que el navbar) y redes.
 //  · "Volver arriba", copyright y firma del desarrollador.
 // ─────────────────────────────────────────────────────────────
 
 const HOVER = '@media (hover: hover) and (pointer: fine)'
+
+const TXT = {
+  contact: { es: 'Contacto', en: 'Contact', it: 'Contatti' },
+  home: { es: 'volver al inicio', en: 'back to top', it: 'torna all’inizio' },
+  footerNav: { es: 'Pie de página', en: 'Footer', it: 'Piè di pagina' },
+  sections: { es: 'SECCIONES', en: 'SECTIONS', it: 'SEZIONI' },
+  socials: { es: 'REDES', en: 'SOCIAL', it: 'SOCIAL' },
+  language: { es: 'IDIOMA', en: 'LANGUAGE', it: 'LINGUA' },
+  top: { es: 'VOLVER ARRIBA', en: 'BACK TO TOP', it: 'TORNA SU' },
+  rights: { es: 'Todos los derechos reservados', en: 'All rights reserved', it: 'Tutti i diritti riservati' },
+  dev: { es: 'Desarrollo Web', en: 'Web Development', it: 'Sviluppo Web' },
+}
 
 function scrollToId(id) {
   const el = document.getElementById(id)
@@ -29,8 +43,9 @@ function ColTitle({ children }) {
 
 export default function Footer() {
   const [devCream] = useToken('colors', ['dev.cream'])
-  const { nav, contactId, displayName, initials, hero, contacts, email } = coachData
-  const links = [...nav, { label: 'Contacto', id: contactId }]
+  const t = useT()
+  const { nav, contactId, displayName, initials, hero, contacts, email } = useLocalized(coachData)
+  const links = [...nav, { label: t(TXT.contact), id: contactId }]
   const socials = contacts.filter((c) => c.id !== 'email' || email)
   const go = (e, id) => { e.preventDefault(); scrollToId(id) }
 
@@ -45,7 +60,7 @@ export default function Footer() {
         {/* Marca */}
         <Box>
           <Flex as="a" href="#hero" onClick={(e) => go(e, 'hero')} align="center" gap={4} w="fit-content"
-            aria-label={`${displayName}, volver al inicio`}
+            aria-label={`${displayName}, ${t(TXT.home)}`}
             _focusVisible={{ outline: '2px solid', outlineColor: 'brand.celesteLight', outlineOffset: '4px' }}>
             <Text as="span" fontFamily="heading" fontSize="64px" lineHeight={0.85} pt="4px" color="transparent"
               sx={{ WebkitTextStroke: '1.5px var(--chakra-colors-brand-celeste)' }}>
@@ -59,11 +74,16 @@ export default function Footer() {
               </Text>
             </Box>
           </Flex>
+
+          <Box mt={{ base: 8, md: 10 }}>
+            <ColTitle>{t(TXT.language)}</ColTitle>
+            <LangSwitch placement="top-start" />
+          </Box>
         </Box>
 
         {/* Navegación */}
-        <Box as="nav" aria-label="Pie de página">
-          <ColTitle>SECCIONES</ColTitle>
+        <Box as="nav" aria-label={t(TXT.footerNav)}>
+          <ColTitle>{t(TXT.sections)}</ColTitle>
           <Grid as="ul" listStyleType="none" m={0} p={0} templateColumns="repeat(2, minmax(0, 1fr))" gap="10px 20px">
             {links.map((l) => (
               <Box as="li" key={l.id}>
@@ -80,7 +100,7 @@ export default function Footer() {
 
         {/* Redes */}
         <Box>
-          <ColTitle>REDES</ColTitle>
+          <ColTitle>{t(TXT.socials)}</ColTitle>
           <Flex gap={2.5} wrap="wrap">
             {socials.map((c) => (
               <Flex as="a" key={c.id} href={c.id === 'email' ? `mailto:${email}` : c.href}
@@ -99,7 +119,7 @@ export default function Footer() {
             fontFamily="mono" fontWeight="700" fontSize="14px" letterSpacing="0.1em" color="brand.celeste"
             sx={{ [HOVER]: { '&:hover': { color: 'brand.celesteLight' } } }}
             _focusVisible={{ outline: '2px solid', outlineColor: 'brand.celesteLight', outlineOffset: '3px' }}>
-            <Box as="span" aria-hidden="true">↑</Box> VOLVER ARRIBA
+            <Box as="span" aria-hidden="true">↑</Box> {t(TXT.top)}
           </Box>
         </Box>
       </Grid>
@@ -107,10 +127,10 @@ export default function Footer() {
       <Flex maxW="1300px" mx="auto" mt={{ base: 12, lg: 16 }} pt={6} borderTop="1px solid" borderColor="brand.linea"
         direction={{ base: 'column', md: 'row' }} justify="space-between" align={{ base: 'flex-start', md: 'center' }} gap={3}>
         <Text fontFamily="mono" fontSize="12px" letterSpacing="0.12em" color="brand.gray" textTransform="uppercase">
-          © {new Date().getFullYear()} {displayName} · Todos los derechos reservados
+          © {new Date().getFullYear()} {displayName} · {t(TXT.rights)}
         </Text>
         <Text fontSize="12px" color="brand.gray" letterSpacing="0.05em">
-          Desarrollo Web -{' '}
+          {t(TXT.dev)} -{' '}
           <Link href="https://matiasgunsett.netlify.app/" isExternal color="dev.cream" fontSize="14px"
             transition="color 0.3s" _hover={{ color: 'brand.celeste', textDecoration: 'none' }}>
             Matias Gunsett

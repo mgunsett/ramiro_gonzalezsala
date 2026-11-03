@@ -3,6 +3,7 @@ import { Box, Flex, Grid, Text, Icon } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { coachData } from '../../data/coachData'
+import { useLocalized } from '../../i18n/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -77,7 +78,8 @@ function ContactCell({ c, first }) {
 
 export default function ContactSection() {
   const ref = useRef(null)
-  const { title, paragraphs } = coachData.contact
+  const { title, paragraphs } = useLocalized(coachData.contact)
+  const contacts = useLocalized(coachData.contacts)
 
   useLayoutEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -120,8 +122,8 @@ export default function ContactSection() {
           </Text>
           <Flex direction="column" gap={4} mt={{ base: 6, lg: '4vh' }} pl={{ base: 4, lg: 6 }}
             borderLeft="2px solid" borderColor="brand.celeste" maxW="60ch">
-            {paragraphs.map((p) => (
-              <Text key={p} className="ct-p" fontSize={{ base: '17px', lg: 'clamp(16px, 1.3vw, 21px)' }} fontStyle={'italic'} lineHeight={1.55}
+            {paragraphs.map((p, i) => (
+              <Text key={i} className="ct-p" fontSize={{ base: '17px', lg: 'clamp(16px, 1.3vw, 21px)' }} fontStyle={'italic'} lineHeight={1.55}
                 color="brand.bone" sx={{ textWrap: 'pretty' }}>
                 {p}
               </Text>
@@ -132,7 +134,7 @@ export default function ContactSection() {
         {/* 50 % · banda de accesos */}
         <Grid className="ct-band" templateColumns="repeat(5, minmax(0, 1fr))"
           borderY="1px solid" borderColor="brand.celeste" bg="rgba(11,17,24,0.55)">
-          {coachData.contacts.map((c, i) => <ContactCell key={c.id} c={c} first={i === 0} />)}
+          {contacts.map((c, i) => <ContactCell key={c.id} c={c} first={i === 0} />)}
         </Grid>
       </Grid>
     </Box>

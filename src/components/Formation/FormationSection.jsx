@@ -3,6 +3,7 @@ import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { formation } from '../../data/formationData'
+import { useLocalized } from '../../i18n/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -75,7 +76,7 @@ function Panel({ n, title, children }) {
 
 export default function FormationSection() {
   const ref = useRef(null)
-  const { title, collage, collageAlt, degrees, languages, software, courses } = formation
+  const { title, collage, collageAlt, degrees, languages, software, courses } = useLocalized(formation)
 
   useLayoutEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -122,17 +123,17 @@ export default function FormationSection() {
           <Box>
             <Text as="h2" id="fm-title" className="fm-title" fontFamily="heading" fontWeight="400" lineHeight={0.88}
               letterSpacing="0.02em" fontSize={{ base: '56px', md: '80px', lg: 'clamp(72px, 7vw, 124px)' }} mb={{ base: 8, lg: '5vh' }}>
-              {title.map((t) => (
+              {title.map((t, i) => (
                 // padding arriba para que no se recorten las tildes (Ó, É) con overflow hidden
-                <Box as="span" key={t} display="block" overflow="hidden" pt="0.16em" mt="-0.16em">
+                <Box as="span" key={i} display="block" overflow="hidden" pt="0.16em" mt="-0.16em">
                   <Box as="span" display="block">{t}</Box>
                 </Box>
               ))}
             </Text>
 
             <Box as="ul" className="fm-degs" listStyleType="none" m={0} p={0} borderTop="1px solid" borderColor="brand.linea">
-              {degrees.map((d) => (
-                <Flex as="li" key={d.title} className="fm-deg" align="center" justify="space-between" gap={5}
+              {degrees.map((d, i) => (
+                <Flex as="li" key={i} className="fm-deg" align="center" justify="space-between" gap={5}
                   py={{ base: 4, lg: '2.6vh' }} borderBottom="1px solid" borderColor="brand.linea">
                   <Box>
                     <Text as="h3" fontFamily="mono" fontWeight="700" fontSize={{ base: '19px', lg: 'clamp(18px, 1.55vw, 25px)' }}
@@ -168,7 +169,7 @@ export default function FormationSection() {
           <Panel n="1" title={languages.title}>
             <Flex justify="center" align="center" wrap="wrap" direction={{ base: 'column', md: 'row' }} gap={{ base: 3, md: 0 }}>
               {languages.items.map((l, i) => (
-                <Flex key={l.name} align="center" gap={3.5} px={{ md: '3vw' }}
+                <Flex key={l.flag} align="center" gap={3.5} px={{ md: '3vw' }}
                   borderLeft={{ md: i ? '1px solid' : 0 }} borderColor={{ md: 'brand.celeste' }}>
                   <Text as="span" fontWeight="500" fontSize={{ base: '24px', lg: 'clamp(24px, 2.4vw, 38px)' }}>{l.name}</Text>
                   <Flag code={l.flag} />
@@ -190,8 +191,8 @@ export default function FormationSection() {
 
           <Panel n="3" title={courses.title}>
             <Grid as="ul" listStyleType="none" m={0} p={0} templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={{ base: 3, md: '12px 4vw' }}>
-              {courses.items.map((c) => (
-                <Flex as="li" key={c} gap={2.5} align="flex-start" fontSize={{ base: '16px', lg: 'clamp(15px, 1.3vw, 19px)' }} lineHeight={1.4}
+              {courses.items.map((c, i) => (
+                <Flex as="li" key={i} gap={2.5} align="flex-start" fontSize={{ base: '16px', lg: 'clamp(15px, 1.3vw, 19px)' }} lineHeight={1.4}
                   _before={{ content: '""', flex: '0 0 auto', boxSize: '8px', mt: '0.5em', borderRadius: 'full', bg: 'brand.celeste',
                     boxShadow: '0 0 0 3px rgba(76,184,242,0.16)' }}>
                   {c}

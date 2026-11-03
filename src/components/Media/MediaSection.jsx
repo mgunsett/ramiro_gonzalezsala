@@ -4,7 +4,13 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import MediaScreen, { KindTag } from './MediaScreen'
 import useInstagram from '../../hooks/useInstagram'
-import { media } from '../../data/mediaData'
+import { media as mediaData } from '../../data/mediaData'
+import { useT, useLocalized } from '../../i18n/LanguageContext'
+
+const TXT = {
+  viewPost: { es: 'Ver publicación en Instagram', en: 'View post on Instagram', it: 'Vedi il post su Instagram' },
+  postAlt: { es: 'Publicación de Instagram de Ramiro Gonzalez Sales', en: 'Instagram post by Ramiro Gonzalez Sales', it: 'Post Instagram di Ramiro Gonzalez Sales' },
+}
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -21,7 +27,7 @@ function IgIcon(props) {
 }
 
 function IgButton() {
-  const { profile, cta } = media.instagram
+  const { profile, cta } = useLocalized(mediaData.instagram)
   return (
     <Flex as="a" href={profile} target="_blank" rel="noopener noreferrer" align="center" gap={2.5} px={5} py={3}
       border="1px solid" borderColor="brand.celeste" color="brand.celeste" fontFamily="mono" fontWeight="700" fontSize="16px"
@@ -36,11 +42,12 @@ function IgButton() {
 }
 
 function IgTile({ post, big }) {
+  const t = useT()
   return (
-    <Box as="a" href={post.link || media.instagram.profile} target="_blank" rel="noopener noreferrer"
-      aria-label="Ver publicación en Instagram" position="relative" display="block" overflow="hidden" bg="brand.carbon"
+    <Box as="a" href={post.link || mediaData.instagram.profile} target="_blank" rel="noopener noreferrer"
+      aria-label={t(TXT.viewPost)} position="relative" display="block" overflow="hidden" bg="brand.carbon"
       gridColumn={big ? 'span 2' : 'auto'} gridRow={big ? 'span 2' : 'auto'} sx={{ aspectRatio: '1' }} role="group">
-      <Image src={post.url} alt={post.alt || 'Publicación de Instagram de Ramiro Gonzalez Sales'} loading="lazy"
+      <Image src={post.url} alt={post.alt || t(TXT.postAlt)} loading="lazy"
         w="100%" h="100%" objectFit="cover" transition="transform 500ms cubic-bezier(0.23,1,0.32,1)"
         sx={{ [HOVER]: { '[role=group]:hover &': { transform: 'scale(1.06)' } } }} />
       <Flex position="absolute" inset={0} align="center" justify="center" bg="rgba(5,8,12,0.55)" opacity={0}
@@ -56,7 +63,9 @@ export default function MediaSection() {
   const featRef = useRef(null)
   const [active, setActive] = useState(0)
   const { posts } = useInstagram()
+  const media = useLocalized(mediaData)
   const { items, instagram } = media
+  const igPosts = posts.length ? posts : instagram.posts
   const item = items[active]
 
   const select = (i) => {
@@ -121,7 +130,7 @@ export default function MediaSection() {
             {items.map((it, i) => {
               const on = i === active
               return (
-                <Box as="li" key={it.title} className="md-row">
+                <Box as="li" key={it.id} className="md-row">
                   <Grid as="button" type="button" onClick={() => select(i)} aria-pressed={on} w="100%" textAlign="left"
                     templateColumns={{ base: '88px minmax(0,1fr)', lg: '104px minmax(0,1fr)' }} gap={4} alignItems="center"
                     py={3} pl={3} pr={2} position="relative" borderBottom="1px solid" borderColor="brand.linea"
@@ -165,9 +174,9 @@ export default function MediaSection() {
           <IgButton />
         </Flex>
 
-        {posts.length > 0 && (
+        {igPosts.length > 0 && (
           <Grid templateColumns={{ base: 'repeat(2, minmax(0,1fr))', md: 'repeat(4, minmax(0,1fr))' }} gap={2}>
-            {posts.slice(0, 5).map((p, i) => <IgTile key={p.id} post={p} big={i === 0} />)}
+            {igPosts.slice(0, 5).map((p, i) => <IgTile key={p.id} post={p} big={i === 0} />)}
           </Grid>
         )}
        </Box>
