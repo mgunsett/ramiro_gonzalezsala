@@ -1,15 +1,9 @@
-import { Box, Flex, Grid, Text, Link, Icon, useToken } from '@chakra-ui/react'
-import { LiaLaptopCodeSolid } from 'react-icons/lia'
+import { Box, Flex, Grid, Text, Link, Icon, useToken, Image } from '@chakra-ui/react'
 import { coachData } from '../../data/coachData'
 import { useT, useLocalized } from '../../i18n/LanguageContext'
 import LangSwitch from './LangSwitch'
+import sportfolio from '../../../assets/software/logo_sport.png'
 
-// ─────────────────────────────────────────────────────────────
-// FOOTER
-//  · Marca RG + nombre + rol + selector de idioma.
-//  · Navegación (mismas secciones que el navbar) y redes.
-//  · "Volver arriba", copyright y firma del desarrollador.
-// ─────────────────────────────────────────────────────────────
 
 const HOVER = '@media (hover: hover) and (pointer: fine)'
 
@@ -125,18 +119,24 @@ export default function Footer() {
       </Grid>
 
       <Flex maxW="1300px" mx="auto" mt={{ base: 12, lg: 16 }} pt={6} borderTop="1px solid" borderColor="brand.linea"
-        direction={{ base: 'column', md: 'row' }} justify="space-between" align={{ base: 'flex-start', md: 'center' }} gap={3}>
+        direction={{ base: 'column', md: 'row' }} justify="space-between" align='center' gap={3}>
         <Text fontFamily="mono" fontSize="12px" letterSpacing="0.12em" color="brand.gray" textTransform="uppercase">
           © {new Date().getFullYear()} {displayName} · {t(TXT.rights)}
         </Text>
-        <Text fontSize="12px" color="brand.gray" letterSpacing="0.05em">
-          {t(TXT.dev)} -{' '}
-          <Link href="https://matiasgunsett.netlify.app/" isExternal color="dev.cream" fontSize="14px"
-            transition="color 0.3s" _hover={{ color: 'brand.celeste', textDecoration: 'none' }}>
-            Matias Gunsett
-            <LiaLaptopCodeSolid style={{ marginLeft: '4px', display: 'inline-block', verticalAlign: 'middle', fontSize: '20px', color: devCream }} />
-          </Link>
-        </Text>
+        <Flex direction="column" fontSize="12px" color="rgba(255,255,255,0.3)" letterSpacing="0.05em"
+          textTransform="uppercase" fontFamily="'Barlow Condensed', sans-serif" >
+            Desarrollo Web
+            <Box width="95px" height="1px" color="rgba(255,255,255,0.3)"/>
+            <Link 
+            href="https://matiasgunsett.netlify.app/sportfolio" 
+            isExternal 
+            color="#2D5A47" 
+            _hover={{ borderColor: '#e8d5a370', color: '#e8d5a380' }}
+            transition="color 0.3s"
+            >
+             <Image src={sportfolio} alt="Sportfolio Web" display="block" width="85px" height="22px" mr="2px" ml="2px" pt="4px" />
+            </Link>
+        </Flex>
       </Flex>
     </Box>
   )
