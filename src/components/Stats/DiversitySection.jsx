@@ -4,7 +4,9 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import WorldLeaguesMap from './WorldLeaguesMap'
 import PlayerTimeline from './PlayerTimeline'
-import { diversity as diversityData, playerCareer as playerCareerData } from '../../data/statsData'
+import TacticsBoards from './TacticsBoards'
+import { SubTitle } from '../Career/careerParts'
+import { diversity as diversityData, playerCareer as playerCareerData, tactics as tacticsData } from '../../data/statsData'
 import { useT, useLocalized } from '../../i18n/LanguageContext'
 
 const LABEL = { es: 'Datos', en: 'Stats', it: 'Dati' }
@@ -13,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 // ─────────────────────────────────────────────────────────────
 // DATOS · opción A "Mapa"
+//  · Sistemas tácticos implementados: foto + pizarras (slider en móvil).
 //  · Diversidad de jugadores dirigidos: 4 cifras con contador + mapa
 //    con las 16 ligas unidas a su país.
 //  · Trayectoria como jugador: línea deslizante (ver PlayerTimeline).
@@ -32,6 +35,7 @@ export default function DiversitySection() {
   const t = useT()
   const diversity = useLocalized(diversityData)
   const playerCareer = useLocalized(playerCareerData)
+  const tactics = useLocalized(tacticsData)
 
   useLayoutEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -53,6 +57,19 @@ export default function DiversitySection() {
 
       if (reduce) return
 
+      // Sistemas tácticos: foto que aparece desde abajo y jugadores que salen del arco
+      q('.tb-section .cc-reveal').forEach((img) => {
+        gsap.fromTo(img, { clipPath: 'inset(100% 0 0 0)' }, {
+          clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: img, start: 'top 85%' },
+        })
+      })
+      q('.tb-pitch').forEach((pitch) => {
+        gsap.from(pitch.querySelectorAll('.tb-player'), {
+          left: '50%', top: '92%', duration: 0.9, stagger: 0.03, ease: 'power3.inOut',
+          scrollTrigger: { trigger: q('.tb-track')[0], start: 'top 85%' },
+        })
+      })
+
       const map = q('.wm-svg')[0]
       gsap.from(q('.wm-hl'), { opacity: 0, duration: 0.5, stagger: 0.04, scrollTrigger: { trigger: map, start: 'top 75%' } })
       q('.wm-lead').forEach((l) => {
@@ -70,6 +87,12 @@ export default function DiversitySection() {
 
   return (
     <Box as="section" id="datos" ref={ref} aria-label={t(LABEL)} bg="brand.ink" borderTop="1px solid" borderColor="brand.linea">
+      {/* ── Sistemas tácticos implementados ── */}
+      <Box className="tb-section" px={{ base: 5, md: 10, lg: '6vw' }} py={{ base: 20, lg: '12vh' }} borderBottom="1px solid" borderColor="brand.linea">
+        <SubTitle as="h2">{tactics.title}</SubTitle>
+        <TacticsBoards tactics={tactics} />
+      </Box>
+
       {/* ── Diversidad de jugadores dirigidos ── */}
       <Box px={{ base: 5, md: 10, lg: '3vw' }} py={{ base: 20, lg: '12vh' }}>
         <Title>{diversity.title}</Title>

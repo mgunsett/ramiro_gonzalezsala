@@ -17,6 +17,30 @@ import lignano from '@assets/clubes/lignano.webp'
 import pdha from '@assets/clubes/pdha.webp'
 import matino from '@assets/clubes/matino.webp'
 
+// Sistemas tácticos implementados
+import tacticsPhoto from '@assets/cat/ramiro_cat_2.webp'
+
+// Posiciones de las pizarras (x %, y %; ataque hacia arriba, arquero abajo)
+const FORMATIONS = {
+  '4-3-3':   [[50, 92], [14, 74], [37, 78], [63, 78], [86, 74], [28, 52], [50, 55], [72, 52], [22, 25], [50, 20], [78, 25]],
+  '3-4-3':   [[50, 92], [26, 77], [50, 79], [74, 77], [12, 52], [38, 54], [62, 54], [88, 52], [24, 25], [50, 20], [76, 25]],
+  '3-5-2':   [[50, 92], [26, 77], [50, 79], [74, 77], [10, 50], [32, 54], [50, 62], [68, 54], [90, 50], [38, 26], [62, 26]],
+  '4-2-3-1': [[50, 92], [14, 74], [37, 78], [63, 78], [86, 74], [36, 62], [64, 62], [18, 40], [50, 42], [82, 40], [50, 20]],
+}
+
+export const tactics = {
+  title: { es: 'SISTEMAS TÁCTICOS IMPLEMENTADOS', en: 'TACTICAL SYSTEMS USED', it: 'SISTEMI TATTICI UTILIZZATI' },
+  photo: tacticsPhoto,
+  photoAlt: {
+    es: 'Ramiro Gonzalez Sales dando indicaciones desde el borde del campo',
+    en: 'Ramiro Gonzalez Sales giving instructions from the touchline',
+    it: 'Ramiro Gonzalez Sales dà indicazioni a bordo campo',
+  },
+  systems: ['4-3-3', '3-4-3', '3-5-2', '4-2-3-1'].map((name) => ({
+    label: { es: 'Sistema', en: 'System', it: 'Modulo' }, name, positions: FORMATIONS[name],
+  })),
+}
+
 export const diversity = {
   title: { es: 'DIVERSIDAD DE JUGADORES DIRIGIDOS', en: 'DIVERSITY OF PLAYERS COACHED', it: 'DIVERSITÀ DEI GIOCATORI ALLENATI' },
   // "Más de 20 nacionalidades | +30 ligas del mundo | 60 jugadores con pasado en
