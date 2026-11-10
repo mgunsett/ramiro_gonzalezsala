@@ -2,5 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-# ⚠️ Reemplazar TU-DOMINIO por el dominio final del sitio
-Sitemap: https://TU-DOMINIO/sitemap.xml
+Sitemap: https://ramirogonzalezdt.com/sitemap.xml
