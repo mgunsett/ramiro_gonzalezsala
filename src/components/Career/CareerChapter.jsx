@@ -2,7 +2,6 @@ import { useRef, useLayoutEffect } from 'react'
 import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import TacticsBoards from './TacticsBoards'
 import { useT } from '../../i18n/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -51,9 +50,11 @@ function SubTitle({ children }) {
   )
 }
 
-function Star({ color }) {
+const GOLD = '#C9A45C'
+
+function Star({ color, size = '16px', mt = '0.35em' }) {
   return (
-    <Box as="svg" viewBox="0 0 24 24" boxSize="16px" flex="0 0 auto" mt="0.35em" aria-hidden="true">
+    <Box as="svg" viewBox="0 0 24 24" boxSize={size} flex="0 0 auto" mt={mt} aria-hidden="true">
       <path fill={color} d="M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.6L12 17.2l-5.9 3.3 1.3-6.6-4.9-4.5 6.6-.8z" />
     </Box>
   )
@@ -63,44 +64,67 @@ export default function CareerChapter({ club }) {
   const ref = useRef(null)
   const t = useT()
   const {
-    accent, titleOutline, titleSolid, role, from, to, between, crest, crestAlt, totals, tagline,
+    accent, titleOutline, titleSolid, role, roleParts, from, to, between, crest, crestAlt, totals, tagline,
+    motto, board, dayToDay, interim, results,
     functions, trophies, achievements, performance, streaks,
-    paragraphs, paragraphsPhoto, responsibilities, tactics,
   } = club
+  // Cabecera horizontal (fechas arriba + puesto bajo el título) vs. riel vertical de fechas
+  const horizontal = Boolean(roleParts)
+  const stackDash = Boolean(tagline || motto)
 
   useLayoutEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const ctx = gsap.context(() => {
+      const q = gsap.utils.selector(ref)
       // Riel de fechas: se llena a lo largo del capítulo
-      gsap.fromTo('.cc-rail-fill', { scale: 0 }, {
-        scale: 1, ease: 'none',
-        scrollTrigger: { trigger: ref.current, start: 'top 60%', end: 'bottom 70%', scrub: 0.6 },
+      if (q('.cc-rail-fill').length) {
+        gsap.fromTo(q('.cc-rail-fill'), { scale: 0 }, {
+          scale: 1, ease: 'none',
+          scrollTrigger: { trigger: ref.current, start: 'top 60%', end: 'bottom 70%', scrub: 0.6 },
+        })
+      }
+      // Línea entre fechas (cabecera horizontal)
+      if (q('.cc-dates-fill').length) {
+        gsap.to(q('.cc-dates-fill'), {
+          scaleX: 1, duration: reduce ? 0 : 1.1, ease: 'power2.inOut', delay: reduce ? 0 : 0.3,
+          scrollTrigger: { trigger: ref.current, start: 'top 80%' },
+        })
+      }
+      // Pizarra: la línea se llena y los nodos se encienden al pasar
+      q('.cc-board-col').forEach((col) => {
+        gsap.fromTo(col.querySelector('.cc-board-fill'), { scaleY: 0 }, {
+          scaleY: 1, ease: 'none',
+          scrollTrigger: { trigger: col, start: 'top 70%', end: 'bottom 60%', scrub: 0.6 },
+        })
+        col.querySelectorAll('.cc-node').forEach((li) => {
+          ScrollTrigger.create({ trigger: li, start: 'top 72%', toggleClass: { targets: li, className: 'is-on' } })
+        })
       })
 
       // Contadores (totales, rendimiento, rachas)
       gsap.utils.toArray('[data-to]').forEach((el) => {
         const to = Number(el.dataset.to)
         const prefix = el.dataset.prefix || ''
+        const suffix = el.dataset.suffix || ''
         if (reduce) return
         const o = { v: 0 }
         gsap.to(o, {
           v: to, duration: 1.6, ease: 'power2.out',
-          onUpdate: () => { el.textContent = prefix + Math.round(o.v) },
+          onUpdate: () => { el.textContent = prefix + Math.round(o.v) + suffix },
           scrollTrigger: { trigger: el, start: 'top 88%' },
         })
       })
 
       if (reduce) return
 
-      gsap.fromTo('.cc-title', { yPercent: 30, opacity: 0 }, {
-        yPercent: 0, opacity: 1, duration: 1, ease: 'expo.out',
+      gsap.fromTo(q('.cc-title, .cc-role'), { yPercent: 30, opacity: 0 }, {
+        yPercent: 0, opacity: 1, duration: 1, stagger: 0.12, ease: 'expo.out',
         scrollTrigger: { trigger: ref.current, start: 'top 80%' },
       })
-      gsap.to('.cc-watermark', {
+      gsap.to(q('.cc-watermark'), {
         yPercent: -12, ease: 'none',
         scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: true },
       })
-      const q = gsap.utils.selector(ref)
       const stagger = (sel, from, trigger, start = 'top 85%') => {
         if (!q(sel).length || !q(trigger).length) return
         gsap.fromTo(q(sel), from, {
@@ -113,20 +137,19 @@ export default function CareerChapter({ club }) {
       stagger('.cc-ach', { y: 14, opacity: 0 }, '.cc-achs', 'top 90%')
       stagger('.cc-perf', { x: -14, opacity: 0 }, '.cc-perf-list')
       stagger('.cc-streak', { y: 24, opacity: 0 }, '.cc-streaks', 'top 90%')
-      stagger('.cc-par', { x: -14, opacity: 0 }, '.cc-par-list')
-      stagger('.cc-resp', { y: 16, opacity: 0 }, '.cc-resp-list', 'top 90%')
+      stagger('.cc-chip, .cc-interim', { y: 14, opacity: 0 }, '.cc-extra', 'top 90%')
+      stagger('.cc-star', { x: -20, opacity: 0 }, '.cc-stars')
+      q('.cc-res-list').forEach((list) => {
+        gsap.fromTo(list.children, { x: -14, opacity: 0 }, {
+          x: 0, opacity: 1, duration: 0.6, stagger: 0.07, ease: 'power3.out',
+          scrollTrigger: { trigger: list, start: 'top 85%' },
+        })
+      })
       // Fotos: aparecen desde abajo
       q('.cc-reveal').forEach((img) => {
         gsap.fromTo(img, { clipPath: 'inset(100% 0 0 0)' }, {
           clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power3.out',
           scrollTrigger: { trigger: img, start: 'top 85%' },
-        })
-      })
-      // Pizarras: los jugadores salen del arco y se acomodan en su posición
-      q('.tb-pitch').forEach((pitch) => {
-        gsap.from(pitch.querySelectorAll('.tb-player'), {
-          left: '50%', top: '92%', duration: 0.9, stagger: 0.03, ease: 'power3.inOut',
-          scrollTrigger: { trigger: q('.tb-track')[0], start: 'top 85%' },
         })
       })
     }, ref)
@@ -139,9 +162,9 @@ export default function CareerChapter({ club }) {
       ref={ref}
       aria-labelledby={`cc-${club.id}`}
       position="relative"
-      templateColumns={{ base: '1fr', lg: 'minmax(0, 13vw) minmax(0, 1fr)' }}
+      templateColumns={{ base: '1fr', lg: horizontal ? '1fr' : 'minmax(0, 13vw) minmax(0, 1fr)' }}
       pr={{ base: 5, md: 10, lg: '6vw' }}
-      pl={{ base: 5, md: 10, lg: 0 }}
+      pl={{ base: 5, md: 10, lg: horizontal ? '6vw' : 0 }}
       py={{ base: 20, lg: '12vh' }}
       overflow="hidden"
     >
@@ -162,7 +185,8 @@ export default function CareerChapter({ club }) {
         pointerEvents="none"
       />
 
-      {/* ── Riel de fechas ── */}
+      {/* ── Riel de fechas (vertical) ── */}
+      {!horizontal && (
       <Box position="relative">
         <Flex
           position={{ base: 'relative', lg: 'sticky' }}
@@ -192,9 +216,21 @@ export default function CareerChapter({ club }) {
           </Text>
         </Flex>
       </Box>
+      )}
 
       {/* ── Contenido ── */}
       <Box minW={0} position="relative">
+        {/* Fechas en línea (cabecera horizontal) */}
+        {horizontal && (
+          <Flex align="center" gap={{ base: 3, lg: '14px' }} mb={{ base: 4, lg: '14px' }} fontFamily="heading"
+            fontSize={{ base: '22px', lg: 'clamp(20px, 1.9vw, 30px)' }} lineHeight={1}>
+            <Text as="span">{from}</Text>
+            <Box position="relative" w={{ base: '48px', lg: 'clamp(40px, 8vw, 120px)' }} h="1px" bg="brand.linea" aria-hidden="true">
+              <Box className="cc-dates-fill" position="absolute" inset={0} bg={accent} transformOrigin="left" transform="scaleX(0)" />
+            </Box>
+            <Text as="span" color={accent}>{to}</Text>
+          </Flex>
+        )}
         <Text
           as="h3"
           id={`cc-${club.id}`}
@@ -211,10 +247,23 @@ export default function CareerChapter({ club }) {
           <Box as="span" color="brand.bone" sx={{ WebkitTextStroke: '0' }}>{titleSolid}</Box>
         </Text>
 
+        {/* Puesto destacado bajo el título */}
+        {horizontal && (
+          <Flex className="cc-role" display="inline-flex" align="stretch" border="1px solid" borderColor={accent} mt={{ base: 4, lg: '18px' }}>
+            {roleParts.map((part, i) => (
+              <Text key={i} as="span" fontFamily="heading" fontSize={{ base: '21px', md: '26px', lg: 'clamp(22px, 2.2vw, 36px)' }}
+                letterSpacing="0.06em" lineHeight={1} whiteSpace="nowrap" px={{ base: '11px', lg: 4 }} pt={{ base: '8px', lg: '10px' }} pb={{ base: '6px', lg: '7px' }}
+                bg={i === 0 ? accent : 'transparent'} color={i === 0 ? 'brand.ink' : 'brand.bone'}>
+                {part}
+              </Text>
+            ))}
+          </Flex>
+        )}
+
         {/* Escudo + totales */}
         <Flex
-          align={{ base: tagline ? 'flex-start' : 'center', md: 'center' }}
-          direction={{ base: tagline ? 'column' : 'row', md: 'row' }}
+          align={{ base: stackDash ? 'flex-start' : 'center', md: 'center' }}
+          direction={{ base: stackDash ? 'column' : 'row', md: 'row' }}
           gap={{ base: 5, lg: '3vw' }}
           my={{ base: 8, lg: '5vh' }}
           py={{ base: 6, lg: '4vh' }}
@@ -247,7 +296,76 @@ export default function CareerChapter({ club }) {
               {tagline}
             </Text>
           )}
+          {motto && (
+            <Text fontFamily="heading" fontSize={{ base: '36px', md: '44px', lg: 'clamp(30px, 3.4vw, 58px)' }}
+              lineHeight={0.95} letterSpacing="0.02em" color="brand.bone">
+              {motto[0]}<br />
+              <Box as="span" color={accent}>{motto[1]}</Box>
+            </Text>
+          )}
         </Flex>
+
+        {/* El proyecto | Idea de juego · pizarra con línea de nodos */}
+        {board && (
+          <Grid templateColumns={{ base: '1fr', md: 'repeat(2, minmax(0,1fr))' }} gap={{ base: 12, md: '4vw' }}>
+            {board.map((col, ci) => (
+              <Box key={ci} className="cc-board-col" position="relative" pl="30px">
+                <Box position="absolute" left="4px" top={{ base: '50px', lg: '58px' }} bottom="8px" w="1px" bg="brand.linea" />
+                <Box className="cc-board-fill" position="absolute" left="4px" top={{ base: '50px', lg: '58px' }} bottom="8px" w="1px"
+                  bg={accent} transformOrigin="top" transform="scaleY(0)" />
+                <Text as="h4" display="inline-block" ml="-30px" mb={{ base: 5, lg: '2.6vh' }} bg={accent} color="brand.ink"
+                  fontFamily="heading" fontWeight="400" fontSize={{ base: '26px', lg: 'clamp(24px, 2.1vw, 34px)' }}
+                  letterSpacing="0.06em" lineHeight={1} px={4} pt="9px" pb="6px">
+                  {col.title}
+                </Text>
+                <Flex as="ul" direction="column" gap={{ base: 5, lg: '2.4vh' }} listStyleType="none" m={0} p={0}>
+                  {col.items.map((segs, i) => (
+                    <Box as="li" key={i} className="cc-node" position="relative"
+                      sx={{ '&.is-on .cc-node-dot': { bg: accent, borderColor: accent, boxShadow: `0 0 0 4px ${accent}29, 0 0 12px ${accent}99` } }}>
+                      <Box className="cc-node-dot" position="absolute" left="-30px" top="0.5em" boxSize="9px" borderRadius="full"
+                        bg="brand.ink" border="1px solid" borderColor="rgba(120,190,235,0.6)"
+                        transition="background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease" />
+                      <Text fontSize={{ base: '17px', lg: 'clamp(15px, 1.25vw, 20px)' }} lineHeight={1.5} color="brand.gray" sx={{ textWrap: 'pretty' }}>
+                        <Segs segs={segs} accent={accent} />
+                      </Text>
+                    </Box>
+                  ))}
+                </Flex>
+              </Box>
+            ))}
+          </Grid>
+        )}
+
+        {/* Día a día + DT interino */}
+        {(dayToDay || interim) && (
+          <Grid className="cc-extra" templateColumns={{ base: '1fr', lg: 'minmax(0, 3fr) minmax(0, 2fr)' }} gap="12px" mt={{ base: 12, lg: '6vh' }}>
+            {dayToDay && (
+              <Box position="relative" border="1px solid" borderColor="brand.linea" bg="rgba(11,17,24,0.7)"
+                px={{ base: '18px', lg: '2vw' }} py={{ base: '18px', lg: '2.6vh' }}
+                _before={{ content: '""', position: 'absolute', left: '-1px', top: '-1px', bottom: '-1px', w: '3px', bg: accent }}>
+                <Text fontFamily="mono" fontWeight="700" fontSize="13px" letterSpacing="0.14em" color={accent} mb={2.5}>{dayToDay.label}</Text>
+                <Flex as="ul" wrap="wrap" gap={2} listStyleType="none" m={0} p={0}>
+                  {dayToDay.items.map((chip) => (
+                    <Box as="li" key={chip} className="cc-chip" px={3} py="6px" border="1px solid" borderColor="brand.linea" borderRadius="full"
+                      fontFamily="mono" fontWeight="600" fontSize={{ base: '15px', lg: 'clamp(14px, 1.15vw, 17px)' }} lineHeight={1.2} color="brand.bone">
+                      {chip}
+                    </Box>
+                  ))}
+                </Flex>
+              </Box>
+            )}
+            {interim && (
+              <Flex className="cc-interim" direction="column" justify="center" position="relative" border="1px solid" borderColor="brand.linea"
+                px={{ base: '18px', lg: '2vw' }} py={{ base: '18px', lg: '2.6vh' }}
+                sx={{ background: `linear-gradient(120deg, ${accent}29, rgba(11,17,24,0.7) 60%)` }}
+                _before={{ content: '""', position: 'absolute', left: '-1px', top: '-1px', bottom: '-1px', w: '3px', bg: accent }}>
+                <Text fontFamily="heading" fontSize={{ base: '28px', lg: 'clamp(26px, 2.4vw, 38px)' }} lineHeight={1} letterSpacing="0.03em" color="brand.bone">
+                  {interim.map((s, i) => <Box as="span" key={i} color={s.hl ? accent : undefined}>{s.t}</Box>)}
+                </Text>
+              </Flex>
+            )}
+          </Grid>
+        )}
 
         {/* Funciones | Logros */}
         {functions && (
@@ -335,82 +453,53 @@ export default function CareerChapter({ club }) {
           </Grid>
         )}
 
-        {/* Párrafos + foto fija */}
-        {paragraphs && (
-          <Grid
-            templateColumns={{ base: '1fr', lg: 'minmax(0, 7fr) minmax(0, 4fr)' }}
-            gap={{ base: 10, lg: '5vw' }}
-            alignItems="start"
-          >
-            <Box as="ul" className="cc-par-list" listStyleType="none" m={0} p={0}>
-              {paragraphs.map((segs, i) => (
-                <Grid
-                  as="li"
-                  key={i}
-                  className="cc-par"
-                  templateColumns="20px minmax(0,1fr)"
-                  gap="10px"
-                  py={{ base: 4, lg: '2vh' }}
-                  borderBottom="1px solid"
-                  borderColor="brand.linea"
-                >
-                  <Box boxSize="9px" mt="0.6em" border="1px solid" borderColor={accent} transform="rotate(45deg)" />
-                  <Text fontSize={{ base: '16px', lg: 'clamp(15px, 1.2vw, 19px)' }} lineHeight={1.55} color="brand.gray" sx={{ textWrap: 'pretty' }}>
-                    <Segs segs={segs} accent={accent} />
-                  </Text>
-                </Grid>
+        {/* Rendimiento y formación */}
+        {results && (
+          <Grid templateColumns={{ base: '1fr', lg: 'minmax(0, 4fr) minmax(0, 7fr)' }} gap={{ base: 10, lg: '4vw' }}
+            mt={{ base: 16, lg: '12vh' }} alignItems="start">
+            <Box position={{ base: 'relative', lg: 'sticky' }} top={{ lg: '14vh' }} maxW={{ base: '320px', lg: 'none' }}
+              borderTopRightRadius="46px" overflow="hidden">
+              <Box position="absolute" top={0} left={0} right="12%" h="1px" bg={accent} zIndex={1} />
+              <Image loading="lazy" decoding="async" className="cc-reveal" src={results.photo} alt={results.photoAlt} w="100%" h="auto" display="block" />
+            </Box>
+
+            <Box minW={0}>
+              <SubTitle>{results.title}</SubTitle>
+              <Grid className="cc-stars" templateColumns={{ base: '1fr', md: 'repeat(2, minmax(0,1fr))' }} gap="10px" mb={{ base: 12, lg: '6vh' }}>
+                {results.stars.map((s, i) => (
+                  <Flex key={i} className="cc-star" align="center" gap={{ base: 3.5, lg: 4 }}
+                    px={{ base: 4, lg: '1.6vw' }} py={{ base: 3.5, lg: '2.2vh' }} border="1px solid" borderColor={`${accent}59`}
+                    sx={{ background: `linear-gradient(90deg, ${accent}2E, ${accent}0A)` }}>
+                    <Star color={GOLD} size="30px" mt={0} />
+                    <Text fontFamily="heading" fontSize={{ base: '46px', lg: 'clamp(34px, 3.4vw, 56px)' }} lineHeight={0.85} color={accent}
+                      sx={{ fontVariantNumeric: 'tabular-nums' }} data-to={s.value} data-suffix={s.suffix || ''}>
+                      {s.value}{s.suffix}
+                    </Text>
+                    <Text fontFamily="mono" fontWeight="600" fontSize={{ base: '17px', lg: 'clamp(15px, 1.3vw, 20px)' }} lineHeight={1.15} color="brand.bone">
+                      {s.label}
+                    </Text>
+                  </Flex>
+                ))}
+              </Grid>
+
+              {results.lists.map((list, li) => (
+                <Box key={li} mt={li ? { base: 12, lg: '6vh' } : 0}>
+                  <SubTitle>{list.title}</SubTitle>
+                  <Box as="ul" className="cc-res-list" listStyleType="none" m={0} p={0}>
+                    {list.items.map((segs, i) => (
+                      <Grid as="li" key={i} templateColumns="20px minmax(0,1fr)" gap="10px" py={{ base: 3.5, lg: '1.8vh' }}
+                        borderBottom="1px solid" borderColor="brand.linea">
+                        <Box boxSize="9px" mt="0.55em" border="1px solid" borderColor={accent} transform="rotate(45deg)" />
+                        <Text fontSize={{ base: '16px', lg: 'clamp(15px, 1.25vw, 19px)' }} lineHeight={1.5} color="brand.gray" sx={{ textWrap: 'pretty' }}>
+                          <Segs segs={segs} accent={accent} />
+                        </Text>
+                      </Grid>
+                    ))}
+                  </Box>
+                </Box>
               ))}
             </Box>
-            {paragraphsPhoto && (
-              <Box
-                position={{ base: 'relative', lg: 'sticky' }}
-                top={{ lg: '14vh' }}
-                maxW={{ base: '320px', lg: 'none' }}
-                borderTopRightRadius="46px"
-                overflow="hidden"
-              >
-                <Image loading="lazy" decoding="async" className="cc-reveal" src={paragraphsPhoto.src} alt={paragraphsPhoto.alt} w="100%" h="auto" display="block" />
-              </Box>
-            )}
           </Grid>
-        )}
-
-        {/* Responsabilidades */}
-        {responsibilities && (
-          <Box mt={{ base: 16, lg: '10vh' }}>
-            <SubTitle>{responsibilities.title}</SubTitle>
-            <Grid as="ul" className="cc-resp-list" listStyleType="none" m={0} p={0}
-              templateColumns={{ base: '1fr', md: 'repeat(2, minmax(0,1fr))' }} gap="10px">
-              {responsibilities.items.map((item, i, arr) => (
-                <Flex
-                  as="li"
-                  key={i}
-                  className="cc-resp"
-                  align="stretch"
-                  gap={4}
-                  gridColumn={{ md: i === arr.length - 1 && arr.length % 2 ? '1 / -1' : 'auto' }}
-                  border="1px solid"
-                  borderColor="brand.linea"
-                  bg="rgba(11,17,24,0.7)"
-                  pr={5}
-                >
-                  <Box w="4px" flex="0 0 auto" bg={accent} />
-                  <Text py={3.5} fontFamily="mono" fontWeight="600" fontSize={{ base: '17px', lg: 'clamp(16px, 1.25vw, 20px)' }}
-                    letterSpacing="0.02em" color="brand.bone" lineHeight={1.25}>
-                    {item}
-                  </Text>
-                </Flex>
-              ))}
-            </Grid>
-          </Box>
-        )}
-
-        {/* Sistemas tácticos */}
-        {tactics && (
-          <Box mt={{ base: 16, lg: '10vh' }}>
-            <SubTitle>{tactics.title}</SubTitle>
-            <TacticsBoards tactics={tactics} />
-          </Box>
         )}
 
         {/* Rendimiento del equipo + Rachas */}
