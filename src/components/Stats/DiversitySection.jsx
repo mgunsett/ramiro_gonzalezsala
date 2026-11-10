@@ -91,14 +91,21 @@ export default function DiversitySection() {
             <Box
               key={s.value}
               px={{ base: 4, lg: 6 }}
-              py={{ base: 5, lg: '3vh' }}
+              pt={{ base: 7, lg: '4.4vh' }}
+              pb={{ base: 5, lg: '3vh' }}
               borderRight={{ base: i % 2 === 0 ? '1px solid' : 0, lg: i < 3 ? '1px solid' : 0 }}
               borderBottom={{ base: i < 2 ? '1px solid' : 0, lg: 0 }}
               borderColor="brand.linea"
             >
               <Text fontFamily="heading" color="brand.celeste" lineHeight={0.85} fontSize={{ base: '52px', lg: 'clamp(56px, 5.4vw, 88px)' }}
-                sx={{ fontVariantNumeric: 'tabular-nums' }} data-to={s.value} data-pre={s.prefix}>
-                {s.prefix}{s.value}
+                position="relative" sx={{ fontVariantNumeric: 'tabular-nums' }}>
+                {s.lead && (
+                  <Box as="span" position="absolute" left={0} bottom="100%" mb="6px" whiteSpace="nowrap" fontFamily="mono" fontWeight="700" fontSize={{ base: '13px', lg: '15px' }}
+                    letterSpacing="0.12em" lineHeight={1} textTransform="uppercase" color="brand.celesteLight">
+                    {s.lead}
+                  </Box>
+                )}
+                <Box as="span" data-to={s.value} data-pre={s.prefix}>{s.prefix}{s.value}</Box>
               </Text>
               <Text mt={2} fontFamily="mono" fontWeight="600" fontSize={{ base: '15px', lg: 'clamp(15px, 1.25vw, 20px)' }}
                 color="brand.bone" lineHeight={1.2}>

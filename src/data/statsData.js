@@ -19,13 +19,13 @@ import matino from '@assets/clubes/matino.webp'
 
 export const diversity = {
   title: { es: 'DIVERSIDAD DE JUGADORES DIRIGIDOS', en: 'DIVERSITY OF PLAYERS COACHED', it: 'DIVERSITÀ DEI GIOCATORI ALLENATI' },
-  // "18 Nacionalidades | +30 ligas del mundo | 57 Jugadores de selección
-  //  nacional de 14 países | 17 Jugadores jóvenes promovidos al 1er equipo"
+  // "Más de 20 nacionalidades | +30 ligas del mundo | 60 jugadores con pasado en
+  //  selecciones de 16 países | 27 futbolistas promovidos al primer equipo"
   stats: [
-    { value: 18, prefix: '', label: { es: 'Nacionalidades', en: 'Nationalities', it: 'Nazionalità' } },
+    { lead: { es: 'Más de', en: 'More than', it: 'Più di' }, value: 20, prefix: '', label: { es: 'nacionalidades', en: 'nationalities', it: 'nazionalità' } },
     { value: 30, prefix: '+', label: { es: 'ligas del mundo', en: 'leagues worldwide', it: 'campionati nel mondo' } },
-    { value: 57, prefix: '', label: { es: 'Jugadores de selección nacional de 14 países', en: 'National team players from 14 countries', it: 'Nazionali di 14 paesi' } },
-    { value: 17, prefix: '', label: { es: 'Jugadores jóvenes promovidos al 1er equipo', en: 'Young players promoted to the first team', it: 'Giovani promossi in prima squadra' } },
+    { value: 60, prefix: '', label: { es: 'jugadores con pasado en selecciones de 16 países', en: 'players with national-team experience from 16 countries', it: 'giocatori con esperienza in nazionale di 16 paesi' } },
+    { value: 27, prefix: '', label: { es: 'futbolistas promovidos al primer equipo', en: 'players promoted to the first team', it: 'calciatori promossi in prima squadra' } },
   ],
   // Ligas del mapa (código del país en worldMap.json). Nombres deducidos de los logos de la placa.
   // side/slot: ubicación de la insignia alrededor del mapa (como en la placa).
