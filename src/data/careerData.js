@@ -165,10 +165,16 @@ const jdt = {
   accent: '#E8304A', // rojo JDT (resaltados de la placa)
   titleOutline: 'JOHOR DARUL',
   titleSolid: 'TAKZIM FC',
-  role: { es: 'Entrenador Asistente', en: 'Assistant Coach', it: 'Allenatore in seconda' },
-  from: { es: 'Diciembre 2020', en: 'December 2020', it: 'Dicembre 2020' },
-  between: { es: 'hasta', en: 'to', it: 'fino a' },
-  to: { es: 'Marzo 2025', en: 'March 2025', it: 'Marzo 2025' },
+  // Cabecera horizontal (igual que Atlético Tucumán): "Entrenador Asistente"
+  roleParts: [
+    { es: 'ENTRENADOR', en: 'ASSISTANT', it: 'ALLENATORE' },
+    { es: 'ASISTENTE', en: 'COACH', it: 'IN SECONDA' },
+  ],
+  from: { es: 'DICIEMBRE 2020', en: 'DECEMBER 2020', it: 'DICEMBRE 2020' },
+  to: { es: 'MARZO 2025', en: 'MARCH 2025', it: 'MARZO 2025' },
+  // Escritorio: colapso parcial (opción B) · Móvil: acordeón total (opción A)
+  compact: true,
+  roleInk: 'white', // texto sobre el rojo del puesto
   crest: jdtCrest,
   crestAlt: { es: 'Escudo de Johor Darul Ta’zim FC', en: 'Johor Darul Ta’zim FC crest', it: 'Stemma del Johor Darul Ta’zim FC' },
   totals: { matches: 167, titles: 13 }, // "167 PARTIDOS | 13 TITULOS"
@@ -241,8 +247,6 @@ const jdt = {
     },
   ],
 
-  // Las cifras grandes (big) quedan en la misma posición en los 3 idiomas:
-  // el contador de GSAP escribe sobre ese nodo.
   performance: {
     title: { es: 'RENDIMIENTO DEL EQUIPO', en: 'TEAM PERFORMANCE', it: 'RENDIMENTO DELLA SQUADRA' },
     photo: jdtPhoto,
@@ -251,32 +255,13 @@ const jdt = {
       en: 'Ramiro Gonzalez Sales giving instructions during a Johor Darul Ta’zim FC training session',
       it: 'Ramiro Gonzalez Sales dà indicazioni durante un allenamento del Johor Darul Ta’zim FC',
     },
+    // Tarjetas con estrella (mismo diseño que Atlético Tucumán)
     items: [
-      {
-        es: [{ t: '138', big: true }, { t: ' victorias', b: true }, { t: ' (167 partidos)' }],
-        en: [{ t: '138', big: true }, { t: ' wins', b: true }, { t: ' (167 matches)' }],
-        it: [{ t: '138', big: true }, { t: ' vittorie', b: true }, { t: ' (167 partite)' }],
-      },
-      {
-        es: [{ t: '500', big: true }, { t: ' GF', b: true }, { t: ' (3,0 por partido)' }],
-        en: [{ t: '500', big: true }, { t: ' GF', b: true }, { t: ' (3.0 per match)' }],
-        it: [{ t: '500', big: true }, { t: ' GF', b: true }, { t: ' (3,0 a partita)' }],
-      },
-      {
-        es: [{ t: '97', big: true }, { t: ' GC', b: true }, { t: ' (0,58 por partido)' }],
-        en: [{ t: '97', big: true }, { t: ' GA', b: true }, { t: ' (0.58 per match)' }],
-        it: [{ t: '97', big: true }, { t: ' GS', b: true }, { t: ' (0,58 a partita)' }],
-      },
-      {
-        es: [{ t: 'DG total: ', b: true }, { t: '+403', big: true }],
-        en: [{ t: 'Total GD: ', b: true }, { t: '+403', big: true }],
-        it: [{ t: 'DR totale: ', b: true }, { t: '+403', big: true }],
-      },
-      {
-        es: [{ t: '99', big: true }, { t: ' porterias a cero', b: true }],
-        en: [{ t: '99', big: true }, { t: ' clean sheets', b: true }],
-        it: [{ t: '99', big: true }, { t: ' partite senza subire gol', b: true }],
-      },
+      { value: 138, label: { es: 'victorias', en: 'wins', it: 'vittorie' }, note: { es: '(167 partidos)', en: '(167 matches)', it: '(167 partite)' } },
+      { value: 500, label: 'GF', note: { es: '(3,0 por partido)', en: '(3.0 per match)', it: '(3,0 a partita)' } },
+      { value: 97, label: { es: 'GC', en: 'GA', it: 'GS' }, note: { es: '(0,58 por partido)', en: '(0.58 per match)', it: '(0,58 a partita)' } },
+      { value: 403, prefix: '+', label: { es: 'DG total', en: 'Total GD', it: 'DR totale' } },
+      { value: 99, label: { es: 'porterias a cero', en: 'clean sheets', it: 'partite senza subire gol' } },
     ],
   },
 
