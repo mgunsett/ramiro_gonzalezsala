@@ -117,8 +117,7 @@ export default function ProfileSection() {
         {/* ── Foto con el encuadre de la placa ── */}
         <Box
           className="pf-photo"
-          position={{ base: 'relative', lg: 'sticky' }}
-          top={{ lg: '14vh' }}
+          position="relative"
           justifySelf={{ base: 'center', lg: 'end' }}
           w={{ base: 'min(100%, 340px)', lg: 'auto' }}
           h={{ lg: 'min(76vh, 720px)' }}

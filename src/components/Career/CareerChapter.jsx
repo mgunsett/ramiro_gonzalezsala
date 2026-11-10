@@ -39,11 +39,12 @@ function countAttrs(str) {
   return m ? { 'data-to': m[2], 'data-prefix': m[1] } : {}
 }
 
-function SubTitle({ children }) {
+function SubTitle({ children, compact }) {
   return (
     <Flex as="h3" align="center" gap={3} fontFamily="heading" fontWeight="400"
-      fontSize={{ base: '30px', lg: 'clamp(28px, 2.4vw, 40px)' }} letterSpacing="0.05em" lineHeight={1}
-      color="brand.bone" mb={{ base: 5, lg: '3vh' }}
+      fontSize={{ base: '30px', lg: compact ? 'clamp(24px, min(2.2vw, 4.2vh), 40px)' : 'clamp(28px, 2.4vw, 40px)' }}
+      letterSpacing="0.05em" lineHeight={1}
+      color="brand.bone" mb={{ base: 5, lg: compact ? '2.2vh' : '3vh' }}
       _after={{ content: '""', flex: 1, h: '1px', bg: 'brand.linea' }}>
       {children}
     </Flex>
@@ -163,8 +164,8 @@ export default function CareerChapter({ club }) {
       aria-labelledby={`cc-${club.id}`}
       position="relative"
       templateColumns={{ base: '1fr', lg: horizontal ? '1fr' : 'minmax(0, 13vw) minmax(0, 1fr)' }}
-      pr={{ base: 5, md: 10, lg: '6vw' }}
-      pl={{ base: 5, md: 10, lg: horizontal ? '6vw' : 0 }}
+      pr={{ base: 5, md: 10, lg: horizontal ? '9vw' : '6vw' }}
+      pl={{ base: 5, md: 10, lg: horizontal ? '9vw' : 0 }}
       py={{ base: 20, lg: '12vh' }}
       overflow="hidden"
     >
@@ -222,8 +223,8 @@ export default function CareerChapter({ club }) {
       <Box minW={0} position="relative">
         {/* Fechas en línea (cabecera horizontal) */}
         {horizontal && (
-          <Flex align="center" gap={{ base: 3, lg: '14px' }} mb={{ base: 4, lg: '14px' }} fontFamily="heading"
-            fontSize={{ base: '22px', lg: 'clamp(20px, 1.9vw, 30px)' }} lineHeight={1}>
+          <Flex align="center" gap={{ base: 3, lg: '14px' }} mb={{ base: 4, lg: '1.4vh' }} fontFamily="heading"
+            fontSize={{ base: '22px', lg: 'clamp(18px, min(1.9vw, 3.2vh), 30px)' }} lineHeight={1}>
             <Text as="span">{from}</Text>
             <Box position="relative" w={{ base: '48px', lg: 'clamp(40px, 8vw, 120px)' }} h="1px" bg="brand.linea" aria-hidden="true">
               <Box className="cc-dates-fill" position="absolute" inset={0} bg={accent} transformOrigin="left" transform="scaleX(0)" />
@@ -237,7 +238,7 @@ export default function CareerChapter({ club }) {
           className="cc-title"
           fontFamily="heading"
           fontWeight="400"
-          fontSize={{ base: '58px', md: '84px', lg: 'clamp(64px, 8vw, 140px)' }}
+          fontSize={{ base: '58px', md: '84px', lg: horizontal ? 'clamp(56px, min(8vw, 13vh), 140px)' : 'clamp(64px, 8vw, 140px)' }}
           lineHeight={0.9}
           letterSpacing="0.01em"
           color="transparent"
@@ -249,9 +250,9 @@ export default function CareerChapter({ club }) {
 
         {/* Puesto destacado bajo el título */}
         {horizontal && (
-          <Flex className="cc-role" display="inline-flex" align="stretch" border="1px solid" borderColor={accent} mt={{ base: 4, lg: '18px' }}>
+          <Flex className="cc-role" display="inline-flex" align="stretch" border="1px solid" borderColor={accent} mt={{ base: 4, lg: '1.8vh' }}>
             {roleParts.map((part, i) => (
-              <Text key={i} as="span" fontFamily="heading" fontSize={{ base: '21px', md: '26px', lg: 'clamp(22px, 2.2vw, 36px)' }}
+              <Text key={i} as="span" fontFamily="heading" fontSize={{ base: '21px', md: '26px', lg: 'clamp(18px, min(2.2vw, 3.6vh), 36px)' }}
                 letterSpacing="0.06em" lineHeight={1} whiteSpace="nowrap" px={{ base: '11px', lg: 4 }} pt={{ base: '8px', lg: '10px' }} pb={{ base: '6px', lg: '7px' }}
                 bg={i === 0 ? accent : 'transparent'} color={i === 0 ? 'brand.ink' : 'brand.bone'}>
                 {part}
@@ -265,12 +266,13 @@ export default function CareerChapter({ club }) {
           align={{ base: stackDash ? 'flex-start' : 'center', md: 'center' }}
           direction={{ base: stackDash ? 'column' : 'row', md: 'row' }}
           gap={{ base: 5, lg: '3vw' }}
-          my={{ base: 8, lg: '5vh' }}
-          py={{ base: 6, lg: '4vh' }}
+          my={{ base: 8, lg: horizontal ? '3vh' : '5vh' }}
+          py={{ base: 6, lg: horizontal ? '2.4vh' : '4vh' }}
           borderY="1px solid"
           borderColor="brand.linea"
         >
-          <Image loading="lazy" decoding="async" src={crest} alt={crestAlt} h={{ base: '80px', lg: 'clamp(90px, 13vh, 140px)' }} w="auto"
+          <Image loading="lazy" decoding="async" src={crest} alt={crestAlt} w="auto"
+            h={{ base: '80px', lg: horizontal ? 'clamp(70px, 11vh, 140px)' : 'clamp(90px, 13vh, 140px)' }}
             filter="drop-shadow(0 0 22px rgba(76,184,242,0.3))" />
           {totals && (
             <Text fontFamily="heading" fontSize={{ base: '32px', md: '44px', lg: 'clamp(36px, 3.6vw, 60px)' }}
@@ -297,7 +299,7 @@ export default function CareerChapter({ club }) {
             </Text>
           )}
           {motto && (
-            <Text fontFamily="heading" fontSize={{ base: '36px', md: '44px', lg: 'clamp(30px, 3.4vw, 58px)' }}
+            <Text fontFamily="heading" fontSize={{ base: '36px', md: '44px', lg: 'clamp(28px, min(3.4vw, 5.6vh), 58px)' }}
               lineHeight={0.95} letterSpacing="0.02em" color="brand.bone">
               {motto[0]}<br />
               <Box as="span" color={accent}>{motto[1]}</Box>
@@ -313,19 +315,19 @@ export default function CareerChapter({ club }) {
                 <Box position="absolute" left="4px" top={{ base: '50px', lg: '58px' }} bottom="8px" w="1px" bg="brand.linea" />
                 <Box className="cc-board-fill" position="absolute" left="4px" top={{ base: '50px', lg: '58px' }} bottom="8px" w="1px"
                   bg={accent} transformOrigin="top" transform="scaleY(0)" />
-                <Text as="h4" display="inline-block" ml="-30px" mb={{ base: 5, lg: '2.6vh' }} bg={accent} color="brand.ink"
-                  fontFamily="heading" fontWeight="400" fontSize={{ base: '26px', lg: 'clamp(24px, 2.1vw, 34px)' }}
+                <Text as="h4" display="inline-block" ml="-30px" mb={{ base: 5, lg: '2vh' }} bg={accent} color="brand.ink"
+                  fontFamily="heading" fontWeight="400" fontSize={{ base: '26px', lg: 'clamp(20px, min(2.1vw, 3.6vh), 34px)' }}
                   letterSpacing="0.06em" lineHeight={1} px={4} pt="9px" pb="6px">
                   {col.title}
                 </Text>
-                <Flex as="ul" direction="column" gap={{ base: 5, lg: '2.4vh' }} listStyleType="none" m={0} p={0}>
+                <Flex as="ul" direction="column" gap={{ base: 5, lg: '1.6vh' }} listStyleType="none" m={0} p={0}>
                   {col.items.map((segs, i) => (
                     <Box as="li" key={i} className="cc-node" position="relative"
                       sx={{ '&.is-on .cc-node-dot': { bg: accent, borderColor: accent, boxShadow: `0 0 0 4px ${accent}29, 0 0 12px ${accent}99` } }}>
                       <Box className="cc-node-dot" position="absolute" left="-30px" top="0.5em" boxSize="9px" borderRadius="full"
                         bg="brand.ink" border="1px solid" borderColor="rgba(120,190,235,0.6)"
                         transition="background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease" />
-                      <Text fontSize={{ base: '17px', lg: 'clamp(15px, 1.25vw, 20px)' }} lineHeight={1.5} color="brand.gray" sx={{ textWrap: 'pretty' }}>
+                      <Text fontSize={{ base: '17px', lg: 'clamp(14px, min(1.2vw, 2.1vh), 20px)' }} lineHeight={1.45} color="brand.gray" sx={{ textWrap: 'pretty' }}>
                         <Segs segs={segs} accent={accent} />
                       </Text>
                     </Box>
@@ -338,16 +340,16 @@ export default function CareerChapter({ club }) {
 
         {/* Día a día + DT interino */}
         {(dayToDay || interim) && (
-          <Grid className="cc-extra" templateColumns={{ base: '1fr', lg: 'minmax(0, 3fr) minmax(0, 2fr)' }} gap="12px" mt={{ base: 12, lg: '6vh' }}>
+          <Grid className="cc-extra" templateColumns={{ base: '1fr', lg: 'minmax(0, 3fr) minmax(0, 2fr)' }} gap="12px" mt={{ base: 12, lg: '3.5vh' }}>
             {dayToDay && (
               <Box position="relative" border="1px solid" borderColor="brand.linea" bg="rgba(11,17,24,0.7)"
-                px={{ base: '18px', lg: '2vw' }} py={{ base: '18px', lg: '2.6vh' }}
+                px={{ base: '18px', lg: '2vw' }} py={{ base: '18px', lg: '2vh' }}
                 _before={{ content: '""', position: 'absolute', left: '-1px', top: '-1px', bottom: '-1px', w: '3px', bg: accent }}>
                 <Text fontFamily="mono" fontWeight="700" fontSize="13px" letterSpacing="0.14em" color={accent} mb={2.5}>{dayToDay.label}</Text>
                 <Flex as="ul" wrap="wrap" gap={2} listStyleType="none" m={0} p={0}>
                   {dayToDay.items.map((chip) => (
                     <Box as="li" key={chip} className="cc-chip" px={3} py="6px" border="1px solid" borderColor="brand.linea" borderRadius="full"
-                      fontFamily="mono" fontWeight="600" fontSize={{ base: '15px', lg: 'clamp(14px, 1.15vw, 17px)' }} lineHeight={1.2} color="brand.bone">
+                      fontFamily="mono" fontWeight="600" fontSize={{ base: '15px', lg: 'clamp(13px, min(1.15vw, 1.9vh), 17px)' }} lineHeight={1.2} color="brand.bone">
                       {chip}
                     </Box>
                   ))}
@@ -356,10 +358,10 @@ export default function CareerChapter({ club }) {
             )}
             {interim && (
               <Flex className="cc-interim" direction="column" justify="center" position="relative" border="1px solid" borderColor="brand.linea"
-                px={{ base: '18px', lg: '2vw' }} py={{ base: '18px', lg: '2.6vh' }}
+                px={{ base: '18px', lg: '2vw' }} py={{ base: '18px', lg: '2vh' }}
                 sx={{ background: `linear-gradient(120deg, ${accent}29, rgba(11,17,24,0.7) 60%)` }}
                 _before={{ content: '""', position: 'absolute', left: '-1px', top: '-1px', bottom: '-1px', w: '3px', bg: accent }}>
-                <Text fontFamily="heading" fontSize={{ base: '28px', lg: 'clamp(26px, 2.4vw, 38px)' }} lineHeight={1} letterSpacing="0.03em" color="brand.bone">
+                <Text fontFamily="heading" fontSize={{ base: '28px', lg: 'clamp(22px, min(2.4vw, 4vh), 38px)' }} lineHeight={1} letterSpacing="0.03em" color="brand.bone">
                   {interim.map((s, i) => <Box as="span" key={i} color={s.hl ? accent : undefined}>{s.t}</Box>)}
                 </Text>
               </Flex>
@@ -453,29 +455,33 @@ export default function CareerChapter({ club }) {
           </Grid>
         )}
 
-        {/* Rendimiento y formación */}
+        {/* Rendimiento y formación
+            En desktop todo el bloque se dimensiona con vh para entrar en una
+            pantalla debajo del navbar (76px); la foto toma el alto del texto. */}
         {results && (
           <Grid templateColumns={{ base: '1fr', lg: 'minmax(0, 4fr) minmax(0, 7fr)' }} gap={{ base: 10, lg: '4vw' }}
-            mt={{ base: 16, lg: '12vh' }} alignItems="start">
-            <Box position={{ base: 'relative', lg: 'sticky' }} top={{ lg: '14vh' }} maxW={{ base: '320px', lg: 'none' }}
+            mt={{ base: 16, lg: '12vh' }} alignItems={{ base: 'start', lg: 'stretch' }}>
+            <Box position="relative" maxW={{ base: '320px', lg: 'none' }} minH={{ lg: 0 }}
               borderTopRightRadius="46px" overflow="hidden">
               <Box position="absolute" top={0} left={0} right="12%" h="1px" bg={accent} zIndex={1} />
-              <Image loading="lazy" decoding="async" className="cc-reveal" src={results.photo} alt={results.photoAlt} w="100%" h="auto" display="block" />
+              <Image loading="lazy" decoding="async" className="cc-reveal" src={results.photo} alt={results.photoAlt}
+                position={{ base: 'static', lg: 'absolute' }} inset={0} w="100%" h={{ base: 'auto', lg: '100%' }}
+                objectFit="cover" objectPosition="50% 15%" display="block" />
             </Box>
 
             <Box minW={0}>
-              <SubTitle>{results.title}</SubTitle>
-              <Grid className="cc-stars" templateColumns={{ base: '1fr', md: 'repeat(2, minmax(0,1fr))' }} gap="10px" mb={{ base: 12, lg: '6vh' }}>
+              <SubTitle compact>{results.title}</SubTitle>
+              <Grid className="cc-stars" templateColumns={{ base: '1fr', md: 'repeat(2, minmax(0,1fr))' }} gap="10px" mb={{ base: 12, lg: '3.5vh' }}>
                 {results.stars.map((s, i) => (
                   <Flex key={i} className="cc-star" align="center" gap={{ base: 3.5, lg: 4 }}
-                    px={{ base: 4, lg: '1.6vw' }} py={{ base: 3.5, lg: '2.2vh' }} border="1px solid" borderColor={`${accent}59`}
+                    px={{ base: 4, lg: '1.6vw' }} py={{ base: 3.5, lg: '1.6vh' }} border="1px solid" borderColor={`${accent}59`}
                     sx={{ background: `linear-gradient(90deg, ${accent}2E, ${accent}0A)` }}>
-                    <Star color={GOLD} size="30px" mt={0} />
-                    <Text fontFamily="heading" fontSize={{ base: '46px', lg: 'clamp(34px, 3.4vw, 56px)' }} lineHeight={0.85} color={accent}
+                    <Star color={GOLD} size="clamp(22px, 3.2vh, 30px)" mt={0} />
+                    <Text fontFamily="heading" fontSize={{ base: '46px', lg: 'clamp(30px, min(3vw, 5.6vh), 56px)' }} lineHeight={0.85} color={accent}
                       sx={{ fontVariantNumeric: 'tabular-nums' }} data-to={s.value} data-suffix={s.suffix || ''}>
                       {s.value}{s.suffix}
                     </Text>
-                    <Text fontFamily="mono" fontWeight="600" fontSize={{ base: '17px', lg: 'clamp(15px, 1.3vw, 20px)' }} lineHeight={1.15} color="brand.bone">
+                    <Text fontFamily="mono" fontWeight="600" fontSize={{ base: '17px', lg: 'clamp(14px, min(1.2vw, 2.1vh), 20px)' }} lineHeight={1.15} color="brand.bone">
                       {s.label}
                     </Text>
                   </Flex>
@@ -483,14 +489,14 @@ export default function CareerChapter({ club }) {
               </Grid>
 
               {results.lists.map((list, li) => (
-                <Box key={li} mt={li ? { base: 12, lg: '6vh' } : 0}>
-                  <SubTitle>{list.title}</SubTitle>
+                <Box key={li} mt={li ? { base: 12, lg: '3.5vh' } : 0}>
+                  <SubTitle compact>{list.title}</SubTitle>
                   <Box as="ul" className="cc-res-list" listStyleType="none" m={0} p={0}>
                     {list.items.map((segs, i) => (
-                      <Grid as="li" key={i} templateColumns="20px minmax(0,1fr)" gap="10px" py={{ base: 3.5, lg: '1.8vh' }}
+                      <Grid as="li" key={i} templateColumns="20px minmax(0,1fr)" gap="10px" py={{ base: 3.5, lg: '1.1vh' }}
                         borderBottom="1px solid" borderColor="brand.linea">
                         <Box boxSize="9px" mt="0.55em" border="1px solid" borderColor={accent} transform="rotate(45deg)" />
-                        <Text fontSize={{ base: '16px', lg: 'clamp(15px, 1.25vw, 19px)' }} lineHeight={1.5} color="brand.gray" sx={{ textWrap: 'pretty' }}>
+                        <Text fontSize={{ base: '16px', lg: 'clamp(14px, min(1.15vw, 2vh), 18px)' }} lineHeight={1.4} color="brand.gray" sx={{ textWrap: 'pretty' }}>
                           <Segs segs={segs} accent={accent} />
                         </Text>
                       </Grid>
