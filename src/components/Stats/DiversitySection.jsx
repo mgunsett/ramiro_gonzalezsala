@@ -15,7 +15,7 @@ gsap.registerPlugin(ScrollTrigger)
 // DATOS · opción A "Mapa"
 //  · Diversidad de jugadores dirigidos: 4 cifras con contador + mapa
 //    con las 16 ligas unidas a su país.
-//  · Trayectoria como jugador: línea en "S" con escudos.
+//  · Trayectoria como jugador: línea deslizante (ver PlayerTimeline).
 // ─────────────────────────────────────────────────────────────
 
 function Title({ children }) {
@@ -64,10 +64,6 @@ export default function DiversitySection() {
       if (q('.wm-badge').length) {
         gsap.from(q('.wm-badge'), { opacity: 0, duration: 0.5, stagger: 0.04, scrollTrigger: { trigger: map, start: 'top 70%' } })
       }
-      gsap.from(q('.pt-stop'), { opacity: 0, y: 16, duration: 0.5, stagger: 0.06, ease: 'power3.out',
-        scrollTrigger: { trigger: q('.pt-path-svg')[0], start: 'top 80%' } })
-      gsap.from(q('.pt-row'), { opacity: 0, x: -12, duration: 0.5, stagger: 0.05, ease: 'power3.out',
-        scrollTrigger: { trigger: q('.pt-row')[0], start: 'top 90%' } })
     }, ref)
     return () => ctx.revert()
   }, [])
@@ -121,12 +117,7 @@ export default function DiversitySection() {
       </Box>
 
       {/* ── Trayectoria como jugador ── */}
-      <Box px={{ base: 5, md: 10, lg: '6vw' }} py={{ base: 20, lg: '12vh' }} borderTop="1px solid" borderColor="brand.linea">
-        <Title>{playerCareer.title}</Title>
-        <Box mt={{ base: 8, lg: '7vh' }}>
-          <PlayerTimeline clubs={playerCareer.clubs} />
-        </Box>
-      </Box>
+      <PlayerTimeline title={playerCareer.title} clubs={playerCareer.clubs} />
 
       <style>{`
         .wm-ring{transform-box:fill-box;transform-origin:center;animation:wmPing 2.4s ease-out infinite}
