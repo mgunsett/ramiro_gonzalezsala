@@ -102,7 +102,7 @@ export default function CareerChapter({ club }) {
       ref={ref}
       aria-labelledby={`cc-${club.id}`}
       position="relative"
-      px={{ base: 5, md: 10, lg: fit ? '9vw' : '6vw' }}
+      px={{ base: 5, md: 10, lg: '9vw' }}
       py={{ base: 20, lg: '12vh' }}
       overflow="hidden"
     >
