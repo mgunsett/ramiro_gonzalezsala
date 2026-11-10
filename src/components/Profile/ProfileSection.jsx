@@ -1,5 +1,5 @@
-import { useRef, useLayoutEffect } from 'react'
-import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react'
+import { useRef, useLayoutEffect, useState } from 'react'
+import { Box, Flex, Grid, Text, Image, Collapse } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { coachData } from '../../data/coachData'
@@ -17,44 +17,44 @@ const PHOTO_ALT = {
 // PERFIL PROFESIONAL · Opción A "Pizarra"
 //  · Foto con el mismo encuadre de la placa (corte diagonal, halo,
 //    líneas de marco con nodo) — las líneas se redibujan en CSS.
-//  · Título en caja con borde celeste.
-//  · 7 puntos unidos por una línea con nodos: la línea se llena con
-//    el scroll y cada nodo se enciende al llegar a su punto.
+//  · Título en caja, licencias e intro en negrita.
+//  · 4 subsecciones en acordeón sobre la línea con nodos: solo se ven
+//    las etiquetas; al tocar una se despliega su texto (una por vez) y
+//    su nodo se enciende.
 // ─────────────────────────────────────────────────────────────
 
-const NODE_OFF = {
-  bg: 'brand.ink',
-  border: '1px solid rgba(120,190,235,0.5)',
-  boxShadow: 'none',
+const HOVER = '@media (hover: hover) and (pointer: fine)'
+const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)'
+
+function Segs({ segs }) {
+  return segs.map((s, i) => (s.b
+    ? <Box as="strong" key={i} fontWeight="600" color="brand.bone">{s.t}</Box>
+    : <Box as="span" key={i}>{s.t}</Box>))
+}
+
+/* Ícono +/− que rota al abrir */
+function ToggleIcon({ open }) {
+  return (
+    <Box position="relative" boxSize="28px" flex="0 0 auto" borderRadius="full" border="1px solid" borderColor="brand.celeste"
+      bg={open ? 'brand.celeste' : 'transparent'} transform={open ? 'rotate(180deg)' : 'none'}
+      transition={`transform 260ms ${EASE}, background-color 200ms ease`} aria-hidden="true"
+      _before={{ content: '""', position: 'absolute', left: '50%', top: '50%', w: '11px', h: '1.5px', ml: '-5.5px', mt: '-0.75px',
+        bg: open ? 'brand.ink' : 'brand.celeste', transition: 'background-color 200ms ease' }}
+      _after={{ content: '""', position: 'absolute', left: '50%', top: '50%', w: '11px', h: '1.5px', ml: '-5.5px', mt: '-0.75px',
+        bg: open ? 'brand.ink' : 'brand.celeste', transform: open ? 'rotate(0deg)' : 'rotate(90deg)',
+        transition: `transform 260ms ${EASE}, background-color 200ms ease` }} />
+  )
 }
 
 export default function ProfileSection() {
   const sectionRef = useRef(null)
   const t = useT()
-  const { title, image, items } = useLocalized(coachData.profile)
+  const { title, image, licenses, intro, sections, pointsLabel } = useLocalized(coachData.profile)
+  const [open, setOpen] = useState(null)
 
   useLayoutEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const ctx = gsap.context(() => {
-      const list = sectionRef.current.querySelector('.pf-list')
-      const lis = gsap.utils.toArray('.pf-item')
-
-      // Línea de la lista: se llena con el scroll
-      gsap.fromTo('.pf-fill', { scaleY: 0 }, {
-        scaleY: 1, ease: 'none',
-        scrollTrigger: { trigger: list, start: 'top 60%', end: 'bottom 60%', scrub: 0.6 },
-      })
-
-      // Nodos: se encienden al pasar la línea de lectura
-      lis.forEach((li) => {
-        ScrollTrigger.create({
-          trigger: li,
-          start: 'top 60%',
-          onEnter: () => li.classList.add('is-on'),
-          onLeaveBack: () => li.classList.remove('is-on'),
-        })
-      })
-
       if (reduce) return
 
       // Foto: aparece desde abajo + líneas del marco se dibujan
@@ -72,12 +72,10 @@ export default function ProfileSection() {
         { clipPath: 'inset(0 0% 0 0)', duration: 0.9, ease: 'power4.inOut',
           scrollTrigger: { trigger: '.pf-title', start: 'top 85%' } })
 
-      // Puntos: entrada suave
-      lis.forEach((li) => {
-        gsap.fromTo(li, { opacity: 0, y: 14 }, {
-          opacity: 1, y: 0, duration: 0.6, ease: 'power3.out',
-          scrollTrigger: { trigger: li, start: 'top 88%' },
-        })
+      // Licencias, intro y etiquetas: entrada suave
+      gsap.fromTo('.pf-in', { opacity: 0, y: 14 }, {
+        opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: '.pf-acc', start: 'top 92%' },
       })
     }, sectionRef)
     return () => ctx.revert()
@@ -185,72 +183,64 @@ export default function ProfileSection() {
             </Text>
           </Box>
 
-          <Flex
-            as="ul"
-            className="pf-list"
-            listStyleType="none"
-            direction="column"
-            gap={{ base: 6, lg: '3.2vh' }}
-            m={0}
-            pl={{ base: 7, lg: 8 }}
-            position="relative"
-            _before={{
-              content: '""', position: 'absolute', left: 0, top: '10px', bottom: '10px',
-              w: '1px', bg: 'brand.linea',
-            }}
-          >
-            <Box
-              className="pf-fill"
-              as="span"
-              aria-hidden="true"
-              position="absolute"
-              left={0}
-              top="10px"
-              bottom="10px"
-              w="1px"
-              bg="brand.celeste"
-              transformOrigin="top"
-              transform="scaleY(0)"
-            />
-            {items.map(({ text, highlight }, i) => (
-              <Box
-                as="li"
-                key={i}
-                className="pf-item"
-                position="relative"
-                // conector horizontal desde la línea
-                _after={{
-                  content: '""', position: 'absolute', left: { base: '-21px', lg: '-25px' }, top: 'calc(0.75em + 4px)',
-                  w: { base: '12px', lg: '16px' }, h: '1px', bg: 'brand.linea',
-                }}
-                // nodo
-                _before={{
-                  content: '""', position: 'absolute', left: { base: '-32px', lg: '-36px' }, top: '0.75em',
-                  boxSize: '9px', borderRadius: 'full', transition: 'background-color 250ms ease, border-color 250ms ease, box-shadow 250ms ease',
-                  ...NODE_OFF,
-                }}
-                sx={{
-                  '&.is-on::before': {
-                    bg: 'var(--chakra-colors-brand-celeste)',
-                    borderColor: 'var(--chakra-colors-brand-celeste)',
-                    boxShadow: '0 0 0 4px rgba(76,184,242,0.16), 0 0 12px rgba(76,184,242,0.6)',
-                  },
-                }}
-              >
-                <Text
-                  fontFamily="body"
-                  fontSize={{ base: '16px', lg: 'clamp(16px, 1.25vw, 20px)' }}
-                  lineHeight={1.5}
-                  color="brand.gray"
-                  maxW="58ch"
-                  sx={{ textWrap: 'pretty' }}
-                >
-                  {text}
-                  <Box as="strong" fontWeight="600" color="brand.bone">{highlight}</Box>
-                </Text>
-              </Box>
-            ))}
-          </Flex>
+          <Text className="pf-in" fontSize={{ base: '16px', lg: 'clamp(16px, 1.45vw, 23px)' }} color="brand.gray" letterSpacing="0.01em"
+            mt={{ base: -4, lg: '-2.5vh' }}>
+            {licenses}
+          </Text>
+          <Text className="pf-in" fontWeight="600" fontSize={{ base: '16px', lg: 'clamp(16px, 1.3vw, 20px)' }} lineHeight={1.45}
+            color="brand.bone" maxW="58ch" mt={{ base: 5, lg: '3vh' }} mb={{ base: 7, lg: '4vh' }}>
+            {intro.map((line, i) => <Box as="span" key={i} display="block">{line}</Box>)}
+          </Text>
+
+          {/* Acordeón sobre la línea con nodos */}
+          <Box className="pf-acc" position="relative" pl={{ base: 7, lg: 8 }}
+            _before={{ content: '""', position: 'absolute', left: '4px', top: '14px', bottom: '14px', w: '1px', bg: 'brand.linea' }}>
+            {sections.map((sec, i) => {
+              const isOpen = open === i
+              const panelId = `pf-panel-${i}`
+              return (
+                <Box key={i} className="pf-in" position="relative" borderBottom="1px solid" borderColor="brand.linea"
+                  _before={{
+                    content: '""', position: 'absolute', left: { base: '-28px', lg: '-32px' }, top: '27px', boxSize: '9px',
+                    borderRadius: 'full', border: '1px solid',
+                    bg: isOpen ? 'brand.celeste' : 'brand.ink',
+                    borderColor: isOpen ? 'brand.celeste' : 'rgba(120,190,235,0.5)',
+                    boxShadow: isOpen ? '0 0 0 4px rgba(76,184,242,0.16), 0 0 12px rgba(76,184,242,0.6)' : 'none',
+                    transition: 'background-color 250ms ease, border-color 250ms ease, box-shadow 250ms ease',
+                  }}>
+                  <Flex as="button" type="button" w="100%" align="center" gap={4} py={4} textAlign="left" role="group"
+                    aria-expanded={isOpen} aria-controls={panelId} onClick={() => setOpen(isOpen ? null : i)}
+                    _focusVisible={{ outline: '2px solid', outlineColor: 'brand.celesteLight', outlineOffset: '3px' }}>
+                    <Text as="h3" fontFamily="heading" fontWeight="400" letterSpacing="0.06em" lineHeight={1}
+                      fontSize={{ base: '22px', lg: 'clamp(22px, 1.9vw, 30px)' }} px={3.5} pt="9px" pb="6px"
+                      border="1px solid" borderColor="brand.celeste"
+                      bg={isOpen ? 'brand.celeste' : 'transparent'} color={isOpen ? 'brand.ink' : 'brand.bone'}
+                      transition="background-color 220ms ease, color 220ms ease"
+                      sx={{ [HOVER]: { '[role=group]:hover &': { bg: isOpen ? 'brand.celeste' : 'rgba(76,184,242,0.14)' } } }}>
+                      {sec.title}
+                    </Text>
+                    <Text ml="auto" fontFamily="mono" fontWeight="600" fontSize="14px" letterSpacing="0.08em" color="brand.gray"
+                      display={{ base: 'none', sm: 'block' }}>
+                      {sec.items.length} {pointsLabel}
+                    </Text>
+                    <Box ml={{ base: 'auto', sm: 0 }}><ToggleIcon open={isOpen} /></Box>
+                  </Flex>
+
+                  <Collapse in={isOpen} animateOpacity>
+                    <Flex as="ul" id={panelId} listStyleType="none" direction="column" gap={3} m={0} p={0} pb={6}>
+                      {sec.items.map((segs, j) => (
+                        <Box as="li" key={j} position="relative" pl={4} fontSize={{ base: '16px', lg: 'clamp(15px, 1.2vw, 19px)' }}
+                          lineHeight={1.45} color="brand.gray" maxW="62ch"
+                          _before={{ content: '""', position: 'absolute', left: 0, top: '0.6em', boxSize: '6px', borderRadius: 'full', bg: 'brand.celeste' }}>
+                          <Segs segs={segs} />
+                        </Box>
+                      ))}
+                    </Flex>
+                  </Collapse>
+                </Box>
+              )
+            })}
+          </Box>
         </Box>
       </Grid>
     </Box>

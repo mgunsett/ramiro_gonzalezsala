@@ -24,48 +24,102 @@ export const coachData = {
     impact: { matches: '+200', titles: '13' },
   },
 
-  // Perfil profesional — textos EXACTOS de la placa.
-  // `text` va en gris y `highlight` (la parte en negrita) en blanco.
+  // Perfil profesional — textos EXACTOS de la placa (versión nueva).
+  // Cada punto es una lista de segmentos: { t } texto normal (gris),
+  // { t, b: true } negrita (blanco).
   profile: {
     title: { es: 'PERFIL PROFESIONAL', en: 'PROFESSIONAL PROFILE', it: 'PROFILO PROFESSIONALE' },
     image: profileImg,
-    items: [
+    licenses: {
+      es: 'CONMEBOL Pro · AFC Pro (reconocimiento) · UEFA B',
+      en: 'CONMEBOL Pro · AFC Pro (recognition) · UEFA B',
+      it: 'CONMEBOL Pro · AFC Pro (riconoscimento) · UEFA B',
+    },
+    intro: {
+      es: ['+200 partidos profesionales entre Asia y Argentina · 13 títulos en Asia.', 'Hoy, formando futbolistas para Primera División.'],
+      en: ['200+ professional matches across Asia and Argentina · 13 titles in Asia.', 'Today, developing players for the First Division.'],
+      it: ['Oltre 200 partite professionistiche tra Asia e Argentina · 13 titoli in Asia.', 'Oggi, formando calciatori per la Prima Divisione.'],
+    },
+    sections: [
       {
-        es: { text: 'Entrenador ', highlight: 'con experiencia internacional en proyectos de alto rendimiento y contextos competitivos de máxima exigencia.' },
-        en: { text: 'Coach ', highlight: 'with international experience in high-performance projects and highly demanding competitive environments.' },
-        it: { text: 'Allenatore ', highlight: 'con esperienza internazionale in progetti di alto rendimento e contesti competitivi di massima esigenza.' },
+        title: { es: 'TRAYECTORIA', en: 'CAREER', it: 'CARRIERA' },
+        items: {
+          es: [
+            [{ t: 'Atlético Tucumán', b: true }, { t: ' · Director Técnico de Reserva · desde dic. 2025' }],
+            [{ t: "Johor Darul Ta'zim (Malasia)", b: true }, { t: ' · Asistente técnico · 4 temporadas · 13 títulos · 4 campañas en AFC Champions League' }],
+            [{ t: 'Ex futbolista profesional', b: true }, { t: ' en Argentina e Italia' }],
+          ],
+          en: [
+            [{ t: 'Atlético Tucumán', b: true }, { t: ' · Reserve Team Head Coach · since Dec. 2025' }],
+            [{ t: "Johor Darul Ta'zim (Malaysia)", b: true }, { t: ' · Assistant Coach · 4 seasons · 13 titles · 4 AFC Champions League campaigns' }],
+            [{ t: 'Former professional footballer', b: true }, { t: ' in Argentina and Italy' }],
+          ],
+          it: [
+            [{ t: 'Atlético Tucumán', b: true }, { t: ' · Allenatore della squadra Riserve · da dic. 2025' }],
+            [{ t: "Johor Darul Ta'zim (Malesia)", b: true }, { t: ' · Allenatore in seconda · 4 stagioni · 13 titoli · 4 partecipazioni in AFC Champions League' }],
+            [{ t: 'Ex calciatore professionista', b: true }, { t: ' in Argentina e Italia' }],
+          ],
+        },
       },
       {
-        es: { text: 'Perfil orientado a la construcción de equipos ', highlight: 'intensos, organizados y competitivos, con liderazgo centrado en las personas.' },
-        en: { text: 'Focused on building teams that are ', highlight: 'intense, organised and competitive, with people-centred leadership.' },
-        it: { text: 'Profilo orientato alla costruzione di squadre ', highlight: 'intense, organizzate e competitive, con una leadership centrata sulle persone.' },
+        title: { es: 'IDEA DE JUEGO', en: 'GAME MODEL', it: 'IDEA DI GIOCO' },
+        items: {
+          es: [
+            [{ t: 'Posesión con criterio y presión alta', b: true }],
+            [{ t: 'Equipos protagonistas, intensos y organizados' }],
+            [{ t: 'Desarrollo individual', b: true }, { t: ' como motor del rendimiento colectivo' }],
+          ],
+          en: [
+            [{ t: 'Purposeful possession and high pressing', b: true }],
+            [{ t: 'Proactive, intense and well-organised teams' }],
+            [{ t: 'Individual development', b: true }, { t: ' as the engine of collective performance' }],
+          ],
+          it: [
+            [{ t: 'Possesso ragionato e pressing alto', b: true }],
+            [{ t: 'Squadre protagoniste, intense e organizzate' }],
+            [{ t: 'Sviluppo individuale', b: true }, { t: ' come motore del rendimento collettivo' }],
+          ],
+        },
       },
       {
-        es: { text: 'Experiencia en ', highlight: 'planificación táctica, diseño de entrenamientos, análisis competitivo y desarrollo individual de futbolistas.' },
-        en: { text: 'Experience in ', highlight: 'tactical planning, training design, match analysis and individual player development.' },
-        it: { text: 'Esperienza in ', highlight: 'pianificazione tattica, progettazione degli allenamenti, analisi competitiva e sviluppo individuale dei calciatori.' },
+        title: { es: 'LIDERAZGO', en: 'LEADERSHIP', it: 'LEADERSHIP' },
+        items: {
+          es: [
+            [{ t: 'Liderazgo centrado en las personas', b: true }],
+            [{ t: 'Planteles ' }, { t: 'con más de 20 nacionalidades y 60 jugadores con pasado en selecciones', b: true }],
+            [{ t: '* 27 futbolistas promovidos', b: true }, { t: ' al primer equipo · jugadores con pasado en ' }, { t: 'LaLiga, Premier League, Serie A y Ligue 1', b: true }],
+          ],
+          en: [
+            [{ t: 'People-centred leadership', b: true }],
+            [{ t: 'Squads ' }, { t: 'with more than 20 nationalities and 60 players with national-team experience', b: true }],
+            [{ t: '* 27 players promoted', b: true }, { t: ' to the first team · players with experience in ' }, { t: 'LaLiga, Premier League, Serie A and Ligue 1', b: true }],
+          ],
+          it: [
+            [{ t: 'Leadership centrata sulle persone', b: true }],
+            [{ t: 'Rose ' }, { t: 'con più di 20 nazionalità e 60 giocatori con esperienza in nazionale', b: true }],
+            [{ t: '* 27 calciatori promossi', b: true }, { t: ' in prima squadra · giocatori con esperienza in ' }, { t: 'LaLiga, Premier League, Serie A e Ligue 1', b: true }],
+          ],
+        },
       },
       {
-        es: { text: 'Entrenador Asistente en ', highlight: 'Johor Darul Ta’zim FC durante cuatro temporadas, participando en la obtención de 13 títulos y competencias AFC Champions League.' },
-        en: { text: 'Assistant Coach at ', highlight: 'Johor Darul Ta’zim FC for four seasons, contributing to 13 titles and AFC Champions League campaigns.' },
-        it: { text: 'Allenatore in seconda al ', highlight: 'Johor Darul Ta’zim FC per quattro stagioni, contribuendo alla conquista di 13 titoli e alle partecipazioni in AFC Champions League.' },
-      },
-      {
-        es: { text: 'Actual Director ', highlight: 'Técnico de la División Reserva de Atlético Tucumán, enfocado en el desarrollo competitivo y la transición al fútbol profesional.' },
-        en: { text: 'Current Head Coach ', highlight: 'of Atlético Tucumán’s Reserve Division, focused on competitive development and the transition to professional football.' },
-        it: { text: 'Attuale Allenatore ', highlight: 'della squadra Riserve dell’Atlético Tucumán, focalizzato sullo sviluppo competitivo e sulla transizione al calcio professionistico.' },
-      },
-      {
-        es: { text: 'Experiencia en ', highlight: 'contextos multiculturales de alta exigencia, trabajando con futbolistas de distintas nacionalidades y trayectorias.' },
-        en: { text: 'Experience in ', highlight: 'demanding multicultural environments, working with players of different nationalities and backgrounds.' },
-        it: { text: 'Esperienza in ', highlight: 'contesti multiculturali ad alta esigenza, lavorando con calciatori di diverse nazionalità e percorsi.' },
-      },
-      {
-        es: { text: 'Formación internacional complementada con ', highlight: 'Licencias UEFA, CONMEBOL Y AFC, estudios de posgrado en dirección y metodología del entrenamiento, y experiencia profesional en Europa, Asia y Sudamérica.' },
-        en: { text: 'International education complemented by ', highlight: 'UEFA, CONMEBOL and AFC licences, postgraduate studies in coaching and training methodology, and professional experience in Europe, Asia and South America.' },
-        it: { text: 'Formazione internazionale completata da ', highlight: 'Licenze UEFA, CONMEBOL e AFC, studi post-laurea in direzione tecnica e metodologia dell’allenamento, ed esperienza professionale in Europa, Asia e Sud America.' },
+        title: { es: 'DIFERENCIALES', en: 'WHAT SETS ME APART', it: 'ELEMENTI DISTINTIVI' },
+        items: {
+          es: [
+            [{ t: 'Experiencia profesional en ' }, { t: '3 continentes:', b: true }, { t: ' Europa, Asia y Sudamérica' }],
+            [{ t: 'Máster ' }, { t: 'Real Madrid – Universidad Europea', b: true }, { t: ' · Abogado · ' }, { t: 'Trilingüe', b: true }, { t: ' (español, inglés, italiano)' }],
+          ],
+          en: [
+            [{ t: 'Professional experience on ' }, { t: '3 continents:', b: true }, { t: ' Europe, Asia and South America' }],
+            [{ t: 'Master’s degree, ' }, { t: 'Real Madrid – Universidad Europea', b: true }, { t: ' · Lawyer · ' }, { t: 'Trilingual', b: true }, { t: ' (Spanish, English, Italian)' }],
+          ],
+          it: [
+            [{ t: 'Esperienza professionale in ' }, { t: '3 continenti:', b: true }, { t: ' Europa, Asia e Sud America' }],
+            [{ t: 'Master ' }, { t: 'Real Madrid – Universidad Europea', b: true }, { t: ' · Avvocato · ' }, { t: 'Trilingue', b: true }, { t: ' (spagnolo, inglese, italiano)' }],
+          ],
+        },
       },
     ],
+    pointsLabel: { es: 'PUNTOS', en: 'POINTS', it: 'PUNTI' },
   },
 
   // Navbar y footer —
