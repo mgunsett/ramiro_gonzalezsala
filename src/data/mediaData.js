@@ -25,6 +25,15 @@ export const media = {
   // `id` estable (no depende del idioma): se usa como key de la lista
   items: [
     {
+      id: 'tyc', kind: 'article', cta: CTA.article, thumb: n8, source: 'tycsports.com',
+      title: {
+        es: 'Jugó en Italia, dirigió en Malasia y ahora será entrenador de la Reserva de Atlético Tucumán',
+        en: 'He played in Italy, coached in Malaysia and will now lead Atlético Tucumán’s Reserve team',
+        it: 'Ha giocato in Italia, ha allenato in Malesia e ora guiderà la squadra Riserve dell’Atlético Tucumán',
+      },
+      href: 'https://www.tycsports.com/liga-profesional-de-futbol/jugo-en-italia-dirigio-en-malasia-y-ahora-sera-entrenador-de-la-reserva-de-atletico-tucuman-id704561.html',
+    },
+    {
       id: 'yt-liderazgo', kind: 'video', cta: CTA.article, youtube: 'uv39sSGej0o', thumb: n1, source: 'YouTube',
       title: {
         es: 'Liderazgo y Gestión para ENTRENADORES de FÚTBOL en la ERA DIGITAL',
@@ -68,15 +77,6 @@ export const media = {
         it: 'Ciclo di interviste - Ramiro Gonzalez',
       },
       href: 'https://www.youtube.com/watch?v=ByOAXJaPmyE',
-    },
-    {
-      id: 'tyc', kind: 'article', cta: CTA.article, thumb: n8, source: 'tycsports.com',
-      title: {
-        es: 'Jugó en Italia, dirigió en Malasia y ahora será entrenador de la Reserva de Atlético Tucumán',
-        en: 'He played in Italy, coached in Malaysia and will now lead Atlético Tucumán’s Reserve team',
-        it: 'Ha giocato in Italia, ha allenato in Malesia e ora guiderà la squadra Riserve dell’Atlético Tucumán',
-      },
-      href: 'https://www.tycsports.com/liga-profesional-de-futbol/jugo-en-italia-dirigio-en-malasia-y-ahora-sera-entrenador-de-la-reserva-de-atletico-tucuman-id704561.html',
     },
     {
       id: 'la-gaceta', kind: 'article', cta: CTA.article, thumb: n9, source: 'lagaceta.com.ar',
