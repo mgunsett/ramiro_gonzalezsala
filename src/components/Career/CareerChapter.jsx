@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import CareerCompact from './CareerCompact'
 import { TXT, Segs, SubTitle, Diamond, StarCard, ChapterPhoto } from './careerParts'
 import { useT } from '../../i18n/LanguageContext'
+import { PAGE_PX } from '../../styles/layout'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -102,7 +103,7 @@ export default function CareerChapter({ club }) {
       ref={ref}
       aria-labelledby={`cc-${club.id}`}
       position="relative"
-      px={{ base: 5, md: 10, lg: '9vw' }}
+      px={PAGE_PX}
       py={{ base: 20, lg: '12vh' }}
       overflow="hidden"
     >

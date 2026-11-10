@@ -2,6 +2,7 @@ import { Box, Flex, Grid, Text, Link, Icon, useToken, Image } from '@chakra-ui/r
 import { coachData } from '../../data/coachData'
 import { useT, useLocalized } from '../../i18n/LanguageContext'
 import LangSwitch from './LangSwitch'
+import { PAGE_PX, GUTTER_LG } from '../../styles/layout'
 import sportfolio from '../../../assets/software/logo_sport.png'
 
 
@@ -45,12 +46,12 @@ export default function Footer() {
 
   return (
     <Box as="footer" position="relative" bg="#03060A" borderTop="1px solid" borderColor="brand.linea"
-      px={{ base: 5, md: 10, lg: '6vw' }} pt={{ base: 14, lg: 20 }} pb={8} overflow="hidden">
+      px={PAGE_PX} pt={{ base: 14, lg: 20 }} pb={8} overflow="hidden">
       {/* línea con nodo, como en las placas */}
-      <Box position="absolute" top={0} left="6vw" w="22%" h="1px" bg="brand.celeste" opacity={0.7} aria-hidden="true"
+      <Box position="absolute" top={0} left={{ base: 5, md: 10, lg: GUTTER_LG }} w="22%" h="1px" bg="brand.celeste" opacity={0.7} aria-hidden="true"
         _after={{ content: '""', position: 'absolute', right: '-3px', top: '-3px', boxSize: '7px', borderRadius: 'full', bg: 'brand.celeste' }} />
 
-      <Grid maxW="1300px" mx="auto" templateColumns={{ base: '1fr', md: '1.4fr 1fr 1fr' }} gap={{ base: 10, md: 8 }}>
+      <Grid templateColumns={{ base: '1fr', md: '1.4fr 1fr 1fr' }} gap={{ base: 10, md: 8 }}>
         {/* Marca */}
         <Box>
           <Flex as="a" href="#hero" onClick={(e) => go(e, 'hero')} align="center" gap={4} w="fit-content"
@@ -118,7 +119,7 @@ export default function Footer() {
         </Box>
       </Grid>
 
-      <Flex maxW="1300px" mx="auto" mt={{ base: 12, lg: 16 }} pt={6} borderTop="1px solid" borderColor="brand.linea"
+      <Flex mt={{ base: 12, lg: 16 }} pt={6} borderTop="1px solid" borderColor="brand.linea"
         direction={{ base: 'column', md: 'row' }} justify="space-between" align='center' gap={3}>
         <Text fontFamily="mono" fontSize="12px" letterSpacing="0.12em" color="brand.gray" textTransform="uppercase">
           © {new Date().getFullYear()} {displayName} · {t(TXT.rights)}

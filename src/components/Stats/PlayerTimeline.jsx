@@ -4,6 +4,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { COUNTRY_NAME } from '../../data/statsData'
 import { useT } from '../../i18n/LanguageContext'
+import { GUTTER_LG } from '../../styles/layout'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -49,12 +50,12 @@ const nodeOn = {
 function DesktopRail({ title, clubs, t }) {
   return (
     <Flex className="pt-pin" direction="column" justify="center" h="100vh" overflow="hidden" position="relative" pt="8vh">
-      <Title mb="4vh" px="6vw">{title}</Title>
+      <Title mb="4vh" px={GUTTER_LG}>{title}</Title>
       <Box position="relative" h="60vh">
         <Box position="absolute" left={0} right={0} top={LINE_TOP} h="1px" bg="brand.linea">
           <Box className="pt-line-fill" position="absolute" inset={0} bg="brand.celeste" transformOrigin="left" transform="scaleX(0)" />
         </Box>
-        <Flex as="ol" className="pt-track" position="absolute" left={0} top={0} bottom={0} m={0} p={0} px="6vw"
+        <Flex as="ol" className="pt-track" position="absolute" left={0} top={0} bottom={0} m={0} p={0} px={GUTTER_LG}
           listStyleType="none" sx={{ willChange: 'transform' }}>
           {clubs.map((c) => (
             <Flex as="li" key={`${c.club}-${c.year}`} className="pt-stop" position="relative" direction="column" align="center"

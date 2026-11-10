@@ -4,6 +4,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { coachData } from '../../data/coachData'
 import { useLocalized } from '../../i18n/LanguageContext'
+import { PAGE_PX } from '../../styles/layout'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -105,14 +106,14 @@ export default function ContactSection() {
       bg="brand.ink"
       borderTop="1px solid"
       borderColor="brand.linea"
-      px={{ base: 4, md: 10, lg: '6vw' }}
+      px={PAGE_PX}
       py={{ base: 20, lg: '14vh' }}
     >
       {/* halo de la placa */}
       <Box position="absolute" left="-12%" top="-30%" w="45%" h="80%" borderRadius="50%" bg="rgba(76,184,242,0.15)"
         filter="blur(90px)" pointerEvents="none" />
 
-      <Grid position="relative" maxW="1400px" mx="auto" templateColumns={{ base: '1fr', lg: '1fr 1fr' }}
+      <Grid position="relative" templateColumns={{ base: '1fr', lg: '1fr 1fr' }}
         gap={{ base: 10, lg: '5vw' }} alignItems="center">
         {/* 50 % · título + texto */}
         <Box>

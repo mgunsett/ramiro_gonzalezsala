@@ -6,6 +6,7 @@ import MediaScreen, { KindTag } from './MediaScreen'
 import useInstagram from '../../hooks/useInstagram'
 import { media as mediaData } from '../../data/mediaData'
 import { useT, useLocalized } from '../../i18n/LanguageContext'
+import { PAGE_PX } from '../../styles/layout'
 
 const TXT = {
   viewPost: { es: 'Ver publicación en Instagram', en: 'View post on Instagram', it: 'Vedi il post su Instagram' },
@@ -98,8 +99,8 @@ export default function MediaSection() {
   return (
     <Box as="section" id="media" ref={ref} aria-labelledby="md-title" bg="brand.ink" borderTop="1px solid" borderColor="brand.linea">
       {/* ── Notas ── */}
-      <Box px={{ base: 5, md: 10, lg: '6vw' }} py={{ base: 20, lg: '12vh' }}>
-       <Box maxW="1400px" mx="auto">
+      <Box px={PAGE_PX} py={{ base: 20, lg: '12vh' }}>
+       <Box>
         <Text as="h2" id="md-title" className="md-title" fontFamily="heading" fontWeight="400" lineHeight={0.85} letterSpacing="0.03em"
           fontSize={{ base: '56px', md: '80px', lg: 'clamp(72px, 7vw, 124px)' }}>
           {media.title}
@@ -157,8 +158,8 @@ export default function MediaSection() {
       </Box>
 
       {/* ── Instagram ── */}
-      <Box px={{ base: 5, md: 10, lg: '6vw' }} pb={{ base: 20, lg: '12vh' }}>
-       <Box maxW="1400px" mx="auto">
+      <Box px={PAGE_PX} pb={{ base: 20, lg: '12vh' }}>
+       <Box>
         <Flex wrap="wrap" justify="space-between" align="flex-end" gap={4} mb={{ base: 6, lg: '4vh' }}
           pt={{ base: 12, lg: '8vh' }} borderTop="1px solid" borderColor="brand.linea">
           <Flex align="center" gap={3.5}>

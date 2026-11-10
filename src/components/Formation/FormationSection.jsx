@@ -4,6 +4,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { formation } from '../../data/formationData'
 import { useLocalized } from '../../i18n/LanguageContext'
+import { PAGE_PX } from '../../styles/layout'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -100,13 +101,12 @@ export default function FormationSection() {
       gsap.from(q('.fm-title > span'), { yPercent: 100, opacity: 0, duration: 1, stagger: 0.1, ease: 'expo.out',
         scrollTrigger: { trigger: ref.current, start: 'top 80%' } })
 
-      // Collage: aparece de abajo hacia arriba y flota levemente con el scroll
+      // Collage: aparece de abajo hacia arriba (sin flotar, para que su base
+      // quede alineada con la última línea de la lista)
       gsap.fromTo(q('.fm-collage'), { clipPath: 'inset(100% 0 0 0)' }, {
         clipPath: 'inset(0% 0 0 0)', duration: 1.3, ease: 'power3.out',
         scrollTrigger: { trigger: q('.fm-collage')[0], start: 'top 80%' },
       })
-      gsap.to(q('.fm-collage'), { yPercent: -4, ease: 'none',
-        scrollTrigger: { trigger: q('.fm-collage')[0], start: 'top bottom', end: 'bottom top', scrub: true } })
 
       q('.fm-panel').forEach((p) => gsap.from(p, { y: 24, opacity: 0, duration: 0.7, ease: 'power3.out',
         scrollTrigger: { trigger: p, start: 'top 85%' } }))
@@ -117,20 +117,22 @@ export default function FormationSection() {
   return (
     <Box as="section" id="formacion" ref={ref} aria-labelledby="fm-title" bg="brand.ink" borderTop="1px solid" borderColor="brand.linea">
       {/* ── Formación académica ── */}
-      <Box px={{ base: 5, md: 10, lg: '6vw' }} pt={{ base: 20, lg: '12vh' }} pb={{ base: 16, lg: '10vh' }}>
-        <Grid templateColumns={{ base: '1fr', lg: 'minmax(0, 6fr) minmax(0, 5fr)' }} gap={{ base: 12, lg: '5vw' }}
-          alignItems="end" maxW="1400px" mx="auto">
-          <Box>
-            <Text as="h2" id="fm-title" className="fm-title" fontFamily="heading" fontWeight="400" lineHeight={0.88}
-              letterSpacing="0.02em" fontSize={{ base: '56px', md: '80px', lg: 'clamp(72px, 7vw, 124px)' }} mb={{ base: 8, lg: '5vh' }}>
-              {title.map((t, i) => (
-                // padding arriba para que no se recorten las tildes (Ó, É) con overflow hidden
-                <Box as="span" key={i} display="block" overflow="hidden" pt="0.16em" mt="-0.16em">
-                  <Box as="span" display="block">{t}</Box>
-                </Box>
-              ))}
-            </Text>
+      <Box px={PAGE_PX} pt={{ base: 20, lg: '12vh' }} pb={{ base: 16, lg: '10vh' }}>
+        {/* Título centrado en una sola línea: el tamaño escala con el ancho para no partirse */}
+        <Text as="h2" id="fm-title" className="fm-title" fontFamily="heading" fontWeight="400" lineHeight={0.88}
+          letterSpacing="0.02em" textAlign="center" whiteSpace="nowrap"
+          fontSize={{ base: '9.5vw', md: '9vw', lg: 'clamp(72px, 7vw, 124px)' }} mb={{ base: 8, lg: '2vh' }}>
+          {title.map((t, i) => (
+            // padding arriba para que no se recorten las tildes (Ó, É) con overflow hidden
+            <Box as="span" key={i} display="inline-block" verticalAlign="top" overflow="hidden" pt="0.16em" mt="-0.16em">
+              <Box as="span" display="block">{i ? ` ${t}` : t}</Box>
+            </Box>
+          ))}
+        </Text>
 
+        <Grid templateColumns={{ base: '1fr', lg: 'minmax(0, 6fr) minmax(0, 5fr)' }} gap={{ base: 12, lg: '5vw' }}
+          alignItems="start">
+          <Box>
             <Box as="ul" className="fm-degs" listStyleType="none" m={0} p={0} borderTop="1px solid" borderColor="brand.linea">
               {degrees.map((d, i) => (
                 <Flex as="li" key={i} className="fm-deg" align="center" justify="space-between" gap={5}
@@ -150,16 +152,19 @@ export default function FormationSection() {
             </Box>
           </Box>
 
-          {/* Collage: misma composición que la placa */}
-          <Box justifySelf="center" w="100%" maxW={{ base: '360px', lg: '520px' }}>
+          {/* Collage: misma composición que la placa.
+              En desktop la fila la define la lista; el collage apoya su borde
+              inferior en la última línea de la lista y crece hacia arriba. */}
+          <Box justifySelf="center" w="100%" maxW={{ base: '360px', lg: '520px' }} position="relative" alignSelf={{ lg: 'stretch' }}>
             <Image loading="lazy" decoding="async" className="fm-collage" src={collage} alt={collageAlt} w="100%" h="auto" display="block"
+              position={{ lg: 'absolute' }} left={{ lg: 0 }} bottom={{ lg: 0 }}
               filter="drop-shadow(0 30px 50px rgba(0,0,0,0.55))" />
           </Box>
         </Grid>
       </Box>
 
       {/* ── Bloques 1-2-3 ── */}
-      <Box px={{ base: 5, md: 10, lg: '6vw' }} pb={{ base: 20, lg: '12vh' }}>
+      <Box px={PAGE_PX} pb={{ base: 20, lg: '12vh' }}>
         <Flex className="fm-steps" direction="column" gap={{ base: 10, lg: '5vh' }} maxW="1050px" mx="auto"
           pl={{ base: '48px', lg: '60px' }} position="relative"
           _before={{ content: '""', position: 'absolute', left: { base: '17px', lg: '21px' }, top: '22px', bottom: '40px', w: '1px', bg: 'brand.linea' }}>

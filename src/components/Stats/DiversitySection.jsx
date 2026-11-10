@@ -8,6 +8,7 @@ import TacticsBoards from './TacticsBoards'
 import { SubTitle } from '../Career/careerParts'
 import { diversity as diversityData, playerCareer as playerCareerData, tactics as tacticsData } from '../../data/statsData'
 import { useT, useLocalized } from '../../i18n/LanguageContext'
+import { PAGE_PX } from '../../styles/layout'
 
 const LABEL = { es: 'Datos', en: 'Stats', it: 'Dati' }
 
@@ -88,13 +89,13 @@ export default function DiversitySection() {
   return (
     <Box as="section" id="datos" ref={ref} aria-label={t(LABEL)} bg="brand.ink" borderTop="1px solid" borderColor="brand.linea">
       {/* ── Sistemas tácticos implementados ── */}
-      <Box className="tb-section" px={{ base: 5, md: 10, lg: '6vw' }} py={{ base: 20, lg: '12vh' }} borderBottom="1px solid" borderColor="brand.linea">
+      <Box className="tb-section" px={PAGE_PX} py={{ base: 20, lg: '12vh' }} borderBottom="1px solid" borderColor="brand.linea">
         <SubTitle as="h2">{tactics.title}</SubTitle>
         <TacticsBoards tactics={tactics} />
       </Box>
 
       {/* ── Diversidad de jugadores dirigidos ── */}
-      <Box px={{ base: 5, md: 10, lg: '3vw' }} py={{ base: 20, lg: '12vh' }}>
+      <Box px={PAGE_PX} py={{ base: 20, lg: '12vh' }}>
         <Title>{diversity.title}</Title>
 
         <Grid
@@ -134,7 +135,7 @@ export default function DiversitySection() {
           ))}
         </Grid>
 
-        <Box maxW="1400px" mx="auto">
+        <Box>
           <WorldLeaguesMap leagues={diversity.leagues} />
         </Box>
       </Box>

@@ -4,6 +4,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { coachData } from '../../data/coachData'
 import { useT, useLocalized } from '../../i18n/LanguageContext'
+import { PAGE_PX } from '../../styles/layout'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -89,7 +90,7 @@ export default function ProfileSection() {
       aria-labelledby="perfil-title"
       position="relative"
       bg="brand.ink"
-      px={{ base: 5, md: 10, lg: '7vw' }}
+      px={PAGE_PX}
       py={{ base: 20, lg: '14vh' }}
       overflow="hidden"
     >
@@ -110,8 +111,6 @@ export default function ProfileSection() {
         templateColumns={{ base: '1fr', lg: 'minmax(0,5fr) minmax(0,7fr)' }}
         gap={{ base: 12, lg: '5vw' }}
         alignItems="start"
-        maxW="1400px"
-        mx="auto"
         position="relative"
       >
         {/* ── Foto con el encuadre de la placa ── */}
