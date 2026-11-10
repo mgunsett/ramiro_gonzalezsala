@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import { ChakraProvider } from '@chakra-ui/react'
 import Lenis from 'lenis'
 import { gsap } from 'gsap'
@@ -39,12 +40,14 @@ if ('ResizeObserver' in window) new ResizeObserver(scheduleRefresh).observe(docu
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ChakraProvider theme={theme}>
-        <LanguageProvider>
-          <App />
-        </LanguageProvider>
-      </ChakraProvider>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <ChakraProvider theme={theme}>
+          <LanguageProvider>
+            <App />
+          </LanguageProvider>
+        </ChakraProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   </React.StrictMode>
 )

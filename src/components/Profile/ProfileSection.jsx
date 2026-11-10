@@ -126,7 +126,7 @@ export default function ProfileSection() {
           h={{ lg: 'min(76vh, 720px)' }}
           sx={{ aspectRatio: '588 / 1166' }}
         >
-          <Image
+          <Image loading="lazy" decoding="async"
             className="pf-photo-img"
             src={image}
             alt={t(PHOTO_ALT)}

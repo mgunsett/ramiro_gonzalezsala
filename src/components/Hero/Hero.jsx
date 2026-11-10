@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { coachData } from '../../data/coachData'
 import { useT, useLocalized } from '../../i18n/LanguageContext'
 import MatchBox from './MatchBox'
+import { CtaContact, scrollToId } from '../UI/Navbar'
 import useMatches from '../../hooks/useMatches'
 import '../../styles/globals.css'
 
@@ -88,6 +89,11 @@ function CoachPanel() {
       >
         <Num>{hero.impact.matches}</Num> {t(TXT.matches)} <Num>{hero.impact.titles}</Num> {t(TXT.titles)}
       </Text>
+
+      {/* CTA visible sin scroll en móvil (en desktop vive en la barra) */}
+      <Box className="hero-panel-item" display={{ base: 'block', lg: 'none' }}>
+        <CtaContact onClick={(e) => { e.preventDefault(); scrollToId(coachData.contactId) }} />
+      </Box>
     </Flex>
   )
 }
@@ -144,7 +150,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <Box ref={outerRef} h="200vh" position="relative" zIndex={1} id="hero">
+    <Box as="section" ref={outerRef} h="200vh" position="relative" zIndex={1} id="hero">
       <Box
         ref={containerRef}
         position="sticky"
@@ -252,6 +258,7 @@ export default function Hero() {
           <Box className="hero-photo" h="100%">
             <Image
               className="coach-photo"
+              fetchpriority="high"
               src={coachData.image}
               alt={`${coachData.displayName}, ${t(TXT.photoAlt)}`}
               h="100%"

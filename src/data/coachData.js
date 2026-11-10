@@ -21,7 +21,7 @@ export const coachData = {
     role: { es: 'Entrenador de Fútbol', en: 'Football Coach', it: 'Allenatore di Calcio' },
     license: { es: 'Licencia Pro', en: 'Pro Licence', it: 'Licenza Pro' },
     exPlayer: { es: 'Ex Futbolista profesional.', en: 'Former professional footballer.', it: 'Ex calciatore professionista.' },
-    impact: { matches: '+160', titles: '13' },
+    impact: { matches: '+200', titles: '13' },
   },
 
   // Perfil profesional — textos EXACTOS de la placa.

@@ -134,7 +134,7 @@ export default function Footer() {
             _hover={{ borderColor: '#e8d5a370', color: '#e8d5a380' }}
             transition="color 0.3s"
             >
-             <Image src={sportfolio} alt="Sportfolio Web" display="block" width="85px" height="22px" mr="2px" ml="2px" pt="4px" />
+             <Image loading="lazy" decoding="async" src={sportfolio} alt="Sportfolio Web" display="block" width="85px" height="22px" mr="2px" ml="2px" pt="4px" />
             </Link>
         </Flex>
       </Flex>

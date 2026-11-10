@@ -35,7 +35,7 @@ function ClubBlock({ c }) {
   const t = useT()
   return (
     <Flex direction="column" align="center" gap={2}>
-      <Image src={c.crest} alt={`${t(CREST)} ${c.club}`} h="44px" w="auto" maxW="56px" objectFit="contain"
+      <Image loading="lazy" decoding="async" src={c.crest} alt={`${t(CREST)} ${c.club}`} h="44px" w="auto" maxW="56px" objectFit="contain"
         filter="drop-shadow(0 4px 10px rgba(0,0,0,0.5))" />
       <Text fontFamily="heading" fontSize="clamp(16px, 1.35vw, 22px)" letterSpacing="0.03em" lineHeight={0.95} textAlign="center">
         {c.club}
@@ -102,7 +102,7 @@ export default function PlayerTimeline({ clubs }) {
               content: '""', position: 'absolute', left: '-35px', top: '50%', mt: '-6.5px', boxSize: '13px', borderRadius: 'full',
               bg: 'brand.celeste', boxShadow: '0 0 0 4px rgba(76,184,242,0.18)',
             }}>
-            <Image src={c.crest} alt={`${t(CREST)} ${c.club}`} h="40px" w="44px" objectFit="contain" flex="0 0 auto" />
+            <Image loading="lazy" decoding="async" src={c.crest} alt={`${t(CREST)} ${c.club}`} h="40px" w="44px" objectFit="contain" flex="0 0 auto" />
             <Box>
               <Flex align="center" gap={2}>
                 <Text fontFamily="heading" fontSize="24px" color="brand.celeste" lineHeight={1}>{c.year}</Text>

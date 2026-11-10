@@ -21,7 +21,7 @@ const TXT = {
   main: { es: 'Principal', en: 'Main', it: 'Principale' },
 }
 
-function scrollToId(id) {
+export function scrollToId(id) {
   const target = document.getElementById(id)
   if (!target) return
   // el Hero arranca arriba de todo; el resto deja lugar a la barra fija
@@ -61,7 +61,7 @@ function useActiveSection(ids) {
 const SECTION_IDS = [...coachData.nav.map((l) => l.id), CONTACT_ID]
 
 /* Botón "Contactar": relleno que barre de izquierda a derecha */
-function CtaContact({ onClick, full = false }) {
+export function CtaContact({ onClick, full = false }) {
   const t = useT()
   return (
     <Box

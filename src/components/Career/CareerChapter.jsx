@@ -146,7 +146,7 @@ export default function CareerChapter({ club }) {
       overflow="hidden"
     >
       {/* Escudo gigante de fondo */}
-      <Image
+      <Image loading="lazy" decoding="async"
         className="cc-watermark"
         src={crest}
         alt=""
@@ -221,7 +221,7 @@ export default function CareerChapter({ club }) {
           borderY="1px solid"
           borderColor="brand.linea"
         >
-          <Image src={crest} alt={crestAlt} h={{ base: '80px', lg: 'clamp(90px, 13vh, 140px)' }} w="auto"
+          <Image loading="lazy" decoding="async" src={crest} alt={crestAlt} h={{ base: '80px', lg: 'clamp(90px, 13vh, 140px)' }} w="auto"
             filter="drop-shadow(0 0 22px rgba(76,184,242,0.3))" />
           {totals && (
             <Text fontFamily="heading" fontSize={{ base: '32px', md: '44px', lg: 'clamp(36px, 3.6vw, 60px)' }}
@@ -280,7 +280,7 @@ export default function CareerChapter({ club }) {
             <Grid className="cc-trophies" templateColumns="repeat(2, minmax(0,1fr))" gap={{ base: 6, lg: '3vh 1vw' }}>
               {trophies.map((tr) => (
                 <Flex key={tr.name} className="cc-trophy" direction="column" align="center" gap={1.5}>
-                  <Image src={tr.img} alt={`${t(TXT.trophy)} ${tr.name}`} h={{ base: '110px', lg: 'clamp(90px, 13vh, 130px)' }} w="auto"
+                  <Image loading="lazy" decoding="async" src={tr.img} alt={`${t(TXT.trophy)} ${tr.name}`} h={{ base: '110px', lg: 'clamp(90px, 13vh, 130px)' }} w="auto"
                     filter="drop-shadow(0 12px 18px rgba(0,0,0,0.5))" />
                   <Text fontFamily="heading" fontSize="38px" lineHeight={0.85} color={accent}>
                     <Box as="span" fontFamily="mono" fontWeight="700" fontSize="0.72em">x</Box>{tr.count}
@@ -369,7 +369,7 @@ export default function CareerChapter({ club }) {
                 borderTopRightRadius="46px"
                 overflow="hidden"
               >
-                <Image className="cc-reveal" src={paragraphsPhoto.src} alt={paragraphsPhoto.alt} w="100%" h="auto" display="block" />
+                <Image loading="lazy" decoding="async" className="cc-reveal" src={paragraphsPhoto.src} alt={paragraphsPhoto.alt} w="100%" h="auto" display="block" />
               </Box>
             )}
           </Grid>
@@ -425,7 +425,7 @@ export default function CareerChapter({ club }) {
               <Box position="absolute" top={0} left={0} right="12%" h="1px" bg="brand.celeste" zIndex={1} />
               <Box position="absolute" top="-3.5px" right="12%" mr="-4px" boxSize="8px" borderRadius="full"
                 bg="brand.celeste" boxShadow="0 0 10px rgba(76,184,242,0.7)" zIndex={1} />
-              <Image
+              <Image loading="lazy" decoding="async"
                 className="cc-reveal"
                 src={performance.photo}
                 alt={performance.photoAlt}

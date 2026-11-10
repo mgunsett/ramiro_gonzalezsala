@@ -152,7 +152,7 @@ export default function FormationSection() {
 
           {/* Collage: misma composición que la placa */}
           <Box justifySelf="center" w="100%" maxW={{ base: '360px', lg: '520px' }}>
-            <Image className="fm-collage" src={collage} alt={collageAlt} w="100%" h="auto" display="block"
+            <Image loading="lazy" decoding="async" className="fm-collage" src={collage} alt={collageAlt} w="100%" h="auto" display="block"
               filter="drop-shadow(0 30px 50px rgba(0,0,0,0.55))" />
           </Box>
         </Grid>
@@ -183,7 +183,7 @@ export default function FormationSection() {
               {software.items.map((s) => (
                 <Flex key={s.name} align="center" justify="center" border="1px solid" borderColor="brand.linea"
                   h={{ base: '46px', lg: '58px' }} px={{ base: 2.5, lg: 4 }}>
-                  <Image src={s.logo} alt={s.name} h={{ base: '22px', lg: '28px' }} w="auto" opacity={0.92} />
+                  <Image loading="lazy" decoding="async" src={s.logo} alt={s.name} h={{ base: '22px', lg: '28px' }} w="auto" opacity={0.92} />
                 </Flex>
               ))}
             </Flex>

@@ -41,7 +41,7 @@ function YtThumb({ id, fallback, alt }) {
   const [i, setI] = useState(0)
   useEffect(() => setI(0), [id])
   return (
-    <Image
+    <Image loading="lazy" decoding="async"
       src={sources[i]}
       alt={alt}
       position="absolute" inset={0} w="100%" h="100%" objectFit="cover"
@@ -114,7 +114,7 @@ function ArticleScreen({ item }) {
       </Flex>
       {/* página */}
       <Box position="relative" sx={{ aspectRatio: '16 / 9.4' }} overflow="hidden">
-        <Image src={item.thumb} alt="" position="absolute" inset={0} w="100%" h="100%" objectFit="cover"
+        <Image loading="lazy" decoding="async" src={item.thumb} alt="" position="absolute" inset={0} w="100%" h="100%" objectFit="cover"
           filter="blur(2px) saturate(1.1)" transform="scale(1.06)"
           transition="transform 600ms cubic-bezier(0.23,1,0.32,1)"
           sx={{ '@media (hover:hover) and (pointer:fine)': { '[role=group]:hover &': { transform: 'scale(1.1)' } } }} />
@@ -140,7 +140,7 @@ function PostScreen({ item }) {
         {/* celular */}
         <Box flex="0 0 auto" h="86%" transform="rotate(-3deg)" transition="transform 400ms cubic-bezier(0.23,1,0.32,1)"
           sx={{ '@media (hover:hover) and (pointer:fine)': { '[role=group]:hover &': { transform: 'rotate(0deg) translateY(-6px)' } } }}>
-          <Image src={item.screen || item.thumb} alt="" w="100%" h="100%" objectFit="cover" objectPosition="50% 0"  />
+          <Image loading="lazy" decoding="async" src={item.screen || item.thumb} alt="" w="100%" h="100%" objectFit="cover" objectPosition="50% 0"  />
         </Box>
         <Flex direction="column" gap={3} minW={0}>
           <Flex align="center" gap={2} fontFamily="mono" fontWeight="700" fontSize="12px" letterSpacing="0.16em" color="brand.celeste">

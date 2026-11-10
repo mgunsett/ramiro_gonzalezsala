@@ -139,7 +139,7 @@ export default function MediaSection() {
                       transform: on ? 'none' : 'scaleY(0)', transition: 'transform 220ms cubic-bezier(0.23,1,0.32,1)' }}
                     _focusVisible={{ outline: '2px solid', outlineColor: 'brand.celesteLight', outlineOffset: '-2px' }}
                     sx={{ [HOVER]: { '&:hover': { bg: 'rgba(76,184,242,0.07)' } } }}>
-                    <Image src={it.thumb} alt="" w="100%" sx={{ aspectRatio: '16 / 10' }} objectFit="cover"
+                    <Image loading="lazy" decoding="async" src={it.thumb} alt="" w="100%" sx={{ aspectRatio: '16 / 10' }} objectFit="cover"
                       opacity={on ? 1 : 0.75} transition="opacity 200ms ease" />
                     <Flex direction="column" gap={1} minW={0}>
                       <KindTag kind={it.kind} />

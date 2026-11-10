@@ -18,12 +18,6 @@ export const DEFAULT_LANG = 'es'
 const CODES = LANGS.map((l) => l.code)
 const STORAGE_KEY = 'rgs-lang'
 
-const PAGE_TITLE = {
-  es: 'Ramiro Gonzalez Sales | Entrenador de Fútbol · Licencia Pro',
-  en: 'Ramiro Gonzalez Sales | Football Coach · Pro Licence',
-  it: 'Ramiro Gonzalez Sales | Allenatore di Calcio · Licenza Pro',
-}
-
 const isPlainObject = (v) => v !== null && typeof v === 'object' && Object.getPrototypeOf(v) === Object.prototype
 const isDict = (v) => 'es' in v && Object.keys(v).every((k) => CODES.includes(k))
 
@@ -58,7 +52,6 @@ export function LanguageProvider({ children }) {
 
   useEffect(() => {
     document.documentElement.lang = lang
-    document.title = PAGE_TITLE[lang]
   }, [lang])
 
   const value = useMemo(() => ({ lang, setLang }), [lang, setLang])
