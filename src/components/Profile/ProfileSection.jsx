@@ -14,16 +14,6 @@ const PHOTO_ALT = {
   it: 'Ramiro Gonzalez Sales durante un allenamento dell’Atlético Tucumán',
 }
 
-// ─────────────────────────────────────────────────────────────
-// PERFIL PROFESIONAL · Opción A "Pizarra"
-//  · Foto con el mismo encuadre de la placa (corte diagonal, halo,
-//    líneas de marco con nodo) — las líneas se redibujan en CSS.
-//  · Título en caja, licencias e intro en negrita.
-//  · 4 subsecciones en acordeón sobre la línea con nodos: solo se ven
-//    las etiquetas; al tocar una se despliega su texto (una por vez) y
-//    su nodo se enciende.
-// ─────────────────────────────────────────────────────────────
-
 const HOVER = '@media (hover: hover) and (pointer: fine)'
 const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)'
 
@@ -197,7 +187,7 @@ export default function ProfileSection() {
               const isOpen = open === i
               const panelId = `pf-panel-${i}`
               return (
-                <Box key={i} className="pf-in" position="relative" borderBottom="1px solid" borderColor="brand.linea"
+                <Box key={i} className="pf-in" position="relative" borderBottom="1px solid" borderColor="brand.linea" mb={2}
                   _before={{
                     content: '""', position: 'absolute', left: { base: '-28px', lg: '-32px' }, top: '27px', boxSize: '9px',
                     borderRadius: 'full', border: '1px solid',
@@ -206,7 +196,7 @@ export default function ProfileSection() {
                     boxShadow: isOpen ? '0 0 0 4px rgba(76,184,242,0.16), 0 0 12px rgba(76,184,242,0.6)' : 'none',
                     transition: 'background-color 250ms ease, border-color 250ms ease, box-shadow 250ms ease',
                   }}>
-                  <Flex as="button" type="button" w="100%" align="center" gap={4} py={4} textAlign="left" role="group"
+                  <Flex as="button" type="button" w="100%" justifyContent="space-between" align="center" gap={4} py={4} textAlign="left" role="group"
                     aria-expanded={isOpen} aria-controls={panelId} onClick={() => setOpen(isOpen ? null : i)}
                     _focusVisible={{ outline: '2px solid', outlineColor: 'brand.celesteLight', outlineOffset: '3px' }}>
                     <Text as="h3" fontFamily="heading" fontWeight="400" letterSpacing="0.06em" lineHeight={1}
@@ -217,10 +207,7 @@ export default function ProfileSection() {
                       sx={{ [HOVER]: { '[role=group]:hover &': { bg: isOpen ? 'brand.celeste' : 'rgba(76,184,242,0.14)' } } }}>
                       {sec.title}
                     </Text>
-                    <Text ml="auto" fontFamily="mono" fontWeight="600" fontSize="14px" letterSpacing="0.08em" color="brand.gray"
-                      display={{ base: 'none', sm: 'block' }}>
-                      {sec.items.length} {pointsLabel}
-                    </Text>
+                    
                     <Box ml={{ base: 'auto', sm: 0 }}><ToggleIcon open={isOpen} /></Box>
                   </Flex>
 

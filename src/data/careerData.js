@@ -1,15 +1,3 @@
-// ─────────────────────────────────────────────────────────────
-// TRAYECTORIA · un "capítulo" por club.
-// ⚠️ Textos EXACTOS de las placas del portfolio original.
-//    No corregir ortografía ni cifras sin autorización del cliente
-//    (ej.: "TAKZIM", "TITULOS", "porterias").
-//
-// Segmentos de texto: { t: 'texto', hl: true } → resaltado (color del club)
-//                     { t: 'texto', b: true }  → negrita
-//                     { t: 'texto', big: true } → cifra grande
-//                     { t: 'texto', small: true } → texto chico/gris
-// ─────────────────────────────────────────────────────────────
-
 // Johor Darul Ta'zim FC
 import jdtCrest from '@assets/jdt/crest.webp'
 import jdtPhoto from '@assets/jdt/ramiro_jdt.webp'
@@ -70,17 +58,17 @@ const cat = {
         es: [
           [{ t: 'Presión alta', b: true }, { t: ' e intensidad competitiva' }],
           [{ t: 'Salida limpia', b: true }, { t: ' desde campo propio' }],
-          [{ t: '* Juego combinativo', b: true }, { t: ' y protagonista en cualquier cancha' }],
+          [{ t: 'Juego combinativo', b: true }, { t: ' y protagonista en cualquier cancha' }],
         ],
         en: [
           [{ t: 'High pressing', b: true }, { t: ' and competitive intensity' }],
           [{ t: 'Clean build-up', b: true }, { t: ' from our own half' }],
-          [{ t: '* Combination play', b: true }, { t: ', taking the initiative at any ground' }],
+          [{ t: 'Combination play', b: true }, { t: ', taking the initiative at any ground' }],
         ],
         it: [
           [{ t: 'Pressing alto', b: true }, { t: ' e intensità competitiva' }],
           [{ t: 'Uscita pulita', b: true }, { t: ' dalla propria metà campo' }],
-          [{ t: '* Gioco combinativo', b: true }, { t: ' e da protagonista su qualsiasi campo' }],
+          [{ t: 'Gioco combinativo', b: true }, { t: ' e da protagonista su qualsiasi campo' }],
         ],
       },
     },
@@ -111,7 +99,7 @@ const cat = {
     },
     stars: [
       { value: 4, suffix: { es: '°', en: 'th', it: '°' }, label: { es: 'mejor posición histórica', en: 'best-ever finish', it: 'miglior piazzamento storico' } },
-      { value: 47, label: { es: 'pts récord anual', en: 'pts – annual record', it: 'punti, record annuale' } },
+      { value: 48, label: { es: 'pts récord anual', en: 'pts – annual record', it: 'punti, record annuale' } },
       { value: 10, label: { es: 'promovidos a Primera', en: 'promoted to the First Team', it: 'promossi in Prima Squadra' } },
       { value: 3, label: { es: 'convocados a selecciones', en: 'national-team call-ups', it: 'convocati in nazionale' } },
     ],

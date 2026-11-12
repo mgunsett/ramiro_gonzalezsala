@@ -125,15 +125,14 @@ export function Achievements({ items, accent, columns, ...rest }) {
   )
 }
 
-/* Foto con esquina redondeada y línea de color arriba */
-export function ChapterPhoto({ src, alt, accent, mask = false, fill = false, ...rest }) {
+/* Foto con esquina redondeada */
+export function ChapterPhoto({ src, alt, mask = false, fill = false, ...rest }) {
   // fill: en escritorio la foto toma el alto de la columna de texto (recortada con cover)
   const fillProps = fill
     ? { position: { base: 'static', lg: 'absolute' }, inset: 0, h: { base: 'auto', lg: '100%' }, objectFit: 'cover', objectPosition: '50% 15%' }
     : { h: 'auto' }
   return (
     <Box position="relative" borderTopRightRadius="46px" overflow="hidden" {...rest}>
-      <Box position="absolute" top={0} left={0} right="12%" h="1px" bg={accent} zIndex={1} />
       <Image loading="lazy" decoding="async" className="cc-reveal" src={src} alt={alt} w="100%" display="block" {...fillProps}
         sx={mask ? { maskImage: 'linear-gradient(180deg, #000 72%, transparent)', WebkitMaskImage: 'linear-gradient(180deg, #000 72%, transparent)' } : undefined} />
     </Box>

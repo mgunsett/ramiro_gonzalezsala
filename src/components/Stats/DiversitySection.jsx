@@ -3,10 +3,9 @@ import { Box, Grid, Text } from '@chakra-ui/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import WorldLeaguesMap from './WorldLeaguesMap'
-import PlayerTimeline from './PlayerTimeline'
 import TacticsBoards from './TacticsBoards'
 import { SubTitle } from '../Career/careerParts'
-import { diversity as diversityData, playerCareer as playerCareerData, tactics as tacticsData } from '../../data/statsData'
+import { diversity as diversityData, tactics as tacticsData } from '../../data/statsData'
 import { useT, useLocalized } from '../../i18n/LanguageContext'
 import { PAGE_PX } from '../../styles/layout'
 
@@ -19,7 +18,7 @@ gsap.registerPlugin(ScrollTrigger)
 //  · Sistemas tácticos implementados: foto + pizarras (slider en móvil).
 //  · Diversidad de jugadores dirigidos: 4 cifras con contador + mapa
 //    con las 16 ligas unidas a su país.
-//  · Trayectoria como jugador: línea deslizante (ver PlayerTimeline).
+//  (La trayectoria como jugador vive en PlayerCareerSection.)
 // ─────────────────────────────────────────────────────────────
 
 function Title({ children }) {
@@ -35,7 +34,6 @@ export default function DiversitySection() {
   const ref = useRef(null)
   const t = useT()
   const diversity = useLocalized(diversityData)
-  const playerCareer = useLocalized(playerCareerData)
   const tactics = useLocalized(tacticsData)
 
   useLayoutEffect(() => {
@@ -139,9 +137,6 @@ export default function DiversitySection() {
           <WorldLeaguesMap leagues={diversity.leagues} />
         </Box>
       </Box>
-
-      {/* ── Trayectoria como jugador ── */}
-      <PlayerTimeline title={playerCareer.title} clubs={playerCareer.clubs} />
 
       <style>{`
         .wm-ring{transform-box:fill-box;transform-origin:center;animation:wmPing 2.4s ease-out infinite}

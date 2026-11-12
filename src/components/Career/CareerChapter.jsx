@@ -268,7 +268,7 @@ export default function CareerChapter({ club }) {
         {results && (
           <Grid templateColumns={{ base: '1fr', lg: 'minmax(0, 4fr) minmax(0, 7fr)' }} gap={{ base: 10, lg: '4vw' }}
             mt={{ base: 16, lg: '12vh' }} alignItems={{ base: 'start', lg: 'stretch' }}>
-            <ChapterPhoto className="cc-chapter-photo" src={results.photo} alt={results.photoAlt} accent={accent} fill
+            <ChapterPhoto className="cc-chapter-photo" src={results.photo} alt={results.photoAlt} fill
               maxW={{ base: '320px', lg: 'none' }} minH={{ lg: 0 }} />
 
             <Box minW={0}>

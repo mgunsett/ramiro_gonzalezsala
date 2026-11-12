@@ -7,6 +7,7 @@ import ProfileSection from './components/Profile/ProfileSection'
 import CareerSection from './components/Career/CareerSection'
 import DiversitySection from './components/Stats/DiversitySection'
 import FormationSection from './components/Formation/FormationSection'
+import PlayerCareerSection from './components/Stats/PlayerCareerSection'
 import MediaSection from './components/Media/MediaSection'
 import ContactSection from './components/Contact/ContactSection'
 import Footer from './components/UI/Footer'
@@ -27,6 +28,7 @@ function Landing() {
           <CareerSection />
           <DiversitySection />
           <FormationSection />
+          <PlayerCareerSection />
           <MediaSection />
           <ContactSection />
         </Box>

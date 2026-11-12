@@ -116,7 +116,7 @@ function DesktopBody({ club, t }) {
       <Achievements items={achievements} accent={accent} columns={`repeat(${achievements.length}, minmax(0,1fr))`} mt="6vh" />
 
       <Grid templateColumns="minmax(0, 4fr) minmax(0, 7fr)" gap="4vw" mt="12vh" alignItems="start">
-        <ChapterPhoto className="cx-photo" src={performance.photo} alt={performance.photoAlt} accent={accent} mask
+        <ChapterPhoto className="cx-photo" src={performance.photo} alt={performance.photoAlt} mask
           position="sticky" top="14vh" />
         <Box minW={0}>
           <SubTitle>{performance.title}</SubTitle>
@@ -230,7 +230,7 @@ function MobileBody({ club, t }) {
         })}
       </Box>
 
-      <ChapterPhoto className="cx-photo" src={performance.photo} alt={performance.photoAlt} accent={accent} mask maxW="280px" />
+      <ChapterPhoto className="cx-photo" src={performance.photo} alt={performance.photoAlt} mask maxW="280px" />
     </Flex>
   )
 }

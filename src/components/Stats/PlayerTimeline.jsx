@@ -8,12 +8,6 @@ import { GUTTER_LG } from '../../styles/layout'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// ─────────────────────────────────────────────────────────────
-// Trayectoria como jugador · "Línea deslizante"
-//  · Escritorio: la sección se fija y la línea avanza de costado con
-//    el scroll; cada año se enciende al pasar por su nodo (contador 01/13).
-//  · Móvil: la misma línea en vertical, con nodos que se encienden.
-// ─────────────────────────────────────────────────────────────
 
 const CREST = { es: 'Escudo de', en: 'Crest of', it: 'Stemma del' }
 const LINE_TOP = '34%' // altura de la línea dentro del riel

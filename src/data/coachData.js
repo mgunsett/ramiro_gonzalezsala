@@ -45,7 +45,7 @@ export const coachData = {
         title: { es: 'TRAYECTORIA', en: 'CAREER', it: 'CARRIERA' },
         items: {
           es: [
-            [{ t: 'Atlético Tucumán', b: true }, { t: ' · Director Técnico de Reserva · desde dic. 2025' }],
+            [{ t: 'Atlético Tucumán', b: true }, { t: ' · Director Técnico de Reserva · desde dic. 2025 · 10 promovidos al primer equipo · 3 debuts en 1era División · 3 convocados a selecciones Sub-20 · Efectividad (55,5%) / 30pts (9G 3E 6P)' }],
             [{ t: "Johor Darul Ta'zim (Malasia)", b: true }, { t: ' · Asistente técnico · 4 temporadas · 13 títulos · 4 campañas en AFC Champions League' }],
             [{ t: 'Ex futbolista profesional', b: true }, { t: ' en Argentina e Italia' }],
           ],
@@ -87,17 +87,17 @@ export const coachData = {
           es: [
             [{ t: 'Liderazgo centrado en las personas', b: true }],
             [{ t: 'Planteles ' }, { t: 'con más de 20 nacionalidades y 60 jugadores con pasado en selecciones', b: true }],
-            [{ t: '* 27 futbolistas promovidos', b: true }, { t: ' al primer equipo · jugadores con pasado en ' }, { t: 'LaLiga, Premier League, Serie A y Ligue 1', b: true }],
+            [{ t: '27 futbolistas promovidos', b: true }, { t: ' al primer equipo · jugadores con pasado en ' }, { t: 'LaLiga, Premier League, Serie A y Ligue 1', b: true }],
           ],
           en: [
             [{ t: 'People-centred leadership', b: true }],
             [{ t: 'Squads ' }, { t: 'with more than 20 nationalities and 60 players with national-team experience', b: true }],
-            [{ t: '* 27 players promoted', b: true }, { t: ' to the first team · players with experience in ' }, { t: 'LaLiga, Premier League, Serie A and Ligue 1', b: true }],
+            [{ t: '27 players promoted', b: true }, { t: ' to the first team · players with experience in ' }, { t: 'LaLiga, Premier League, Serie A and Ligue 1', b: true }],
           ],
           it: [
             [{ t: 'Leadership centrata sulle persone', b: true }],
             [{ t: 'Rose ' }, { t: 'con più di 20 nazionalità e 60 giocatori con esperienza in nazionale', b: true }],
-            [{ t: '* 27 calciatori promossi', b: true }, { t: ' in prima squadra · giocatori con esperienza in ' }, { t: 'LaLiga, Premier League, Serie A e Ligue 1', b: true }],
+            [{ t: '27 calciatori promossi', b: true }, { t: ' in prima squadra · giocatori con esperienza in ' }, { t: 'LaLiga, Premier League, Serie A e Ligue 1', b: true }],
           ],
         },
       },
@@ -106,7 +106,9 @@ export const coachData = {
         items: {
           es: [
             [{ t: 'Experiencia profesional en ' }, { t: '3 continentes:', b: true }, { t: ' Europa, Asia y Sudamérica' }],
-            [{ t: 'Máster ' }, { t: 'Real Madrid – Universidad Europea', b: true }, { t: ' · Abogado · ' }, { t: 'Trilingüe', b: true }, { t: ' (español, inglés, italiano)' }],
+            [{ t: 'Máster ' }, { t: 'Real Madrid – Universidad Europea', b: true }],
+            [{ t: 'Abogado ' }, { t: 'espcialista en ' }, { t: ' Derecho deportivo', b: true }],
+            [{ t: 'Trilingüe', b: true }, { t: ' (español, inglés, italiano)' }],
           ],
           en: [
             [{ t: 'Professional experience on ' }, { t: '3 continents:', b: true }, { t: ' Europe, Asia and South America' }],
@@ -126,8 +128,9 @@ export const coachData = {
   nav: [
     { label: { es: 'Perfil', en: 'Profile', it: 'Profilo' },            id: 'perfil' },      // Perfil profesional
     { label: { es: 'Trayectoria', en: 'Career', it: 'Carriera' },       id: 'trayectoria' }, // JDT + Atlético Tucumán
-    { label: { es: 'Datos', en: 'Stats', it: 'Dati' },                  id: 'datos' },       // Diversidad de jugadores + Trayectoria como jugador
+    { label: { es: 'Datos', en: 'Stats', it: 'Dati' },                  id: 'datos' },       // Sistemas tácticos + Diversidad de jugadores
     { label: { es: 'Formación', en: 'Education', it: 'Formazione' },    id: 'formacion' },   // Formación académica, idiomas, competencias, cursos
+    { label: { es: 'Jugador', en: 'Player', it: 'Giocatore' },          id: 'jugador' },     // Trayectoria como jugador
     { label: 'Media',                                                   id: 'media' },       // Notas, videos, publicaciones e Instagram
   ],
   contactId: 'contacto',
