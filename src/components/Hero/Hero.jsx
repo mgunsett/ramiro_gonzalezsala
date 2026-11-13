@@ -12,13 +12,13 @@ import '../../styles/globals.css'
 gsap.registerPlugin(ScrollTrigger)
 
 const TXT = {
-  // "+160 partidos y 13 titulos"
+  // "+200 partidos y 13 titulos"
   matches: { es: 'partidos y', en: 'matches and', it: 'partite e' },
   titles: { es: 'titulos', en: 'titles', it: 'titoli' },
   photoAlt: { es: 'entrenador de fútbol', en: 'football coach', it: 'allenatore di calcio' },
 }
 
-/* Número destacado dentro de "+160 partidos y 13 titulos" */
+/* Número destacado dentro de "+200 partidos y 13 titulos" */
 function Num({ children }) {
   return (
     <Box

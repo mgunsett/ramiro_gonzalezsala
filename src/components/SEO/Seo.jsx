@@ -10,21 +10,21 @@ const META = {
     title: 'Ramiro Gonzalez Sales | Entrenador de Fútbol · Licencia Pro',
     description: "Ramiro Gonzalez Sales, entrenador de fútbol con Licencia Pro. DT de la Reserva de Atlético Tucumán, ex asistente en Johor Darul Ta'zim. Contactalo.",
     ogTitle: 'Ramiro Gonzalez Sales — Entrenador de Fútbol',
-    ogDescription: 'Entrenador de Fútbol · Licencia Pro · +160 partidos y 13 títulos · Ex futbolista profesional.',
+    ogDescription: 'Entrenador de Fútbol · Licencia Pro · +200 partidos y 13 títulos · Ex futbolista profesional.',
   },
   en: {
     locale: 'en_US',
     title: 'Ramiro Gonzalez Sales | Football Coach · Pro Licence',
     description: "Ramiro Gonzalez Sales, football coach with Pro Licence. Head Coach of Atlético Tucumán Reserves, ex Johor Darul Ta'zim assistant. Get in touch.",
     ogTitle: 'Ramiro Gonzalez Sales — Football Coach',
-    ogDescription: 'Football Coach · Pro Licence · 160+ matches and 13 titles · Former professional footballer.',
+    ogDescription: 'Football Coach · Pro Licence · 200+ matches and 13 titles · Former professional footballer.',
   },
   it: {
     locale: 'it_IT',
     title: 'Ramiro Gonzalez Sales | Allenatore di Calcio · Licenza Pro',
     description: "Ramiro Gonzalez Sales, allenatore di calcio con Licenza Pro. Allenatore Riserve Atlético Tucumán, ex vice al Johor Darul Ta'zim. Contattalo.",
     ogTitle: 'Ramiro Gonzalez Sales — Allenatore di Calcio',
-    ogDescription: 'Allenatore di Calcio · Licenza Pro · +160 partite e 13 titoli · Ex calciatore professionista.',
+    ogDescription: 'Allenatore di Calcio · Licenza Pro · +200 partite e 13 titoli · Ex calciatore professionista.',
   },
 }
 
