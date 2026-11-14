@@ -1,5 +1,6 @@
 import { useRef, useLayoutEffect } from 'react'
-import { Box, Flex, Grid, Text, Icon } from '@chakra-ui/react'
+import { Box, Flex, Grid, Text, Icon, Image } from '@chakra-ui/react'
+import { FaArrowRight } from 'react-icons/fa'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { coachData } from '../../data/coachData'
@@ -77,10 +78,90 @@ function ContactCell({ c, first }) {
   )
 }
 
+
+/* Naranja de la marca LED Sports */
+const LED = '#FDA43C'
+const LED_D = '#FC9A20'
+const LED_LINE = 'rgba(253,164,60,0.32)'
+
+/* Ficha de marketing · LED Sports (abre su Instagram) */
+function MarketingCard({ m }) {
+  return (
+    <Grid
+      as="a"
+      href={m.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${m.label} · ${m.name} · Instagram ${m.handle}`}
+      className="ct-led"
+      position="relative"
+      templateColumns="auto minmax(0, 1fr) auto"
+      alignItems="center"
+      gap={{ base: 3.5, lg: 5 }}
+      mt={{ base: 3.5, lg: '2.6vh' }}
+      py={{ base: 3, lg: 3.5 }}
+      pl={{ base: 3, lg: 3.5 }}
+      pr={{ base: 3.5, lg: 6 }}
+      border="1px solid"
+      borderColor={LED_LINE}
+      bg="rgba(11,17,24,0.55)"
+      overflow="hidden"
+      isolation="isolate"
+      transition="transform 160ms ease-out"
+      _active={{ transform: 'scale(0.99)' }}
+      _after={{ content: '""', position: 'absolute', left: 0, top: 0, bottom: 0, w: '3px', bg: LED }}
+      _before={{
+        content: '""', position: 'absolute', inset: 0, zIndex: -1,
+        bgGradient: `linear(to-r, ${LED}, ${LED_D})`,
+        clipPath: 'inset(0 100% 0 0)', transition: `clip-path 340ms ${EASE}`,
+      }}
+      sx={{
+        [HOVER]: {
+          '&:hover::before': { clipPath: 'inset(0 0 0 0)' },
+          '&:hover .led-name, &:hover .led-k, &:hover .led-go': { color: 'brand.ink' },
+          '&:hover .led-go': { borderColor: 'rgba(5,8,12,0.45)' },
+          '&:hover .led-h': { color: 'rgba(5,8,12,0.72)' },
+          '&:hover .led-arrow': { transform: 'translateX(5px)' },
+        },
+      }}
+      _focusVisible={{ outline: '2px solid', outlineColor: LED, outlineOffset: '3px' }}
+    >
+      {/* el "SPORTS" del logo es blanco: siempre sobre fondo oscuro */}
+      <Flex w={{ base: '60px', lg: '76px' }} h={{ base: '60px', lg: '76px' }} align="center" justify="center"
+        bg="brand.ink" border="1px solid" borderColor="rgba(253,164,60,0.25)" flexShrink={0}>
+        <Image src={m.logo} alt="" w="70%" h="auto" loading="lazy" decoding="async" />
+      </Flex>
+
+      <Flex direction="column" gap={1} minW={0}>
+        <Text className="led-k" fontFamily="mono" fontWeight="700" textTransform="uppercase" color={LED}
+          letterSpacing="0.18em" fontSize={{ base: '10px', lg: '12px' }} lineHeight={1} transition="color 200ms ease">
+          {m.label}
+        </Text>
+        <Text className="led-name" fontFamily="heading" letterSpacing="0.03em" lineHeight={0.95}
+          fontSize={{ base: '26px', lg: 'clamp(26px, 2.1vw, 38px)' }} color="brand.bone" transition="color 200ms ease">
+          {m.name}
+        </Text>
+        <Text className="led-h" fontFamily="mono" fontWeight="600" letterSpacing="0.06em" color="brand.gray"
+          fontSize={{ base: '12px', lg: '14px' }} lineHeight={1.1} transition="color 200ms ease">
+          {m.handle}
+        </Text>
+      </Flex>
+
+      <Flex className="led-go" align="center" justify="center" color={LED} transition="color 200ms ease, border-color 200ms ease"
+        w={{ base: '40px', lg: 'auto' }} h={{ base: '40px', lg: 'auto' }} borderRadius="full"
+        border={{ base: '1px solid', lg: 0 }} borderColor="rgba(253,164,60,0.4)">
+        <Icon as={FaArrowRight} className="led-arrow" boxSize={{ base: '15px', lg: '18px' }}
+          transition={`transform 300ms ${EASE}`} />
+      </Flex>
+    </Grid>
+  )
+}
+
 export default function ContactSection() {
   const ref = useRef(null)
   const { title, paragraphs } = useLocalized(coachData.contact)
   const contacts = useLocalized(coachData.contacts)
+  const marketing = useLocalized(coachData.marketing)
 
   useLayoutEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -91,6 +172,7 @@ export default function ContactSection() {
         .from(q('.ct-p'), { y: 16, opacity: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out' }, '-=0.6')
         .from(q('.ct-band'), { clipPath: 'inset(0 100% 0 0)', duration: 0.9, ease: 'power4.inOut' }, '-=0.7')
         .from(q('.ct-cell'), { y: 18, opacity: 0, duration: 0.5, stagger: 0.07, ease: 'power3.out' }, '-=0.4')
+        .from(q('.ct-led'), { y: 16, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
     }, ref)
     return () => ctx.revert()
   }, [])
@@ -132,11 +214,14 @@ export default function ContactSection() {
           </Flex>
         </Box>
 
-        {/* 50 % · banda de accesos */}
-        <Grid className="ct-band" templateColumns="repeat(5, minmax(0, 1fr))"
-          borderY="1px solid" borderColor="brand.celeste" bg="rgba(11,17,24,0.55)">
-          {contacts.map((c, i) => <ContactCell key={c.id} c={c} first={i === 0} />)}
-        </Grid>
+        {/* 50 % · banda de accesos + ficha de marketing */}
+        <Box minW={0}>
+          <Grid className="ct-band" templateColumns="repeat(5, minmax(0, 1fr))"
+            borderY="1px solid" borderColor="brand.celeste" bg="rgba(11,17,24,0.55)">
+            {contacts.map((c, i) => <ContactCell key={c.id} c={c} first={i === 0} />)}
+          </Grid>
+          <MarketingCard m={marketing} />
+        </Box>
       </Grid>
     </Box>
   )

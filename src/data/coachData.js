@@ -5,6 +5,8 @@ import heroMain from '@assets/hero/ramiro_hero.webp'
 import heroBg from '@assets/hero/ramiro_bg.webp'
 // Perfil
 import profileImg from '@assets/perfil/ramiro_perfil.webp'
+// Marketing
+import ledSportsLogo from '@assets/marketing/led_sports.webp'
 
 
 export const coachData = {
@@ -164,4 +166,13 @@ export const coachData = {
     { id: 'linkedin', label: { es: 'VER PERFIL', en: 'VIEW PROFILE', it: 'VEDI PROFILO' }, network: 'LinkedIn', href: 'https://www.linkedin.com/in/ramagonzalez5/', icon: FaLinkedinIn },
     { id: 'instagram', label: { es: 'VER PERFIL', en: 'VIEW PROFILE', it: 'VEDI PROFILO' }, network: 'Instagram', href: 'https://www.instagram.com/ramirogonzalez.dt', icon: FaInstagram },
   ],
+
+  // Marketing · ficha de LED Sports dentro de Contacto
+  marketing: {
+    label: { es: 'Marketing', en: 'Marketing', it: 'Marketing' },
+    name: 'LED SPORTS',
+    handle: '@_ledsports',
+    href: 'https://www.instagram.com/_ledsports/',
+    logo: ledSportsLogo,
+  },
 }
